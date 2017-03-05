@@ -32,3 +32,4 @@ E-Invoice is built for the purpose of monthly invoice management in a family. It
 * Sample data should be prepared before presentation
 * Pagination on returned result in search function.
 * Source control: GitHub
+### Ref: https://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples
