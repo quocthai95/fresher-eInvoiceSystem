@@ -6,7 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
 /**
  * An entity User composed by three fields (id, email, name).
  * The Entity annotation indicates that this class is a JPA entity.
