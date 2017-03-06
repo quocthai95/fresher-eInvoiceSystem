@@ -25,13 +25,15 @@ public class User {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
   
-  // The user's email
-  @NotNull
-  private String email;
   
-  // The user's name
   @NotNull
-  private String name;
+  private String username;
+  
+  @NotNull
+  private String pass;
+  
+  @NotNull
+  private int id_role;
 
   // ------------------------
   // PUBLIC METHODS
@@ -43,35 +45,42 @@ public class User {
     this.id = id;
   }
   
-  public User(String email, String name) {
-    this.email = email;
-    this.name = name;
+  public User(String username, String pass, int id_role) {
+    this.username = username;
+    this.pass = pass;
+    this.id_role = id_role;
   }
 
-  // Getter and setter methods
+//Getter and setter methods
+	public long getId() {
+		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
 
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long value) {
-    this.id = value;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-  
-  public void setEmail(String value) {
-    this.email = value;
-  }
-  
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String value) {
-    this.name = value;
-  }
-  
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getPass() {
+		return pass;
+	}
+	
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+	
+	public int getId_role() {
+		return id_role;
+	}
+	
+	public void setId_role(int id_role) {
+		this.id_role = id_role;
+	}
 } // class User
