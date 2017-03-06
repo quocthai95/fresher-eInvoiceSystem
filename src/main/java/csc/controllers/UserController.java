@@ -1,11 +1,16 @@
 package csc.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import csc.dao.UserDao;
 import csc.models.*;
+
 /**
  * A class to test interactions with the SQLSERVER database using the UserDao
  * class.
@@ -32,6 +37,12 @@ public class UserController {
 	public String create(String email, String name) {
 		User user = null;
 		try {
+			// for (int i =0; i < 100; i++) {
+			// email = "test" + i;
+			// name = "test" + i;
+			// user = new User(email, name);
+			// userDao.save(user);
+			// }
 			user = new User(email, name);
 			userDao.save(user);
 		} catch (Exception ex) {
@@ -105,6 +116,12 @@ public class UserController {
 		return "User succesfully updated!";
 	}
 
+	@RequestMapping("/findAll")
+	@ResponseBody
+	public Page<User> findAll(Pageable pageable) {
+		Page<User> users = userDao.findAll(pageable);
+		return users;
+	}
 	// // ------------------------
 	// // PRIVATE FIELDS
 	// // ------------------------
