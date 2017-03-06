@@ -10,7 +10,7 @@ import javax.validation.constraints.Null;
 
 @Entity
 @Table(name = "invoice")
-public class invoice {
+public class Invoice {
 	 @Id
 	  @GeneratedValue(strategy = GenerationType.AUTO)
 	  private long id;
