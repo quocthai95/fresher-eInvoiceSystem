@@ -1,4 +1,4 @@
-package csc.dao;
+package csc.repo;
 
 import javax.transaction.Transactional;
 
@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
 import csc.models.User;
 
@@ -17,8 +18,9 @@ import csc.models.User;
  * possible create new query methods working only by defining their signature!
  * 
  */
-@Transactional
-public interface UserDao extends CrudRepository<User, Long> {
+//@Transactional
+@Repository
+public interface UserRepository extends CrudRepository<User, Long> {
 
 	/**
 	 * Return the user having the passed email or null if no user is found.
