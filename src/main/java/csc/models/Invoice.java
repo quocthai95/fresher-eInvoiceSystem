@@ -15,7 +15,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "invoice")
@@ -26,35 +30,46 @@ public class Invoice implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+    
     @Basic(optional = false)
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+    
+    @Length(max= 100)
     @Column(name = "contract_number")
     private String contractNumber;
-    @Lob
-    @Column(name = "name_service")
+    
+    @Column(name = "name_service",length=10485760)
     private String nameService;
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "index_consumed")
     private Float indexConsumed;
+    
     @Basic(optional = false)
     @Column(name = "total")
     private BigDecimal total;
+    
     @Basic(optional = false)
     @Column(name = "vat")
     private float vat;
+    
     @Column(name = "ptef")
     private BigDecimal ptef;
+    
     @Basic(optional = false)
     @Column(name = "grand_total")
     private BigDecimal grandTotal;
+    
     @JoinColumn(name = "id_customer", referencedColumnName = "id_customer")
     @ManyToOne(optional = false)
     private Customer idCustomer;
+    
     @JoinColumn(name = "id_cpn", referencedColumnName = "id_cpn")
     @ManyToOne(optional = false)
     private Company idCpn;
+    
     @JoinColumn(name = "id_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TypeInvoice idType;

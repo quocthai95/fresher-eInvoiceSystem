@@ -1,13 +1,13 @@
-package csc.dao;
-
-import javax.transaction.Transactional;
+package csc.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
-import csc.models.User;
+import csc.models.Users;
+import java.lang.String;
+import java.util.List;
 
 /**
  * A DAO for the entity User is simply created by extending the CrudRepository
@@ -17,15 +17,11 @@ import csc.models.User;
  * possible create new query methods working only by defining their signature!
  * 
  */
-@Transactional
-public interface UserDao extends CrudRepository<User, Long> {
+// @Transactional
+@Repository
+public interface UserRepository extends CrudRepository<Users, Long> {
 
-	/**
-	 * Return the user having the passed email or null if no user is found.
-	 * 
-	 * @param email the user email.
-	 */
+	Page<Users> findAll(Pageable pageable);
 
-	Page<User> findAll(Pageable pageable);
-
+	Users findByUsername(String username);
 } // class UserDao

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import csc.dao.UserDao;
 import csc.models.*;
+import csc.repository.UserRepository;
 
 /**
  * A class to test interactions with the SQLSERVER database using the UserDao
@@ -35,7 +35,7 @@ public class UserController {
 	@RequestMapping("/create")
 	@ResponseBody
 	public String create(String email, String name) {
-		User user = null;
+		Users user = null;
 		try {
 			// for (int i =0; i < 100; i++) {
 			// email = "test" + i;
@@ -62,7 +62,7 @@ public class UserController {
 	@ResponseBody
 	public String delete(long id) {
 		try {
-			User user = new User(id);
+			Users user = new Users(id);
 			userDao.delete(user);
 		} catch (Exception ex) {
 			return "Error deleting the user: " + ex.toString();
@@ -106,7 +106,7 @@ public class UserController {
 	@ResponseBody
 	public String updateUser(long id, String email, String name) {
 		try {
-			User user = userDao.findOne(id);
+			Users user = userDao.findOne(id);
 //			user.setEmail(email);
 //			user.setName(name);
 			userDao.save(user);
@@ -118,8 +118,8 @@ public class UserController {
 
 	@RequestMapping("/findAll")
 	@ResponseBody
-	public Page<User> findAll(Pageable pageable) {
-		Page<User> users = userDao.findAll(pageable);
+	public Page<Users> findAll(Pageable pageable) {
+		Page<Users> users = userDao.findAll(pageable);
 		return users;
 	}
 	// // ------------------------
@@ -127,6 +127,6 @@ public class UserController {
 	// // ------------------------
 
 	@Autowired
-	private UserDao userDao;
+	private UserRepository userDao;
 
 } // class UserController

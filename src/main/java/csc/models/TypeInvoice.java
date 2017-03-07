@@ -27,16 +27,20 @@ public class TypeInvoice implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @Column(name = "name_invoice")
     private String nameInvoice;
+    
     @Basic(optional = false)
     @Lob
     @Column(name = "description")
     private String description;
+    
     @Basic(optional = false)
     @Column(name = "vat")
     private float vat;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idType")
     private Collection<Invoice> invoiceCollection;
 
