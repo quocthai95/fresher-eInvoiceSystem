@@ -43,7 +43,7 @@ public class UserController {
 			// user = new User(email, name);
 			// userDao.save(user);
 			// }
-			user = new User(email, name);
+//			user = new User(email, name);
 			userDao.save(user);
 		} catch (Exception ex) {
 			return "Error creating the user: " + ex.toString();
@@ -77,18 +77,18 @@ public class UserController {
 	 *            The email to search in the database.
 	 * @return The user id or a message error if the user is not found.
 	 */
-	@RequestMapping("/get-by-email")
-	@ResponseBody
-	public String getByEmail(String email) {
-		String userId;
-		try {
-			User user = userDao.findByEmail(email);
-			userId = String.valueOf(user.getId());
-		} catch (Exception ex) {
-			return "User not found";
-		}
-		return "The user id is: " + userId;
-	}
+//	@RequestMapping("/get-by-email")
+//	@ResponseBody
+//	public String getByEmail(String email) {
+//		String userId;
+//		try {
+//			User user = userDao.findByEmail(email);
+//			userId = String.valueOf(user.getId());
+//		} catch (Exception ex) {
+//			return "User not found";
+//		}
+//		return "The user id is: " + userId;
+//	}
 
 	/**
 	 * /update --> Update the email and the name for the user in the database
@@ -107,8 +107,8 @@ public class UserController {
 	public String updateUser(long id, String email, String name) {
 		try {
 			User user = userDao.findOne(id);
-			user.setEmail(email);
-			user.setName(name);
+//			user.setEmail(email);
+//			user.setName(name);
 			userDao.save(user);
 		} catch (Exception ex) {
 			return "Error updating the user: " + ex.toString();
