@@ -6,7 +6,11 @@ app.config(function($routeProvider) {
     })
     .when("/signup", {
         templateUrl : "/EInvoice/views/signup.html"
-    }) .otherwise(
+    }) 
+    .when("/login", {
+        templateUrl : "/EInvoice/views/login.html"
+    }) 
+    .otherwise(
             { redirectTo: '/'}
     );
  

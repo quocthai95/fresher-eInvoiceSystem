@@ -829,7 +829,7 @@ header .logo {
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
 }
-header .logo a {
+header .logo p {
 	display: block;
 	margin: 0;
 	padding: 0;
