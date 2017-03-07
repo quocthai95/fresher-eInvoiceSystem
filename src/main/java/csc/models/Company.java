@@ -1,102 +1,158 @@
 package csc.models;
 
+import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "company")
+public class Company implements Serializable {
 
-public class Company {
-	 @Id
-	  @GeneratedValue(strategy = GenerationType.AUTO)
-	  private long id;
-	 
-	 @NotNull
-	  private String id_cpn;
-	 
-	 @NotNull
-	  private String name_cpn;
-	 
-	 @NotNull
-	  private String address;
-	 
-	 @NotNull
-	  private int phone_cpn;
-	 
-	 @NotNull
-	  private int fax;
-	 
-	 @NotNull
-	  private String bank_account;
-	 
-	 @NotNull
-	  private String tax_code;
-	 
-	 public company() { }
-	 public company(long id) { 
-		    this.id = id;
-		  }
-	 public company(String id_cpn, String name_cpn, String address, int phone_cpn, int fax, String bank_account,
-			String tax_code) {
-		
-		this.id_cpn = id_cpn;
-		this.name_cpn = name_cpn;
-		this.address = address;
-		this.phone_cpn = phone_cpn;
-		this.fax = fax;
-		this.bank_account = bank_account;
-		this.tax_code = tax_code;
-	}
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public String getId_cpn() {
-		return id_cpn;
-	}
-	public void setId_cpn(String id_cpn) {
-		this.id_cpn = id_cpn;
-	}
-	public String getName_cpn() {
-		return name_cpn;
-	}
-	public void setName_cpn(String name_cpn) {
-		this.name_cpn = name_cpn;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public int getPhone_cpn() {
-		return phone_cpn;
-	}
-	public void setPhone_cpn(int phone_cpn) {
-		this.phone_cpn = phone_cpn;
-	}
-	public int getFax() {
-		return fax;
-	}
-	public void setFax(int fax) {
-		this.fax = fax;
-	}
-	public String getBank_account() {
-		return bank_account;
-	}
-	public void setBank_account(String bank_account) {
-		this.bank_account = bank_account;
-	}
-	public String getTax_code() {
-		return tax_code;
-	}
-	public void setTax_code(String tax_code) {
-		this.tax_code = tax_code;
-	}	
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    
+    @Basic(optional = false)
+    @Length(max= 100)
+    @Column(name = "id_cpn")
+    private String idCpn;
+    
+    @Basic(optional = false)
+    @Length(max= 100)
+    @Column(name = "name_cpn")
+    private String nameCpn;
+    
+    @Basic(optional = false)
+    @Length(max= 100)
+    @Column(name = "address")
+    private String address;
+    
+    @Basic(optional = false)
+    @Column(name = "phone_cpn")
+    private int phoneCpn;
+    
+    @Basic(optional = false)
+    @Column(name = "fax")
+    private int fax;
+    
+    @Basic(optional = false)
+    @Column(name = "bank_account",length=10485760)
+    private String bankAccount;
+    
+    @Basic(optional = false)
+    @Column(name = "tax_code")
+    private int taxCode;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCpn")
+    private Collection<Invoice> invoiceCollection;
+
+    public Company() {
+    }
+
+    public Company(Integer id) {
+        this.id = id;
+    }
+
+    public Company(Integer id, String idCpn, String nameCpn, String address, int phoneCpn, int fax, String bankAccount, int taxCode) {
+        this.id = id;
+        this.idCpn = idCpn;
+        this.nameCpn = nameCpn;
+        this.address = address;
+        this.phoneCpn = phoneCpn;
+        this.fax = fax;
+        this.bankAccount = bankAccount;
+        this.taxCode = taxCode;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getIdCpn() {
+        return idCpn;
+    }
+
+    public void setIdCpn(String idCpn) {
+        this.idCpn = idCpn;
+    }
+
+    public String getNameCpn() {
+        return nameCpn;
+    }
+
+    public void setNameCpn(String nameCpn) {
+        this.nameCpn = nameCpn;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getPhoneCpn() {
+        return phoneCpn;
+    }
+
+    public void setPhoneCpn(int phoneCpn) {
+        this.phoneCpn = phoneCpn;
+    }
+
+    public int getFax() {
+        return fax;
+    }
+
+    public void setFax(int fax) {
+        this.fax = fax;
+    }
+
+    public String getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(String bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    public int getTaxCode() {
+        return taxCode;
+    }
+
+    public void setTaxCode(int taxCode) {
+        this.taxCode = taxCode;
+    }
+
+    @XmlTransient
+    public Collection<Invoice> getInvoiceCollection() {
+        return invoiceCollection;
+    }
+
+    public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
+        this.invoiceCollection = invoiceCollection;
+    }
 }

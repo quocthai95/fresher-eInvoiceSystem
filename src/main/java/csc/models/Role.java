@@ -1,59 +1,92 @@
 package csc.models;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Set;
+
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "role")
-public class Role {
-	 @Id
-	  @GeneratedValue(strategy = GenerationType.AUTO)
-	  private long id;
-	 
-	 @NotNull
-	  private String name_role;
-	 
-	 @NotNull
-	  private String desciption;
-	 
-	  public role() { }
+public class Role implements Serializable {
 
-	  public role(long id) { 
-	    this.id = id;
-	  }
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@Column(name = "id")
+	private Integer id;
 
-	public role(String name_role, String desciption) {
-		super();
-		this.name_role = name_role;
-		this.desciption = desciption;
+	@Basic(optional = false)
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "description",length=10485760)
+	private String description;
+
+	@ManyToMany(mappedBy = "roles")
+	private Set<Users> users;
+
+	public Role() {
 	}
 
-	public long getId() {
-		return id;
+	public Role(String name) {
+		this.name = name;
 	}
 
-	public void setId(long id) {
+	public Role(Integer id) {
 		this.id = id;
 	}
 
-	public String getName_role() {
-		return name_role;
+	public Role(Integer id, String name, String description) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
 	}
 
-	public void setName_role(String name_role) {
-		this.name_role = name_role;
+	public Integer getId() {
+		return id;
 	}
 
-	public String getDesciption() {
-		return desciption;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setDesciption(String desciption) {
-		this.desciption = desciption;
+	public String getDescription() {
+		return description;
 	}
-	  
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Set<Users> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<Users> users) {
+		this.users = users;
+	}
 }
