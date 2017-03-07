@@ -1,63 +1,59 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html lang="en" ng-app="myApp" class="no-js">
-<!--<![endif]-->
+<!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html ng-app="myApp" class="no-js" lang="en"> <!--<![endif]-->
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Spring boot and Angularjs Tutorial</title>
-<meta name="description" content="">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/EInvoice/css/app.css">
-</head>
-<body>
-	<!-- <h2>Administrator Panel</h2>
-<div class="home-section">
-    <ul class="menu-list">
-        <li><a href="#/users">Users</a></li>
-        <li><a href="#/roles">Roles</a></li>
-        <li><a href="#/main">Github Service example</a></li>
-        <li><a href="#/mainstore">Store</a></li>
-    </ul>
-</div> -->
 
-<!-- 	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Administrator Panel</a>
-			</div>
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#/users">Users</a></li>
-				<li><a href="#/roles">Roles</a></li>
-				<li><a href="#/main">Github Service example</a></li>
-				<li><a href="#/mainstore">Store</a></li>
-			</ul>
-		</div>
-	</nav> -->
+   <!--- basic page needs
+   ================================================== -->
+   <meta charset="utf-8">
+	<title>Lhander</title>
+	<meta name="description" content="">  
+	<meta name="author" content="">
+
+   <!-- mobile specific metas
+   ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+ 	<!-- CSS
+   ================================================== -->
+   <link rel="stylesheet" href="/EInvoice/css/base.css">  
+   <link rel="stylesheet" href="/EInvoice/css/main.css">
+   <link rel="stylesheet" href="/EInvoice/css/vendor.css">    
+  <!--  <link rel="stylesheet" href="/EInvoice/css/app.css"> 
+   <link rel="stylesheet" href="/EInvoice/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="/EInvoice/css/signup.css">  
+
+   <!-- script
+   ================================================== -->
+	 
+	<script src="/EInvoice/js/jquery.min.js"></script>
+	<script src="/EInvoice/js/bootstrap.min.js"></script>
 	<script src="/EInvoice/js/lib/angular-1.4.9/angular.js"></script>
 	<script src="/EInvoice/js/lib/angular-1.4.9/angular-resource.js"></script>
 	<script src="/EInvoice/js/lib/angular-1.4.9/angular-route.js"></script>
-	<script src="/EInvoice/js/jquery.min.js"></script>
-	<script src="/EInvoice/js/bootstrap.min.js"></script>
-
-	<link rel="stylesheet" href="/EInvoice/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/EInvoice/css/app.css">
-	<link rel="stylesheet" href="/EInvoice/css/ct-navbar.css">
-	<link rel="stylesheet" href="/EInvoice/css/pe-icon-7-stroke.css">
-	<link rel="stylesheet" href="/EInvoice/css/bootstrap-select.css">
-	<link rel="stylesheet" href="/EInvoice/css/prism.css">
-	
-	
 	<script src="/EInvoice/js/app.js"></script> 
 	<script src="/EInvoice/js/controller/linkController.js"></script> 
-	<script src="/EInvoice/js/ct-navbar.js"></script> 
 	
-	<div my-home></div>
+	
+	
 	
 
-	
+   <!-- favicons
+	================================================== -->
+	<link rel="icon" type="image/png" href="/EInvoice/favicon.png">
+
+</head>
+
+<body id="top">
+
+	<!-- header 
+   ================================================== -->
+<!-- <div my-home></div> -->
+<div ng-view></div>
+
+ 
+
 </body>
+
 </html>
