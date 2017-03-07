@@ -2,6 +2,8 @@ package csc.models;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Set;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -21,65 +24,69 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "role")
 public class Role implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @Column(name = "name_role")
-    private String nameRole;
-    @Basic(optional = false)
-    @Lob
-    @Column(name = "description")
-    private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRole")
-    private Collection<User> userCollection;
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@Column(name = "id")
+	private Integer id;
 
-    public Role() {
-    }
+	@Basic(optional = false)
+	@Column(name = "name")
+	private String name;
 
-    public Role(Integer id) {
-        this.id = id;
-    }
+	@Column(name = "description",length=10485760)
+	private String description;
 
-    public Role(Integer id, String nameRole, String description) {
-        this.id = id;
-        this.nameRole = nameRole;
-        this.description = description;
-    }
+	@ManyToMany(mappedBy = "roles")
+	private Set<Users> users;
 
-    public Integer getId() {
-        return id;
-    }
+	public Role() {
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Role(String name) {
+		this.name = name;
+	}
 
-    public String getNameRole() {
-        return nameRole;
-    }
+	public Role(Integer id) {
+		this.id = id;
+	}
 
-    public void setNameRole(String nameRole) {
-        this.nameRole = nameRole;
-    }
+	public Role(Integer id, String name, String description) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    @XmlTransient
-    public Collection<User> getUserCollection() {
-        return userCollection;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Set<Users> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<Users> users) {
+		this.users = users;
+	}
 }

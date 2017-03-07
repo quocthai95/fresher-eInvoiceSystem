@@ -10,13 +10,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "customer")
@@ -28,34 +32,53 @@ public class Customer implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+    
+	@JoinColumn(name = "id_user", referencedColumnName = "id")
+	@OneToOne(optional = false)
+//    @Basic(optional = false)
+//    @Column(name = "id_user")
+    private Users user;
+    
     @Basic(optional = false)
-    @Column(name = "id_user")
-    private long idUser;
-    @Basic(optional = false)
+    @Length(max= 100)
     @Column(name = "id_customer")
     private String idCustomer;
+    
     @Basic(optional = false)
+    @Length(max= 100)
     @Column(name = "name_customer")
     private String nameCustomer;
+    
     @Basic(optional = false)
+    @Length(max= 100)
     @Column(name = "address")
     private String address;
+    
     @Basic(optional = false)
+    @Length(max= 100)
     @Column(name = "email")
     private String email;
+    
     @Basic(optional = false)
     @Column(name = "phone")
     private int phone;
+    
     @Basic(optional = false)
     @Column(name = "tax_code")
     private int taxCode;
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "limit_consume")
     private BigDecimal limitConsume;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCustomer")
     private Collection<Invoice> invoiceCollection;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "customer")
-    private User user;
+    
+    
+    
+    		
+//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "customer")
+//    private Users user;
 
     public Customer() {
     }
@@ -64,9 +87,8 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
-    public Customer(Long id, long idUser, String idCustomer, String nameCustomer, String address, String email, int phone, int taxCode) {
+    public Customer(Long id, String idCustomer, String nameCustomer, String address, String email, int phone, int taxCode) {
         this.id = id;
-        this.idUser = idUser;
         this.idCustomer = idCustomer;
         this.nameCustomer = nameCustomer;
         this.address = address;
@@ -83,13 +105,13 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
-    public long getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(long idUser) {
-        this.idUser = idUser;
-    }
+//    public long getIdUser() {
+//        return idUser;
+//    }
+//
+//    public void setIdUser(long idUser) {
+//        this.idUser = idUser;
+//    }
 
     public String getIdCustomer() {
         return idCustomer;
@@ -156,11 +178,11 @@ public class Customer implements Serializable {
         this.invoiceCollection = invoiceCollection;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 }

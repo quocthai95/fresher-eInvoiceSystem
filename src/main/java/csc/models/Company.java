@@ -14,8 +14,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "company")
@@ -27,28 +30,38 @@ public class Company implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
+    @Length(max= 100)
     @Column(name = "id_cpn")
     private String idCpn;
+    
     @Basic(optional = false)
+    @Length(max= 100)
     @Column(name = "name_cpn")
     private String nameCpn;
+    
     @Basic(optional = false)
+    @Length(max= 100)
     @Column(name = "address")
     private String address;
+    
     @Basic(optional = false)
     @Column(name = "phone_cpn")
     private int phoneCpn;
+    
     @Basic(optional = false)
     @Column(name = "fax")
     private int fax;
+    
     @Basic(optional = false)
-    @Lob
-    @Column(name = "bank_account")
+    @Column(name = "bank_account",length=10485760)
     private String bankAccount;
+    
     @Basic(optional = false)
     @Column(name = "tax_code")
     private int taxCode;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCpn")
     private Collection<Invoice> invoiceCollection;
 
