@@ -1,72 +1,101 @@
 package csc.models;
 
+import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "typeinvoice")
+public class TypeInvoice implements Serializable {
 
-public class TypeInvoice {
-	  @Id
-	  @GeneratedValue(strategy = GenerationType.AUTO)
-	  private long id;
-	  
-	  
-	  @NotNull
-	  private String name_invoice;
-	  
-	  @NotNull
-	  private String description;
-	  
-	  @NotNull
-	  private float vat;
-	  
-	  public typeinvoice() { }
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    
+    @Basic(optional = false)
+    @Column(name = "name_invoice")
+    private String nameInvoice;
+    
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "description")
+    private String description;
+    
+    @Basic(optional = false)
+    @Column(name = "vat")
+    private float vat;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idType")
+    private Collection<Invoice> invoiceCollection;
 
-	  public typeinvoice(long id) { 
-	    this.id = id;
-	  }
+    public TypeInvoice() {
+    }
 
-	public typeinvoice(String name_invoice, String description, float vat) {
-		super();
-		this.name_invoice = name_invoice;
-		this.description = description;
-		this.vat = vat;
-	}
+    public TypeInvoice(Integer id) {
+        this.id = id;
+    }
 
-	public long getId() {
-		return id;
-	}
+    public TypeInvoice(Integer id, String nameInvoice, String description, float vat) {
+        this.id = id;
+        this.nameInvoice = nameInvoice;
+        this.description = description;
+        this.vat = vat;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getName_invoice() {
-		return name_invoice;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setName_invoice(String name_invoice) {
-		this.name_invoice = name_invoice;
-	}
+    public String getNameInvoice() {
+        return nameInvoice;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setNameInvoice(String nameInvoice) {
+        this.nameInvoice = nameInvoice;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public float getVat() {
-		return vat;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setVat(float vat) {
-		this.vat = vat;
-	}
+    public float getVat() {
+        return vat;
+    }
+
+    public void setVat(float vat) {
+        this.vat = vat;
+    }
+
+    @XmlTransient
+    public Collection<Invoice> getInvoiceCollection() {
+        return invoiceCollection;
+    }
+
+    public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
+        this.invoiceCollection = invoiceCollection;
+    }
 }
