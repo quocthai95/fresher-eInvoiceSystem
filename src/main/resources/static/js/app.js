@@ -10,8 +10,11 @@ app.config(function($routeProvider) {
     .when("/login", {
         templateUrl : "/EInvoice/views/login.html"
     }) 
-    .when("/admin/manage", {
-        templateUrl : "/EInvoice/views/userManagement.html"
+    .when("/user-manage", {
+        templateUrl : "/EInvoice/views/admin/userManagement.html"
+    }) 
+    .when("/config-email", {
+        templateUrl : "/EInvoice/views/admin/config-email.html"
     }) 
     .otherwise(
             { redirectTo: '/'}
