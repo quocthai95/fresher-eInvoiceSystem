@@ -21,6 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "user")
 public class Users implements Serializable {
@@ -41,10 +43,17 @@ public class Users implements Serializable {
 	@Column(name = "password")
 	private String password;
 
-//	@JoinColumn(name = "id", referencedColumnName = "id_user", insertable = false, updatable = false)
-//	@OneToOne(optional = false)
-//	private Customer customer;
+	@Basic(optional = false)
+	@Length(max = 50)
+	@Column(name = "active")
+	private String active;
 
+	// @JoinColumn(name = "id", referencedColumnName = "id_user", insertable =
+	// false, updatable = false)
+	// @OneToOne(optional = false)
+	// private Customer customer;
+
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
@@ -56,10 +65,17 @@ public class Users implements Serializable {
 		this.id = id;
 	}
 
-	public Users(Long id, String username, String password) {
+	public Users(Long id, String username, String password, String active) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
+		this.active = active;
+	}
+
+	public Users(String username, String password, String active) {
+		this.username = username;
+		this.password = password;
+		this.active = active;
 	}
 
 	public Long getId() {
@@ -78,13 +94,13 @@ public class Users implements Serializable {
 		this.username = username;
 	}
 
-//	public Customer getCustomer() {
-//		return customer;
-//	}
-//
-//	public void setCustomer(Customer customer) {
-//		this.customer = customer;
-//	}
+	// public Customer getCustomer() {
+	// return customer;
+	// }
+	//
+	// public void setCustomer(Customer customer) {
+	// this.customer = customer;
+	// }
 
 	public String getPassword() {
 		return password;
@@ -100,5 +116,13 @@ public class Users implements Serializable {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
 	}
 }

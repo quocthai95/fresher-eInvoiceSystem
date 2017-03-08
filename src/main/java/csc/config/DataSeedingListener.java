@@ -43,13 +43,12 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		}
 		Users tmp = new Users();
 		// Admin account
-		if (userRepository.findByUsername("admin@gmail.com") == null) {
+		if (userRepository.findByUsername("admin02@gmail.com") == null) {
 			Users admin = new Users();
-			admin.setUsername("admin@gmail.com");
+			admin.setUsername("admin02@gmail.com");
 			admin.setPassword(passwordEncoder.encode("123456"));
 			HashSet<Role> roles = new HashSet<>();
 			roles.add(roleRepository.findByName("ROLE_ADMIN"));
-			roles.add(roleRepository.findByName("ROLE_MEMBER"));
 			admin.setRoles(roles);
 			tmp = userRepository.save(admin);
 			createCustomer(tmp);
