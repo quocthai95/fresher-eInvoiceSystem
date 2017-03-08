@@ -5,6 +5,7 @@ angular.module('myApp').factory('UserService', ['$http', '$q', function($http, $
     var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
 
     var factory = {
+		login : loginUser,
         fetchAllUsers: fetchAllUsers,
         createUser: createUser,
         updateUser:updateUser,
@@ -12,6 +13,22 @@ angular.module('myApp').factory('UserService', ['$http', '$q', function($http, $
     };
 
     return factory;
+    
+    function loginUser(user) {
+    	console.log('user ' + user);
+        var deferred = $q.defer();
+        $http.post("http://localhost:8080/EInvoice/" + "login", user)
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function(errResponse){
+                console.error('Error while login Users');
+                deferred.reject(errResponse);
+            }
+        );
+        return deferred.promise;
+    }
 
     function fetchAllUsers() {
         var deferred = $q.defer();
@@ -75,3 +92,31 @@ angular.module('myApp').factory('UserService', ['$http', '$q', function($http, $
     }
 
 }]);
+
+//angular.module('myApp').factory('sessionInjector', ['SessionService', function(SessionService) {  
+//    var sessionInjector = {
+//        request: function(config) {
+//            if (!SessionService.isAnonymus) {
+//                config.headers['x-session-token'] = SessionService.token;
+//            }
+//            return config;
+//        }
+//    };
+//    return sessionInjector;
+//}]);
+//module.config(['$httpProvider', function($httpProvider) {  
+//    $httpProvider.interceptors.push('sessionInjector');
+//}]);
+
+//angular.module('myApp', ['spring-security-csrf-token-interceptor']);
+//.config(function(csrfProvider) {
+//    // optional configurations
+//    csrfProvider.config({
+//        url: 'user/login',
+//        maxRetries: 3,
+//        csrfHttpType: 'post',
+//        csrfTokenHeader: 'X-CSRF-XXX-TOKEN',
+//        httpTypes: ['PUT', 'POST', 'DELETE'] //CSRF token will be added only to these method types 
+//    });
+//}).run(function() {
+//});
