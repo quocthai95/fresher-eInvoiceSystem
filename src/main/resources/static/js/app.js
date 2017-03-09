@@ -12,13 +12,7 @@ app.config(function($routeProvider) {
     .when("/login", {
         templateUrl : "/EInvoice/views/login.html",
         controller : 'usersController'
-    }) 
-    .when("/user-manage", {
-        templateUrl : "/EInvoice/views/admin/userManagement.html"
-    }) 
-    .when("/config-email", {
-        templateUrl : "/EInvoice/views/admin/config-email.html"
-    }) 
+    })     
     .otherwise(
             { redirectTo: '/'}
     );
