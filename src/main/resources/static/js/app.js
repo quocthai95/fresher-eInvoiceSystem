@@ -1,14 +1,17 @@
-var app = angular.module('myApp', [ 'ngRoute']);
+var app = angular.module('myApp', [ 'ngRoute' ]);
 app.config(function($routeProvider) {
+
     $routeProvider
     .when("/", {
     	templateUrl: "/EInvoice/views/home.html"
     })
     .when("/signup", {
-        templateUrl : "/EInvoice/views/signup.html"
+        templateUrl : "/EInvoice/views/signup.html",
+        controller : 'usersController'
     }) 
     .when("/login", {
-        templateUrl : "/EInvoice/views/login.html"
+        templateUrl : "/EInvoice/views/login.html",
+        controller : 'usersController'
     }) 
     .when("/user-manage", {
         templateUrl : "/EInvoice/views/admin/userManagement.html"
