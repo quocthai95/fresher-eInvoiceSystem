@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp').factory('UserService', function($http, $q){
+angular.module('admin').factory('UserService', ['$http', '$q', function($http, $q){
 
     var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
     

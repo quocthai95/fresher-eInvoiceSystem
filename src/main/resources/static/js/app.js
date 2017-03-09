@@ -12,10 +12,7 @@ app.config(function($routeProvider) {
 //	}).when("/logout", {
 //		templateUrl : "/EInvoice/views/home.html",
 //		controller : 'usersController'
-	}).when("/admin/manage", {
-		templateUrl : "/EInvoice/views/userManagement.html"
 	}).otherwise({
 		redirectTo : '/'
 	});
-
 });
