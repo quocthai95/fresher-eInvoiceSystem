@@ -3,7 +3,7 @@
 angular.module('admin').factory('UserService', ['$http', '$q', function($http, $q){
 
     var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
-
+    
     var factory = {
 		login : loginUser,
         fetchAllUsers: fetchAllUsers,
@@ -14,21 +14,7 @@ angular.module('admin').factory('UserService', ['$http', '$q', function($http, $
 
     return factory;
     
-    function loginUser(user) {
-    	console.log('user ' + user);
-        var deferred = $q.defer();
-        $http.post("http://localhost:8080/EInvoice/" + "login", user)
-            .then(
-            function (response) {
-                deferred.resolve(response.data);
-            },
-            function(errResponse){
-                console.error('Error while login Users');
-                deferred.reject(errResponse);
-            }
-        );
-        return deferred.promise;
-    }
+
 
     function fetchAllUsers() {
         var deferred = $q.defer();
