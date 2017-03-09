@@ -1,87 +1,171 @@
 package csc.controllers;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import csc.models.Users;
-import csc.repository.UserRepository;
+import csc.models.*;
+import csc.service.CustomerService;
+import csc.service.RoleService;
+import csc.service.UserService;
 
 /**
  * A class to test interactions with the SQLSERVER database using the UserDao
  * class.
  *
  */
-@Controller
+@RestController
 public class UserController {
 
 	// ------------------------
 	// PUBLIC METHODS
 	// ------------------------
-
-	/**
-	 * /create --> Create a new user and save it in the database.
-	 */
-	@RequestMapping(value = "/users/create", method = RequestMethod.POST)
-	@ResponseBody
-	public String createUser(@RequestBody Users user) {
-		try {
-			userDao.save(user);
-		} catch (Exception ex) {
-			return "Error creating the user: " + ex.toString();
-		}
-		return "User succesfully created! (id = " + user.getId() + ")";
-	}
-
-	/**
-	 * /delete --> Delete the user having the passed id.
-	 */
-	@RequestMapping(value = "/users/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public String deleteUser(@PathVariable long id) {
-		try {
-			Users user = new Users(id);
-			userDao.delete(user);
-		} catch (Exception ex) {
-			return "Error deleting the user: " + ex.toString();
-		}
-		return "User succesfully deleted!";
-	}
-
-	/**
-	 * /update --> Update the email and the name for the user in the database
-	 * having the passed id.
-	 */
-	@RequestMapping(value = "/users/update", method = RequestMethod.POST)
-	@ResponseBody
-	public String updateUser(@RequestBody Users user) {
-		try {
-			Users tmp = userDao.findOne(user.getId());
-			tmp.setPassword(user.getPassword());
-			userDao.save(user);
-		} catch (Exception ex) {
-			return "Error updating the user: " + ex.toString();
-		}
-		return "User succesfully updated!";
-	}
-
-	@RequestMapping("/findAll")
-	@ResponseBody
-	public Page<Users> findAll(Pageable pageable) {
-		Page<Users> users = userDao.findAll(pageable);
-		return users;
-	}
-	// // ------------------------
-	// // PRIVATE FIELDS
-	// // ------------------------
-
 	@Autowired
-	private UserRepository userDao;
+	UserService userService;
+	
+	@Autowired
+	CustomerService customerService;
+	
+	@Resource
+	@Qualifier("roleService")
+	RoleService roleService;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	
+	//-------------------Retrieve All Users--------------------------------------------------------
+    
+    @RequestMapping(value = "/user/getAll", method = RequestMethod.GET)
+    public ResponseEntity<List<Users>> listAllUsers() {
+        List<Users> users = userService.findAllUsers();
+        if(users.isEmpty()){
+            return new ResponseEntity<List<Users>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+        }
+        return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
+    }
+  
+  
+     
+    //-------------------Retrieve Single User--------------------------------------------------------
+      
+    @RequestMapping(value = "/user/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Users> getUser(@PathVariable("id") long id) {
+        System.out.println("Fetching User with id " + id);
+        Users user = userService.findById(id);
+        if (user == null) {
+            System.out.println("User with id " + id + " not found");
+            return new ResponseEntity<Users>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Users>(user, HttpStatus.OK);
+    }
+  
+      
+      
+    //-------------------Create a User--------------------------------------------------------
+      
+    @RequestMapping(value = "/user/create", method = RequestMethod.POST)
+    public ResponseEntity<Void> createUser(@RequestBody Users user,    UriComponentsBuilder ucBuilder) {
+        System.out.println("Creating User " + user.getUsername());
+  
+        if (userService.isUserExist(user)) {
+            System.out.println("A User with name " + user.getUsername() + " already exist");
+            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        }
+  
+        userService.saveUser(user);
+  
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+  
+     
+      
+    //------------------- Update a User --------------------------------------------------------
+      
+    @RequestMapping(value = "/user/update/{id}", method = RequestMethod.POST)
+    public ResponseEntity<Users> updateUser(@PathVariable("id") long id, @RequestBody Users user) {
+        System.out.println("Updating User " + id);
+          
+        Users currentUser = userService.findById(id);
+          
+        if (currentUser==null) {
+            System.out.println("User with id " + id + " not found");
+            return new ResponseEntity<Users>(HttpStatus.NOT_FOUND);
+        }
+  
+        currentUser.setUsername(user.getUsername());
+        currentUser.setPassword(user.getPassword());
+        currentUser.setActive(user.getActive());
+          
+        userService.updateUser(currentUser);
+        return new ResponseEntity<Users>(currentUser, HttpStatus.OK);
+    }
+  
+     
+     
+    //------------------- Delete a User --------------------------------------------------------
+      
+    @RequestMapping(value = "/user/delete/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Users> deleteUser(@PathVariable("id") long id) {
+        System.out.println("Fetching & Deleting User with id " + id);
+  
+        Users user = userService.findById(id);
+        if (user == null) {
+            System.out.println("Unable to delete. User with id " + id + " not found");
+            return new ResponseEntity<Users>(HttpStatus.NOT_FOUND);
+        }
+  
+        userService.deleteUserById(id);
+        return new ResponseEntity<Users>(HttpStatus.NO_CONTENT);
+    }
+    
+  //------------------- Register  --------------------------------------------------------
+    
+    @RequestMapping(value = "/user/register", method = RequestMethod.POST)
+    public ResponseEntity<Void> register(@RequestBody Register res,    UriComponentsBuilder ucBuilder) {
+        System.out.println("Register " + res.getUsername());
+  
+        Users user = new Users();
+		user.setUsername(res.getUsername());
+		user.setPassword(passwordEncoder.encode(res.getPassword()));
+		HashSet<Role> roles = new HashSet<>();
+		roles.add(roleService.findByName("ROLE_MEMBER"));
+		user.setRoles(roles);		
+		userService.saveUser(user);
+		
+		Customer cus = new Customer();
+		cus.setUser(user);
+		cus.setAddress("test");
+		cus.setEmail(res.getEmail());
+		cus.setNameCustomer(res.getName());
+		cus.setIdCustomer("test" + user.getId());
+		cus.setPhone(Integer.parseInt(res.getPhone()));
+		cus.setTaxCode(Integer.parseInt("123457"));
+		cus.setLimitConsume(BigDecimal.valueOf(1234));
+		customerService.saveCustomer(cus);
+  
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(res.getId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+        
 
 } // class UserController
