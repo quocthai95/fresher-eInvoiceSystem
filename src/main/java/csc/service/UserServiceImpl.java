@@ -8,11 +8,12 @@ import org.springframework.stereotype.Service;
 import csc.models.Users;
 import csc.repository.UserRepository;
 
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService{
 
 	@Autowired
 	UserRepository userRepository;
+	
 	
 	public UserServiceImpl() {
 		// TODO Auto-generated constructor stub
@@ -65,5 +66,5 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return (List<Users>) userRepository.findAll();
 	}
-
+	
 }
