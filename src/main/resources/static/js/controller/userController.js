@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp').controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
+angular.module('admin').controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
     var self = this;
     self.user={id:null,username:'',password:'',active:''};
     self.users=[];
