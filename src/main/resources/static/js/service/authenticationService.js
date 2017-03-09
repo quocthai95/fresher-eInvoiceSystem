@@ -7,8 +7,6 @@ app.factory('authInterceptor', function($location, $q) {
 			// alert(config.url);
 			if (config.url.includes(URI_LOGIN)) {
 				config.headers = {
-					// 'x-session-token' : 'test',
-					// '_csrf' : 'c5417bd7-fb1c-44a9-8f1f-de39cd051379',
 					'Content-Type' : 'application/x-www-form-urlencoded',
 				};
 			} else {
@@ -16,9 +14,9 @@ app.factory('authInterceptor', function($location, $q) {
 			}
 			return config;
 		},
-//		'response' : function(response) {
-//			return response;
-//		},
+		// 'response' : function(response) {
+		// return response;
+		// },
 		'responseError' : function(response) {
 			if (response && response.status === 404) {
 			}
@@ -36,27 +34,29 @@ app.config(function($httpProvider) {
 app.factory('AuthenticationService', Service);
 
 function Service($http, $window) {
+	var userIsAuthenticated = false;
 	var service = {};
-
-	service.Authen = Authen;
+	service.setUserAuthenticated = setUserAuthenticated;
+	service.getUserAuthenticated = getUserAuthenticated;
 	service.Logout = Logout;
-
 	return service;
 
-	function Authen(username) {
-		console.log('come AuthenticationService');
-		$window.localStorage.currentUser = {
-			username : username
-		}
-//		alert('Authen');
-	};
-
 	function Logout() {
-//		alert('Logout');
 		// remove user from local storage and clear http auth header
 		delete $window.localStorage.currentUser;
 		// $http.defaults.headers.common.Authorization = '';
 	}
+	function getUserAuthenticated() {
+		return userIsAuthenticated;
+	}
+	function setUserAuthenticated(username) {
+		console.log('go on setUserAuthenticated');
+		$window.localStorage.currentUser = {
+			username : username
+		}
+		userIsAuthenticated = true;
+	}
+	;
 }
 
 // app.factory('httpInterceptor', function($q) {

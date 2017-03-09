@@ -18,7 +18,7 @@ app.controller("usersController", function($scope, LoginService, AuthenticationS
 	var loginSuccess = function(status) {
 		if (status == 200) {
 			console.log('status ' + status);
-			AuthenticationService.Authen(username);
+			AuthenticationService.setUserAuthenticated(username);
 			$location.path('/');
 		}		
 	}
