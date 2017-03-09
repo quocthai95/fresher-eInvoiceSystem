@@ -1,7 +1,7 @@
 
 var app = angular.module('myApp');
 
-app.controller("usersController", function($scope, UserService, AuthenticationService, $location) {
+app.controller("usersController", function($scope, LoginService, AuthenticationService, $location) {
 	var username;
 	$scope.login = function() {
 		username = $scope.username;
@@ -13,7 +13,7 @@ app.controller("usersController", function($scope, UserService, AuthenticationSe
 			'username' : username,
 			'password' : password
 		};
-		UserService.login(user).then(loginSuccess);
+		LoginService.login(user).then(loginSuccess);
 	}
 	var loginSuccess = function(status) {
 		if (status == 200) {
