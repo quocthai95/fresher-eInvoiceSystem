@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('myApp').factory('UserService', ['$http', '$q', function($http, $q){
+angular.module('myApp').factory('UserService', function($http, $q){
 
     var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
-
+    
     var factory = {
 		login : loginUser,
         fetchAllUsers: fetchAllUsers,
@@ -15,14 +15,19 @@ angular.module('myApp').factory('UserService', ['$http', '$q', function($http, $
     return factory;
     
     function loginUser(user) {
-    	console.log('user ' + user);
         var deferred = $q.defer();
-        $http.post("http://localhost:8080/EInvoice/" + "login", user)
-            .then(
-            function (response) {
-                deferred.resolve(response.data);
-            },
-            function(errResponse){
+        $http({
+            method: 'POST',
+            url: "http://localhost:8080/EInvoice/login",
+            data: $.param({
+            	'username' : user.username,
+            	'password' : user.password,
+            	'_csrf' : 'c5417bd7-fb1c-44a9-8f1f-de39cd051379',
+            	}),
+        }).then(function (response) {
+                deferred.resolve(response.status);
+
+            },function(errResponse){
                 console.error('Error while login Users');
                 deferred.reject(errResponse);
             }
@@ -91,7 +96,7 @@ angular.module('myApp').factory('UserService', ['$http', '$q', function($http, $
         return deferred.promise;
     }
 
-}]);
+});
 
 //angular.module('myApp').factory('sessionInjector', ['SessionService', function(SessionService) {  
 //    var sessionInjector = {
