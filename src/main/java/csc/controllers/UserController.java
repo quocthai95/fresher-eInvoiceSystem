@@ -1,12 +1,18 @@
 package csc.controllers;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import csc.models.Users;
+import csc.models.*;
+import csc.service.CustomerService;
+import csc.service.RoleService;
 import csc.service.UserService;
 
 /**
@@ -31,6 +39,16 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	CustomerService customerService;
+	
+	@Resource
+	@Qualifier("roleService")
+	RoleService roleService;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
 	
 	//-------------------Retrieve All Users--------------------------------------------------------
     
@@ -95,7 +113,7 @@ public class UserController {
   
         currentUser.setUsername(user.getUsername());
         currentUser.setPassword(user.getPassword());
-        currentUser.setActive("1");
+        currentUser.setActive(user.getActive());
           
         userService.updateUser(currentUser);
         return new ResponseEntity<Users>(currentUser, HttpStatus.OK);
@@ -118,5 +136,36 @@ public class UserController {
         userService.deleteUserById(id);
         return new ResponseEntity<Users>(HttpStatus.NO_CONTENT);
     }
+    
+  //------------------- Register  --------------------------------------------------------
+    
+    @RequestMapping(value = "/user/register", method = RequestMethod.POST)
+    public ResponseEntity<Void> register(@RequestBody Register res,    UriComponentsBuilder ucBuilder) {
+        System.out.println("Register " + res.getUsername());
+  
+        Users user = new Users();
+		user.setUsername(res.getUsername());
+		user.setPassword(passwordEncoder.encode(res.getPassword()));
+		HashSet<Role> roles = new HashSet<>();
+		roles.add(roleService.findByName("ROLE_MEMBER"));
+		user.setRoles(roles);		
+		userService.saveUser(user);
+		
+		Customer cus = new Customer();
+		cus.setUser(user);
+		cus.setAddress("test");
+		cus.setEmail(res.getEmail());
+		cus.setNameCustomer(res.getName());
+		cus.setIdCustomer("test" + user.getId());
+		cus.setPhone(Integer.parseInt(res.getPhone()));
+		cus.setTaxCode(Integer.parseInt("123457"));
+		cus.setLimitConsume(BigDecimal.valueOf(1234));
+		customerService.saveCustomer(cus);
+  
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(res.getId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+        
 
 } // class UserController
