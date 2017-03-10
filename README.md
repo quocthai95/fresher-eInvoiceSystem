@@ -1,6 +1,9 @@
 # HOW TO RUN PROJECT
 ## Database: Mysql 6.3CE
-## Create database name: eis
+* Create database name: eis
+* Fix:
+spring.datasource.username and spring.datasource.password in application.properties
+
 ## Run: Application.java by Application
 ## Default username: 
 * admin01@gmail.com - password: 123456 - role: ROLE_ADMIN, ROLE_MEMBER
