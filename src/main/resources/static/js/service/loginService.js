@@ -13,7 +13,7 @@ angular.module('myApp').factory('LoginService', function($http, $q){
             data: $.param({
             	'username' : user.username,
             	'password' : user.password,
-            	'_csrf' : 'c5417bd7-fb1c-44a9-8f1f-de39cd051379',
+//            	'_csrf' : 'c5417bd7-fb1c-44a9-8f1f-de39cd051379',
             	}),
         }).then(function (response) {
                 deferred.resolve(response.status);

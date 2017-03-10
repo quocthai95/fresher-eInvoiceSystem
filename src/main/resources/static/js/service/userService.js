@@ -5,8 +5,7 @@ angular.module('admin').factory('UserService', ['$http', '$q', function($http, $
     var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
     
     var factory = {
-		login : loginUser,
-        fetchAllUsers: fetchAllUsers,
+    	fetchAllUsers: fetchAllUsers,
         createUser: createUser,
         updateUser:updateUser,
         deleteUser:deleteUser
