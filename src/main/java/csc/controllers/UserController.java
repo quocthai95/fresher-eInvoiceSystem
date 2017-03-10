@@ -153,13 +153,13 @@ public class UserController {
 		
 		Customer cus = new Customer();
 		cus.setUser(user);
-		cus.setAddress("test");
+		cus.setAddress("");
 		cus.setEmail(res.getEmail());
 		cus.setNameCustomer(res.getName());
-		cus.setIdCustomer("test" + user.getId());
+		cus.setIdCustomer("" + user.getId());
 		cus.setPhone(Integer.parseInt(res.getPhone()));
-		cus.setTaxCode(Integer.parseInt("123457"));
-		cus.setLimitConsume(BigDecimal.valueOf(1234));
+		cus.setTaxCode(Integer.parseInt("0"));
+		cus.setLimitConsume(BigDecimal.valueOf(0));
 		customerService.saveCustomer(cus);
   
         HttpHeaders headers = new HttpHeaders();
