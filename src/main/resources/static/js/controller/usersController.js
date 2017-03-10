@@ -19,7 +19,7 @@ app.controller("usersController", function($scope, LoginService, AuthenticationS
 		if (status == 200) {
 			console.log('status ' + status);
 			AuthenticationService.setUserAuthenticated(username);
-			$location.path('/');
+			$location.path('/dashboard');
 		}		
 	}
 });
