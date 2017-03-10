@@ -67,7 +67,7 @@ addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); func
 
 	<div sec:authorize="hasRole('ADMIN')">
 		<db-main-admin></db-main-admin>
-		<db-admin></db-admin>
+		<!-- <db-admin></db-admin> -->
 	</div>
 
 	<div sec:authorize="hasRole('MEMBER')">

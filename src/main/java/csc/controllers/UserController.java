@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,12 +55,12 @@ public class UserController {
 	//-------------------Retrieve All Users--------------------------------------------------------
     
     @RequestMapping(value = "/user/getAll", method = RequestMethod.GET)
-    public ResponseEntity<List<Users>> listAllUsers() {
-        List<Users> users = userService.findAllUsers();
-        if(users.isEmpty()){
-            return new ResponseEntity<List<Users>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+    public ResponseEntity<Page<Users>> listAllUsers(Pageable pageable) {
+    	Page<Users> users = userService.findAllUsers(pageable);
+        if(users.getSize() == 0){
+            return new ResponseEntity<Page<Users>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
-        return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
+        return new ResponseEntity<Page<Users>>(users, HttpStatus.OK);
     }
   
   
