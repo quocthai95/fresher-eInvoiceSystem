@@ -7,7 +7,7 @@
 	rel="stylesheet" /> -->
 </head>
 <body>
-	<div class="container">
+	<!-- <div class="container">
 		<div class="card card-container">
 			<div class="main-content">
 				<p th:if="${param.error}" class="error">Invalid username or
@@ -23,6 +23,33 @@
 				</form>
 			</div>
 		</div>
+	</div> -->
+
+	<!--
+    you can substitue the span of reauth email for a input with the email and
+    include the remember me checkbox
+    -->
+	<div class="container">
+		<div class="card card-container">
+			<!-- <img class="profile-img-card" src="/EInvoice/images/csc.png" alt="" /> -->
+			<img id="profile-img" class="profile-img-card"
+				src="/EInvoice/images/dog.jpg" />
+			<p id="profile-name" class="profile-name-card"></p>
+			<form class="form-signin" th:action="@{/login}" method="POST">
+				<input type="text" name="username" 
+					class="form-control" placeholder="Username" 
+					 /> <input type="password" name="password"
+					 class="form-control" placeholder="Password"
+					 />
+				
+				<button class="btn btn-lg btn-primary btn-block btn-signin"
+					type="submit">Login</button>
+			</form>
+			<div><a href="#" style="color:green;font-weight:bold"> Dont have account? Click to Sign Up</a></div>
+			<!-- /form -->
+		</div>
+		<!-- /card-container -->
 	</div>
+	<!-- /container -->
 </body>
 </html>
