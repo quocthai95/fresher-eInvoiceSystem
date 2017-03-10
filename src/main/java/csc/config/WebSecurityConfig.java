@@ -15,40 +15,40 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-	
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+	}
+
 	@Override
-	 public void configure(WebSecurity web) throws Exception {
-	  web.ignoring().antMatchers("/resources/**", "/index.html", "/login.html",
-	   "/partials/**", "/", "/error/**", "/user/**");
-	 }
-	
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/resources/**", "/index.html", "/login.html", "/partials/**", "/", "/error/**",
+				"/user/**", "/dashboard.html");
+	}
+
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-//                .antMatchers("/").hasRole("MEMBER")
-                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/customer/**").hasRole("MEMBER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/").permitAll()                
                 .and()
             .formLogin()
             	.loginPage("/login")
             	.usernameParameter("username")
             	.passwordParameter("password")
-            	.defaultSuccessUrl("/admin")
-            	.failureUrl("/errorPage")
+            	.defaultSuccessUrl("/dashboard")
+            	.failureUrl("/#/login")
             	.and()
             	.csrf()
                 .ignoringAntMatchers("/login", "/logout")
@@ -56,5 +56,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         	.exceptionHandling()
     			.accessDeniedPage("/403");
     }
-	
+
 }
