@@ -8,7 +8,7 @@
    <!--- basic page needs
    ================================================== -->
    <meta charset="utf-8" />
-	<title>Lhander</title>
+	<title>E-Invoice</title>
 	<meta name="description" content="" />  
 	<meta name="author" content="" />
    <!-- Online  --> 
@@ -24,20 +24,20 @@
 
  	<!-- CSS
    ================================================== -->
-   <link href="../static/css/signup.css" th:href="@{/css/signup.css}" rel="stylesheet" />
-   <link href="../static/css/base.css" th:href="@{/css/base.css}" rel="stylesheet" /> 
-   <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
-   <link href="../static/css/vendor.css" th:href="@{/css/vendor.css}" rel="stylesheet" />
+   <link href="../static/css/index/signup.css" th:href="@{/css/index/signup.css}" rel="stylesheet" />
+   <link href="../static/css/index/base.css" th:href="@{/css/index/base.css}" rel="stylesheet" /> 
+   <link href="../static/css/index/main.css" th:href="@{/css/index/main.css}" rel="stylesheet" />
+   <link href="../static/css/index/vendor.css" th:href="@{/css/index/vendor.css}" rel="stylesheet" />
    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
    
-   <link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet" />
+   <link href="../static/css/index/login.css" th:href="@{/css/index/login.css}" rel="stylesheet" />
   
 
    <!-- script
    ================================================== -->
 	 
-	<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
-	<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+	<script src="../static/js/lib/jquery/jquery.min.js" th:src="@{/js/lib/jquery/jquery.min.js}"></script>
+	<script src="../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
 	<script src="../static/js/lib/angular-1.4.9/angular.js" th:src="@{/js/lib/angular-1.4.9/angular.js}"></script>
 	<script src="../static/js/lib/angular-1.4.9/angular-resource.js" th:src="@{/js/lib/angular-1.4.9/angular-resource.js}"></script>
 	<script src="../static/js/lib/angular-1.4.9/angular-route.js" th:src="@{/js/lib/angular-1.4.9/angular-route.js}"></script>
@@ -51,7 +51,7 @@
  -->
 	<script src="../static/js/controller/usersController.js" th:src="@{/js/controller/usersController.js}"></script> 
 	<script src="../static/js/service/loginService.js" th:src="@{/js/service/loginService.js}"></script> 
-	
+	<script src="../static/js/controller/RegisterController.js" th:src="@{/js/controller/RegisterController.js}"></script> 
 	<script src="../static/js/service/authenticationService.js" th:src="@{/js/service/authenticationService.js}"></script>
 	<script src="../static/js/service/registerService.js" th:src="@{/js/service/registerService.js}"></script> 
 	
@@ -63,7 +63,7 @@
 
    <!-- favicons
 	================================================== -->
-	<!-- <link rel="icon" type="image/png" href="/EInvoice/favicon.png" /> -->
+	 <link rel="icon" type="image/png" href="../static/csc.png" th:href="@{/csc.png}" /> 
 
 </head>
 
