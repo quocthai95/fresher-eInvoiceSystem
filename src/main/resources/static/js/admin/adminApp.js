@@ -1,4 +1,4 @@
-var app = angular.module('admin', [ 'ngRoute' ]);
+var app = angular.module('dbApp', [ 'ngRoute' ]);
 app.config(function($routeProvider) {
 
 	$routeProvider.when("/", {

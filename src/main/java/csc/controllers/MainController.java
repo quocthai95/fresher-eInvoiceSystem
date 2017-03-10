@@ -53,4 +53,9 @@ public class MainController {
         // Add model attributes
         return "login";
     }
+    
+	@RequestMapping("/dashboard")
+	public String dashboard() {
+		return "dashboard";
+	}
 }
