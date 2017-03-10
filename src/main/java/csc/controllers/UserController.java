@@ -147,6 +147,7 @@ public class UserController {
   
         Users user = new Users();
 		user.setUsername(res.getUsername());
+		user.setActive("0");
 		user.setPassword(passwordEncoder.encode(res.getPassword()));
 		HashSet<Role> roles = new HashSet<>();
 		roles.add(roleService.findByName("ROLE_MEMBER"));
