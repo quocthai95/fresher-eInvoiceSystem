@@ -41,7 +41,7 @@ app.run(function($rootScope, $location, AuthenticationService) {
 				$location.path("/");
 			}
 		}
-		alert(next.$$route.isAuthenticated);
+		
 		if (next.$$route.isAuthenticated
 				&& !AuthenticationService.getUserAuthenticated()) {
 			alert("You need to be authenticated to see this page!");
