@@ -31,28 +31,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**", "/index.html", "/login.html", "/partials/**", "/", "/error/**",
-				"/user/**", "/dashboard.html");
+		web.ignoring().antMatchers("/resources/**", "/index.html", "/login.html", "/partials/**", "/", "/error/**", "/user/register"
+				 );
 	}
 
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/customer/**").hasRole("MEMBER")
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/dashboard.html").hasRole("MEMBER")
+                .antMatchers("/user/**").hasRole("ADMIN")
                 .antMatchers("/").permitAll()                
                 .and()
             .formLogin()
             	.loginPage("/login")
             	.usernameParameter("username")
             	.passwordParameter("password")
-            	.defaultSuccessUrl("/dashboard")
-            	.failureUrl("/#/login")
+            	.defaultSuccessUrl("/login")
+            	.failureUrl("/#/login?error").permitAll()
+            	.and().logout().logoutSuccessUrl("/login").permitAll()
             	.and()
-            	.csrf()
-                .ignoringAntMatchers("/login", "/logout")
-                .and()
+//            	.csrf()
+//                .ignoringAntMatchers("/login", "/logout")
+//                .and()
         	.exceptionHandling()
     			.accessDeniedPage("/403");
     }

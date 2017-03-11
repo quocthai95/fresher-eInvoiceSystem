@@ -3,6 +3,8 @@ package csc.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import csc.models.Users;
@@ -62,9 +64,10 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<Users> findAllUsers() {
+	public Page<Users> findAllUsers(Pageable pageable) {
 		// TODO Auto-generated method stub
-		return (List<Users>) userRepository.findAll();
+//		return (List<Users>) userRepository.findAll();
+		return userRepository.findAll(pageable);
 	}
 	
 }

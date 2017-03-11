@@ -20,7 +20,7 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
         $http.get(REST_SERVICE_URI + "getAll")
             .then(
             function (response) {
-                deferred.resolve(response.data);
+                deferred.resolve(response.data.content);
             },
             function(errResponse){
                 console.error('Error while fetching Users');

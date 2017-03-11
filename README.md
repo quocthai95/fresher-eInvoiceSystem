@@ -1,3 +1,15 @@
+# HOW TO RUN PROJECT
+## Database: Mysql 6.3CE
+* Create database name: eis
+* Fix:
+spring.datasource.username and spring.datasource.password in application.properties
+
+## Run: Application.java by Application
+## Default username: 
+* admin01@gmail.com - password: 123456 - role: ROLE_ADMIN, ROLE_MEMBER
+* admin02@gmail.com - password: 123456 - role: ROLE_ADMIN, ROLE_MEMBER
+* member@gmail.com - password: 123456 - role: ROLE_MEMBER
+
 # a. Description
 E-Invoice is built for the purpose of monthly invoice management in a family. It helps us to have an overall report of monthly expenses so that user could make plan to save money. User could set an alert for a limited amount of money consumed every month. Each invoice will have following information:
 * Type of invoice: Electric, internet, telephone, water, ...
