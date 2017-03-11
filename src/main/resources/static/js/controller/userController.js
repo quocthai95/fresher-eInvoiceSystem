@@ -85,7 +85,6 @@ angular.module('dbApp').controller('UserController', ['$scope', 'UserService', f
         deleteUser(id);
     }
 
-
     function reset(){
         self.user={id:null,username:'',password:'',active:''};
         $scope.myForm.$setPristine(); //reset Form
