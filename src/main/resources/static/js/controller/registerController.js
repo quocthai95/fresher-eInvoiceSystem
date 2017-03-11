@@ -1,6 +1,6 @@
 
 
-angular.module('myApp').controller('RegisterController', ['$scope', 'RegisterService', function($scope, RegisterService) {
+angular.module('myApp').controller('RegisterController', ['$scope', 'RegisterService', function($scope, RegisterService,$location) {
     var self = this;
     self.res={id:null,username:'',password:'',name:'', email:'', phone:''};
     self.users=[];
@@ -26,7 +26,23 @@ angular.module('myApp').controller('RegisterController', ['$scope', 'RegisterSer
             register(self.res);
         }else{          
             console.log('User updated with id ', self.res.id);
-        }        
+        }   
+        alert('Đăng ký thành công! Vui lòng login để hoạt động');
+       
     }
    
-}]);
+}])
+.directive('pwCheck', [function () {
+    return {
+      require: 'ngModel',
+      link: function (scope, elem, attrs, ctrl) {
+        var firstPassword = '#' + attrs.pwCheck;
+        elem.add(firstPassword).on('keyup', function () {
+          scope.$apply(function () {
+            var v = elem.val()===$(firstPassword).val();
+            ctrl.$setValidity('pwmatch', v);
+          });
+        });
+      }
+    }
+  }]);

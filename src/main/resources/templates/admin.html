@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html ng-app="admin" class="no-js" lang="en">
+<head>
+    <title>Admin - Einvoice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    
+    <!-- Bootstrap Core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type='text/css'/>
+    <!-- Custom CSS -->
+    <link  th:href="@{/css/admin/style.css}" rel="stylesheet" type='text/css'/>
+    <link href="../static/css/admin/morris.css" th:href="@{/css/admin/morris.css}" rel="stylesheet" type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="../static/css/admin/font-awesome.css" th:href="@{/css/admin/font-awesome.css}" rel="stylesheet" type='text/css'/>
+    <!-- jQuery -->
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <!-- Table-->
+    <link href="../static/css/admin/table-style.css" th:href="@{/css/admin/table-style.css}" rel="stylesheet" />
+    <link href="../static/css/admin/basictable.css" th:href="@{/css/admin/basictable.css}" rel="stylesheet" />
+    <script src="../static/js/jquery.basictable.min.js" th:src="@{js/jquery.basictable.min.js}"></script>
+    <!-- //jQuery -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'/>
+    <!-- lined-icons -->
+    <link href="../static/css/admin/icon-font.min.css" th:href="@{/css/admin/icon-font.min.css}" rel="stylesheet" type='text/css'/>
+    <!-- //lined-icons -->
+    <!-- Admin CSS -->
+    <link href="../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}" rel="stylesheet" />
+
+    <link href="../static/css/admin/select2.css" th:href="@{/css/admin/select2.css}" rel="stylesheet" />
+    
+</head>
+<body>
+    <div class="page-container">
+        <!--/content-inner-->
+        <div class="left-content">
+            <div class="mother-grid-inner">
+                <!--header start here-->
+                <div class="header-main">
+                    <div class="logo-w3-agile">
+                        <h1><a href="index.html">E-Invoice System</a></h1>
+                    </div>
+            
+                    <div class="profile_details w3l">
+                        <ul>
+                            <li class="dropdown profile_details_drop">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <div class="profile_img">
+                                        <span class="prfil-img"><img src="/EInvoice/images/csc.png" alt=""/> </span>
+                                       
+                                        <div class="user-name">
+                                            <p>Admin</p>
+                                          
+                                        </div>
+                                        <i class="fa fa-angle-down"></i>
+                                        <i class="fa fa-angle-up"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu drp-mnu">
+                                    <li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>
+                                    <li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li>
+                                    <li> <a href="#"><i class="fa fa-sign-out"></i> Logout</a> </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="clearfix"> </div>
+                </div>
+                <!--heder end here-->
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a> <i class="fa fa-angle-right"></i></li>
+                </ol>
+
+                <div class="main_page">
+                   <div ng-view=""></div> 
+                </div>
+
+                <!-- script-for sticky-nav -->
+                <script>
+                    $(document).ready(function () {
+                        var navoffeset = $(".header-main").offset().top;
+                        $(window).scroll(function () {
+                            var scrollpos = $(window).scrollTop();
+                            if (scrollpos >= navoffeset) {
+                                $(".header-main").addClass("fixed");
+                            } else {
+                                $(".header-main").removeClass("fixed");
+                            }
+                        });
+
+                    });
+                </script>
+                <!-- /script-for sticky-nav -->
+                <!--inner block start here-->
+                <div class="inner-block">
+
+                </div>
+                <!--inner block end here-->
+                <!--copy rights start here-->
+                <div class="copyrights">
+                    <p>© 2016 Admin. E - Invoice System!</p>
+                </div>
+                <!--COPY rights end here-->
+            </div>
+        </div>
+        <!--//content-inner-->
+        <!--/sidebar-menu-->
+        <div class="sidebar-menu">
+            <header class="logo1">
+                <a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a>
+            </header>
+            <div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+            <div class="menu">
+                <ul id="menu">                    
+                    <li id="menu-academico">
+                        <a href="#user-manage"><i class="fa fa-user" aria-hidden="true"></i><span> Quản lý user</span> <span class="fa fa-angle-right" style="float: right"></span><div class="clearfix"></div></a>
+<!--                         <ul id="menu-academico-sub"> -->
+<!--                             <li id="menu-academico-avaliacoes"><a href="#">Danh sách dự án</a></li>                                                       -->
+<!--                         </ul> -->
+                    </li>
+                    <li id="menu-academico">
+                        <a href="#config-email"><i class="fa fa-cog" aria-hidden="true"></i><span> Cấu hình Email</span> <span class="fa fa-angle-right" style="float: right"></span><div class="clearfix"></div></a>
+<!--                         <ul id="menu-academico-sub"> -->
+<!--                             <li id="menu-academico-avaliacoes"><a href="#">Danh sách tiêu chí</a></li>                             -->
+<!--                         </ul> -->
+                    </li>
+                    
+                                       
+                </ul>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <script>
+        var toggle = true;
+
+        $(".sidebar-icon").click(function () {
+            if (toggle) {
+                $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+                $("#menu span").css({ "position": "absolute" });
+            }
+            else {
+                $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+                setTimeout(function () {
+                    $("#menu span").css({ "position": "relative" });
+                }, 400);
+            }
+
+            toggle = !toggle;
+        });
+    </script>
+    <!--js -->
+    <script src="../static/js/jquery.nicescroll.js" th:src="@{/js/jquery.nicescroll.js}"></script>
+    <script src="../static/js/scripts.js" th:src="@{/js/scripts.js}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <!-- /Bootstrap Core JavaScript -->
+    <script src="../static/js/select2.js" th:src="@{/js/select2.js}"></script>
+    <script src="../static/js/vi.js" th:src="@{/js/vi.js}"></script>
+    
+    <script src="../static/js/lib/angular-1.4.9/angular.js" th:src="@{/js/lib/angular-1.4.9/angular.js}"></script>
+	<script src="../static/js/lib/angular-1.4.9/angular-resource.js" th:src="@{/js/lib/angular-1.4.9/angular-resource.js}"></script>
+	<script src="../static/js/lib/angular-1.4.9/angular-route.js" th:src="@{/js/lib/angular-1.4.9/angular-route.js}"></script>
+	<script src="../static/js/adminApp.js" th:src="@{/js/adminApp.js}"></script> 
+	<script src="../static/js/controller/linkController.js" th:src="@{/js/controller/linkController.js}"></script> 
+	<script src="../static/js/controller/userController.js" th:src="@{/js/controller/userController.js}"></script> 
+	<script src="../static/js/service/userService.js" th:src="@{/js/service/userService.js}"></script> 
+	
+	<script src="../static/js/controller/directiveCustom.js" th:src="@{/js/controller/directiveCustom.js}"></script> 
+
+  
+
+    <script>
+        $(document).ready(function () {            
+            $('select').select2({
+                theme: "bootstrap"
+            });
+        });
+    </script>
+   
+</body>
+</html>

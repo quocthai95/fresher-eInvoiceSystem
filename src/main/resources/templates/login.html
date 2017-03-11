@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head>
 <meta charset="utf-8" />
 <title>E-Invoice</title>
@@ -8,12 +8,12 @@
 <!-- Online  -->
 
 <!-- Website Font style -->
-<link href="../static/css/signup/css.css"
+<!-- <link href="../static/css/signup/css.css"
 	th:href="@{/css/signup/css.css}" rel="stylesheet" />
 <link href="../static/css/signup/css1.css"
 	th:href="@{/css/signup/css1.css}" rel="stylesheet" />
 <link href="../static/css/signup/font-awesome.min.css"
-	th:href="@{/css/signup/font-awesome.min.css}" rel="stylesheet" />
+	th:href="@{/css/signup/font-awesome.min.css}" rel="stylesheet" /> -->
 
 <!-- mobile specific metas
    ================================================== -->
@@ -22,9 +22,9 @@
 
 <!-- CSS
    ================================================== -->
-<link href="../static/css/index/signup.css"
-	th:href="@{/css/index/signup.css}" rel="stylesheet" />
-<link href="../static/css/index/base.css"
+<!-- <link href="../static/css/index/signup.css"
+	th:href="@{/css/index/signup.css}" rel="stylesheet" /> -->
+<!-- <link href="../static/css/index/base.css"
 	th:href="@{/css/index/base.css}" rel="stylesheet" />
 <link href="../static/css/index/main.css"
 	th:href="@{/css/index/main.css}" rel="stylesheet" />
@@ -34,7 +34,7 @@
 	th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
 
 <link href="../static/css/index/login.css"
-	th:href="@{/css/index/login.css}" rel="stylesheet" />
+	th:href="@{/css/index/login.css}" rel="stylesheet" /> -->
 
 
 <!-- script
@@ -70,13 +70,14 @@
 	th:src="@{/js/service/authenticationService.js}"></script>
 <script src="../static/js/service/registerService.js"
 	th:src="@{/js/service/registerService.js}"></script>
+	
 </head>
-<body>
+<body >
 	<div class="container">
 		<div class="card card-container">
 			<!-- <img class="profile-img-card" src="/EInvoice/images/csc.png" alt="" /> -->
 			<img id="profile-img" class="profile-img-card"
-				src="/EInvoice/images/dog.jpg" />
+				src="/EInvoice/images/login.png" />
 			<p id="profile-name" class="profile-name-card"></p>
 			<form class="form-signin" th:action="@{/login}" method="POST">
 				<input type="text" name="username" class="form-control"
@@ -87,7 +88,7 @@
 					type="submit">Login</button>
 			</form>
 			<div>
-				<a href="#" style="color: green; font-weight: bold"> Dont have
+				<a href="#/signup" style="color: green; font-weight: bold"> Dont have
 					account? Click to Sign Up</a>
 			</div>
 			<!-- /form -->
@@ -96,4 +97,5 @@
 	</div>
 	<!-- /container -->
 </body>
+
 </html>
