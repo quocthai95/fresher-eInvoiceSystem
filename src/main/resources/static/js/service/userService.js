@@ -16,13 +16,12 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
     
 
 
-    function fetchAllUsers() {
+    function fetchAllUsers(size, page) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getAll")
+        $http.get(REST_SERVICE_URI + "getAll?" + "size="+ size + "&page=" + page)
             .then(
             function (response) {
-            	console.log("Service fetch all: " + response.data.content);
-                deferred.resolve(response.data.content);                
+                deferred.resolve(response.data);                
             },
             function(errResponse){
                 console.error('Error while fetching Users');

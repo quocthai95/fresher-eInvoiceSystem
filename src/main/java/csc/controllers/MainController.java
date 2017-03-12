@@ -90,6 +90,16 @@ public class MainController {
 
 	@RequestMapping("/dashboard")
 	public String dashboard() {
-		return "dashboard";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		if (username != "anonymousUser") {
+			String role = userRepository.findByUsername(username).getActive();
+			System.out.println(role);
+			if (role.equals(ISACTIVE)) {
+				System.out.println("go on dashboard " + username);
+				return "dashboard";
+			}
+		}
+		return "login";
 	}
 }
