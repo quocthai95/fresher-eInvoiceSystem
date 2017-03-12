@@ -7,7 +7,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <!--<![endif]-->
 <head>
-<title>Admin - Einvoice</title>
+<title>E-Invoice</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords"
@@ -105,7 +105,7 @@ addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); func
 	src="../static/js/lib/spring-security-csrf-token-interceptor/spring-security-csrf-token-interceptor.min.js"
 	th:src="@{/js/lib/spring-security-csrf-token-interceptor/spring-security-csrf-token-interceptor.min.js}"></script>
 <script src="../static/js/dbApp.js" th:src="@{/js/dbApp.js}"></script>
-<script src="../static/js/admin/adminApp.js" th:src="@{/js/admin/adminApp.js}"></script>
+<!-- <script src="../static/js/admin/adminApp.js" th:src="@{/js/admin/adminApp.js}"></script> -->
 <!-- <script src="../static/js/controller/linkController.js" th:src="@{/js/controller/linkController.js}"></script> 
 	<script src="../static/js/controller/mainController.js" th:src="@{/js/controller/mainController.js}"></script> 
 	 -->
@@ -127,6 +127,8 @@ addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); func
 <script src="../static/js/directive/adminDirective.js"
 	th:src="@{/js/directive/adminDirective.js}"></script>
 
+<script src="../static/js/controller/customerController.js"
+	th:src="@{/js/controller/customerController.js}"></script>
 
 <!-- favicons
 	================================================== -->
