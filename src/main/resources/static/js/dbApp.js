@@ -2,7 +2,7 @@ var app = angular.module('dbApp', [ 'ngRoute' ]);
 app.config(function($routeProvider) {
 
 	$routeProvider.when("/", {
-		templateUrl : "/EInvoice/views/admin/userManagement.html",
+		templateUrl : "/EInvoice/views/welcome.html",
 		controller : 'UserController',
 	}).when("/user-manage", {
 		templateUrl : "/EInvoice/views/admin/userManagement.html",
@@ -10,7 +10,11 @@ app.config(function($routeProvider) {
 	}).when("/config-email", {
 		templateUrl : "/EInvoice/views/admin/config-email.html",
 		controller : 'UserController',
-	}).otherwise({
+	}).when("/customer-manage", {
+		templateUrl : "/EInvoice/views/customer/customerManagement.html",
+		controller: 'CustomerController',
+	})
+	.otherwise({
 		redirectTo : '/'
 	});
 
