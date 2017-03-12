@@ -1,23 +1,102 @@
 'use strict';
 
-angular.module('dbApp').controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
-    var self = this;
-    self.user={id:null,username:'',password:'',active:''};
-    self.users=[];
+var app = angular.module('dbApp');
 
+app.controller('UserController', ['$scope','$filter', 'UserService', function($scope, $filter, UserService) {
+    var self = this;
+    self.user={id:null,username:'',password:'',active:''};    
+    self.users=[];
+    
+    
+    function defaultValue() {
+        $scope.currentPage = 0;
+        $scope.pageSize = 5;    
+        $scope.search = '';
+       
+        $scope.size = 5;
+        //$scope.page = 1;
+        $scope.totalElements = 0;
+    }
+
+    
     self.submit = submit;
     self.edit = edit;
     self.remove = remove;
     self.reset = reset;
+    self.isActive = isActive;
+    self.update = updateUser;
+    self.filterActive = filterActive;
+    
 
-
+    defaultValue();
     fetchAllUsers();
+    
+    
+    $scope.onEventPaging = function(value) {
+    	$scope.size = value;
+    	console.log('value ' + $scope.size + "-" + $scope.currentPage);
+    	fetchAllUsers();
+    }
+    
+    $scope.onEventPreCurrentPage = function() {
+    	$scope.currentPage = $scope.currentPage - 1;
+    	console.log('value ' + $scope.size + "-" + $scope.currentPage);
+    	fetchAllUsers();
+    }
+    
+    $scope.onEventNextCurrentPage = function() {
+    	$scope.currentPage = $scope.currentPage + 1;
+    	console.log('value ' + $scope.size + "-" + $scope.currentPage);
+    	fetchAllUsers();
+    }
+    
+    
+    $scope.getData = function () {
+        
+        return $filter('filter')( self.users, $scope.search)
+       
+      }
+    
+    $scope.numberOfPages=function(){
+    	//console.log('$scope.totalElements ' + $scope.totalElements);
+    	
+    	// $scope.totalElements / pageSize
+    	return Math.ceil($scope.totalElements/$scope.pageSize);
+        //return Math.ceil($scope.getData().length/$scope.pageSize);                
+    }
 
     function fetchAllUsers(){
-        UserService.fetchAllUsers()
+        UserService.fetchAllUsers($scope.size, $scope.currentPage)
             .then(
             function(d) {
-                self.users = d;
+            	self.users = d.content;
+            	$scope.totalElements = d.totalElements;
+            	//console.log("d.totalElements" + d.totalElements);
+            },
+            function(errResponse){
+                console.error('Error while fetching Users');
+            }
+        );
+    }
+    
+    function filterActive(status){
+    	console.log(status);
+    	if(status == 'all')
+    	{
+    		fetchAllUsers();
+    	}
+    	else{
+    		console.log("Filter by status");
+    		getUserByActive(status);
+    	}
+    }
+    
+    function getUserByActive(active){
+        UserService.getUsersByActive(active)
+            .then(
+            function(d) {
+            	self.users = d;
+            	console.log(self.users);
             },
             function(errResponse){
                 console.error('Error while fetching Users');
@@ -35,14 +114,21 @@ angular.module('dbApp').controller('UserController', ['$scope', 'UserService', f
         );
     }
 
-    function updateUser(user, id){
-        UserService.updateUser(user, id)
-            .then(
-            fetchAllUsers,
-            function(errResponse){
-                console.error('Error while updating User');
-            }
-        );
+    function updateUser(user, id){    	
+    	var r = confirm("Are you sure!");
+    	if (r == true) {
+    		console.log(user);
+            UserService.updateUser(user, id)
+                .then(
+                fetchAllUsers,
+                function(errResponse){
+                    console.error('Error while updating User');
+                }
+            );
+    	} else {
+    		fetchAllUsers();
+    	}
+    	
     }
 
     function deleteUser(id){
@@ -76,6 +162,12 @@ angular.module('dbApp').controller('UserController', ['$scope', 'UserService', f
             }
         }
     }
+    
+    function isActive(user){
+        console.log('id to be edited', user.id);
+        self.user = user;
+        updateUser(self.user, self.user.id);
+    }
 
     function remove(id){
         console.log('id to be deleted', id);
@@ -89,5 +181,14 @@ angular.module('dbApp').controller('UserController', ['$scope', 'UserService', f
         self.user={id:null,username:'',password:'',active:''};
         $scope.myForm.$setPristine(); //reset Form
     }
-
+    
+   
 }]);
+
+
+app.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});

@@ -1,6 +1,6 @@
 var app = angular.module('myApp');
 
-app.controller("mainController", function($scope, AuthenticationService,
+app.controller("mainController", function($scope,// AuthenticationService,
 		$location, $window) {
 	$scope.isUser = function() {
 		if (!angular.isUndefined($window.localStorage.currentUser)) {
@@ -15,7 +15,7 @@ app.controller("mainController", function($scope, AuthenticationService,
 	$scope.goOut = function() {
 		// reset login status
 		// alert('goOut');
-		AuthenticationService.Logout();
+		//AuthenticationService.Logout();
 		// go home page
 		$location.path('/');
 		// console.log('get $localStorage after logout ' +
