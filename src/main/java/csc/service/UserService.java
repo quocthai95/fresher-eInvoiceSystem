@@ -24,5 +24,7 @@ public interface UserService {
 	void deleteAllUsers();
 	
 	public boolean isUserExist(Users user);
+	
+	List<Users> findByActive(String active);
 			
 }

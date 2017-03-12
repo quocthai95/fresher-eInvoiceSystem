@@ -2,7 +2,7 @@
 <!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
 <!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!-->
-<html ng-app="dbApp" class="no-js" lang="en"
+<html ng-app="dbApp"  class="no-js" lang="en"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <!--<![endif]-->
@@ -20,6 +20,7 @@ addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); func
 
 
 </script>
+
 
 <!-- Bootstrap Core CSS -->
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"
@@ -62,6 +63,9 @@ addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); func
 <!-- header 
    ================================================== -->
    <link rel="icon" type="image/png" href="../static/csc.png" th:href="@{/csc.png}" /> 
+   
+  <link href="../static/libs/angular_material/angular-material.min.css"
+	th:href="@{/libs/angular_material/angular-material.min.css}" rel="stylesheet" />
 </head>
 <body id="top">
 
@@ -104,6 +108,13 @@ addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); func
 <script
 	src="../static/js/lib/spring-security-csrf-token-interceptor/spring-security-csrf-token-interceptor.min.js"
 	th:src="@{/js/lib/spring-security-csrf-token-interceptor/spring-security-csrf-token-interceptor.min.js}"></script>
+	
+ <script src="../static/js/lib/ui-bootstrap-tpls-2.5.0.min.js"
+	th:src="@{/js/lib/ui-bootstrap-tpls-2.5.0.min.js}"></script>
+	
+	<script src="../static/libs/angular_material/angular-material.min.js"
+	th:src="@{/libs/angular_material/angular-material.min.js}"></script>
+	
 <script src="../static/js/dbApp.js" th:src="@{/js/dbApp.js}"></script>
 <script src="../static/js/admin/adminApp.js" th:src="@{/js/admin/adminApp.js}"></script>
 <!-- <script src="../static/js/controller/linkController.js" th:src="@{/js/controller/linkController.js}"></script> 
@@ -126,8 +137,9 @@ addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); func
 	th:src="@{/js/controller/dashboardController.js}"></script>
 <script src="../static/js/directive/adminDirective.js"
 	th:src="@{/js/directive/adminDirective.js}"></script>
-
-
+	
+	
+<!-- <script data-require="angular-ui-bootstrap@0.3.0" data-semver="0.3.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.3.0.min.js"></script> -->
 <!-- favicons
 	================================================== -->
 <!-- <link rel="icon" type="image/png" href="/EInvoice/favicon.png" /> -->

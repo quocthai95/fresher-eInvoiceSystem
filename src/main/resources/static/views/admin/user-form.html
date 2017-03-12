@@ -25,7 +25,9 @@
 			<label class="col-md-2 control-lable" for="active">Active</label> 
 			<div class="col-md-7">
 				<input type="checkbox" name="checked"  ng-model="ctrl.user.active" id="active"
-					class="active form-control" ng-checked="ctrl.user.active == 1" />
+					class="active form-control" ng-checked="ctrl.user.active==1 ? 1 : 0" 
+					ng-click="ctrl.user.active=!ctrl.user.active"
+					ng-change="ctrl.user.active=!ctrl.user.active"/>
 				<div class="has-error" ng-show="myForm.$dirty">
 					<span ng-show="myForm.active.$error.required">This is a
 						required field</span> <span ng-show="myForm.active.$invalid">This

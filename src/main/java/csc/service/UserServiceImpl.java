@@ -69,5 +69,11 @@ public class UserServiceImpl implements UserService{
 //		return (List<Users>) userRepository.findAll();
 		return userRepository.findAll(pageable);
 	}
-	
+
+	@Override
+	public List<Users> findByActive(String active) {
+		// TODO Auto-generated method stub
+		return userRepository.findByActive(active);
+	}
+		
 }
