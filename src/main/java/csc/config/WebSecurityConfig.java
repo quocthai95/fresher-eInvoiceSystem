@@ -51,9 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             	.failureUrl("/#/login?error").permitAll()
             	.and().logout().logoutSuccessUrl("/login").permitAll()
             	.and()
-//            	.csrf()
-//                .ignoringAntMatchers("/login", "/logout")
-//                .and()
+            	.csrf()
+                .ignoringAntMatchers("/user/**")
+                .and()
         	.exceptionHandling()
     			.accessDeniedPage("/403");
     }

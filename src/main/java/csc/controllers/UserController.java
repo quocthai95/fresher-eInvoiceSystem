@@ -77,6 +77,19 @@ public class UserController {
         }
         return new ResponseEntity<Users>(user, HttpStatus.OK);
     }
+    
+  //-------------------Retrieve Single User--------------------------------------------------------
+    
+    @RequestMapping(value = "/user/getByActive/{active}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Users>> getUserByActive(@PathVariable("active") String active) {
+        System.out.println("Fetching User with id " + active);
+        List<Users> user = userService.findByActive(active);
+        if (user == null) {
+            System.out.println("User with id " + active + " not found");
+            return new ResponseEntity<List<Users>>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<Users>>(user, HttpStatus.OK);
+    }
   
       
       
