@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,12 +55,12 @@ public class UserController {
 	//-------------------Retrieve All Users--------------------------------------------------------
     
     @RequestMapping(value = "/user/getAll", method = RequestMethod.GET)
-    public ResponseEntity<List<Users>> listAllUsers() {
-        List<Users> users = userService.findAllUsers();
-        if(users.isEmpty()){
-            return new ResponseEntity<List<Users>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+    public ResponseEntity<Page<Users>> listAllUsers(Pageable pageable) {
+    	Page<Users> users = userService.findAllUsers(pageable);
+        if(users.getSize() == 0){
+            return new ResponseEntity<Page<Users>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
-        return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
+        return new ResponseEntity<Page<Users>>(users, HttpStatus.OK);
     }
   
   
@@ -74,6 +76,19 @@ public class UserController {
             return new ResponseEntity<Users>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Users>(user, HttpStatus.OK);
+    }
+    
+  //-------------------Retrieve Single User--------------------------------------------------------
+    
+    @RequestMapping(value = "/user/getByActive/{active}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Users>> getUserByActive(@PathVariable("active") String active) {
+        System.out.println("Fetching User with id " + active);
+        List<Users> user = userService.findByActive(active);
+        if (user == null) {
+            System.out.println("User with id " + active + " not found");
+            return new ResponseEntity<List<Users>>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<Users>>(user, HttpStatus.OK);
     }
   
       
@@ -145,6 +160,7 @@ public class UserController {
   
         Users user = new Users();
 		user.setUsername(res.getUsername());
+		user.setActive("0");
 		user.setPassword(passwordEncoder.encode(res.getPassword()));
 		HashSet<Role> roles = new HashSet<>();
 		roles.add(roleService.findByName("ROLE_MEMBER"));

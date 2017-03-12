@@ -8,7 +8,8 @@ body, html {
     height: 100%;
     background-repeat: no-repeat;
    /*  background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33)); */
-   background-image: url("/EInvoice/images/signup.jpg");
+   background-image: url("/EInvoice/images/white.jpg");
+  
 }
 
 .card-container.card {
@@ -18,7 +19,7 @@ body, html {
 
 .btn {
     font-weight: 700;
-    height: 36px;
+    
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;

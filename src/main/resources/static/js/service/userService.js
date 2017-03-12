@@ -8,19 +8,36 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
     	fetchAllUsers: fetchAllUsers,
         createUser: createUser,
         updateUser:updateUser,
-        deleteUser:deleteUser
+        deleteUser:deleteUser,
+        getUsersByActive:getUsersByActive,
     };
 
     return factory;
     
 
 
-    function fetchAllUsers() {
+    function fetchAllUsers(size, page) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getAll")
+        $http.get(REST_SERVICE_URI + "getAll?" + "size="+ size + "&page=" + page)
             .then(
             function (response) {
-                deferred.resolve(response.data);
+                deferred.resolve(response.data);                
+            },
+            function(errResponse){
+                console.error('Error while fetching Users');
+                deferred.reject(errResponse);
+            }
+        );
+        return deferred.promise;
+    }
+    
+    function getUsersByActive(active) {
+        var deferred = $q.defer();
+        $http.get(REST_SERVICE_URI + "getByActive/" +active)
+            .then(
+            function (response) {
+            	console.log("Service: " + response.data.content);
+                deferred.resolve(response.data.content);                
             },
             function(errResponse){
                 console.error('Error while fetching Users');
@@ -47,7 +64,14 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
 
 
     function updateUser(user, id) {
+    	console.log(user);
         var deferred = $q.defer();
+        if (user.active == true) {
+        	user.active = '1';
+        }
+        if (user.active == false) {
+        	user.active = '0';
+        }
         $http.post(REST_SERVICE_URI + "update/" +id, user)
             .then(
             function (response) {
