@@ -7,10 +7,17 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     self.user={id:null,username:'',password:'',active:''};    
     self.users=[];
     
-    $scope.currentPage = 0;
-    $scope.pageSize = 1;    
-    $scope.search = '';
-   
+    
+    function defaultValue() {
+        $scope.currentPage = 0;
+        $scope.pageSize = 5;    
+        $scope.search = '';
+       
+        $scope.size = 5;
+        //$scope.page = 1;
+        $scope.totalElements = 0;
+    }
+
     
     self.submit = submit;
     self.edit = edit;
@@ -21,8 +28,28 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     self.filterActive = filterActive;
     
 
-
+    defaultValue();
     fetchAllUsers();
+    
+    
+    $scope.onEventPaging = function(value) {
+    	$scope.size = value;
+    	console.log('value ' + $scope.size + "-" + $scope.currentPage);
+    	fetchAllUsers();
+    }
+    
+    $scope.onEventPreCurrentPage = function() {
+    	$scope.currentPage = $scope.currentPage - 1;
+    	console.log('value ' + $scope.size + "-" + $scope.currentPage);
+    	fetchAllUsers();
+    }
+    
+    $scope.onEventNextCurrentPage = function() {
+    	$scope.currentPage = $scope.currentPage + 1;
+    	console.log('value ' + $scope.size + "-" + $scope.currentPage);
+    	fetchAllUsers();
+    }
+    
     
     $scope.getData = function () {
         
@@ -31,14 +58,20 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
       }
     
     $scope.numberOfPages=function(){
-        return Math.ceil($scope.getData().length/$scope.pageSize);                
+    	//console.log('$scope.totalElements ' + $scope.totalElements);
+    	
+    	// $scope.totalElements / pageSize
+    	return Math.ceil($scope.totalElements/$scope.pageSize);
+        //return Math.ceil($scope.getData().length/$scope.pageSize);                
     }
 
     function fetchAllUsers(){
-        UserService.fetchAllUsers()
+        UserService.fetchAllUsers($scope.size, $scope.currentPage)
             .then(
             function(d) {
-            	self.users = d;
+            	self.users = d.content;
+            	$scope.totalElements = d.totalElements;
+            	//console.log("d.totalElements" + d.totalElements);
             },
             function(errResponse){
                 console.error('Error while fetching Users');
