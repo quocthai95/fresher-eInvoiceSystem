@@ -10,6 +10,7 @@ body, html{
      height: 100%;
  	background-repeat: no-repeat;
  	background-color: #d3d3d3;
+ 	background-image: url("/EInvoice/images/white.jpg");
  	
  	font-family: 'Oxygen', sans-serif;
 }
@@ -57,11 +58,14 @@ input::-webkit-input-placeholder {
 
 .main-center{
  	margin-top: 30px;
- 	margin: 0 auto;
+ 	margin-left: 400px;
  	max-width: 330px;
-    padding: 40px 40px;
+    padding-top: 20px;
+    padding-bottom:5px;
+    padding-right:40px;
+    padding-left:40px;
 
-}
+}s
 
 .login-button{
 	margin-top: 5px;
