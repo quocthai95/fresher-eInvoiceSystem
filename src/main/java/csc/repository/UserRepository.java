@@ -26,4 +26,5 @@ public interface UserRepository extends CrudRepository<Users, Long> {
 	Users findByUsername(String username);
 	
 	List<Users> findByActive(String active);
+
 } // class UserDao
