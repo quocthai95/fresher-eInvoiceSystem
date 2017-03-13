@@ -2,7 +2,6 @@ package csc.controllers;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -22,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import csc.models.*;
+import csc.models.Customer;
+import csc.models.Register;
+import csc.models.Role;
+import csc.models.Users;
 import csc.service.CustomerService;
 import csc.service.RoleService;
 import csc.service.UserService;
@@ -81,14 +83,14 @@ public class UserController {
   //-------------------Retrieve Single User--------------------------------------------------------
     
     @RequestMapping(value = "/user/getByActive/{active}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Users>> getUserByActive(@PathVariable("active") String active) {
+    public ResponseEntity<Page<Users>> getUserByActive(@PathVariable("active") String active, Pageable pageable) {
         System.out.println("Fetching User with id " + active);
-        List<Users> user = userService.findByActive(active);
-        if (user == null) {
+        Page<Users> user = userService.findByActive(active, pageable);
+        if (user.getSize() == 0) {
             System.out.println("User with id " + active + " not found");
-            return new ResponseEntity<List<Users>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Page<Users>>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Users>>(user, HttpStatus.OK);
+        return new ResponseEntity<Page<Users>>(user, HttpStatus.OK);
     }
   
       

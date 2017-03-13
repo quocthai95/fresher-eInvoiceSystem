@@ -15,6 +15,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "company")
 public class Company implements Serializable {
@@ -57,6 +59,7 @@ public class Company implements Serializable {
     @Column(name = "tax_code")
     private int taxCode;
     
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCpn")
     private Collection<Invoice> invoiceCollection;
 
