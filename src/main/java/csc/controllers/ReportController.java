@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import csc.models.Invoice;
 import csc.models.Report;
-import csc.models.Users;
 import csc.repository.CustomerRepository;
 import csc.repository.InvoiceRepository;
 import csc.repository.ReportRepository;

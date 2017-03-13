@@ -162,7 +162,7 @@ public class UserController {
   
         Users user = new Users();
 		user.setUsername(res.getUsername());
-		user.setActive("0");
+		user.setActive("1");
 		user.setPassword(passwordEncoder.encode(res.getPassword()));
 		HashSet<Role> roles = new HashSet<>();
 		roles.add(roleService.findByName("ROLE_MEMBER"));
@@ -174,7 +174,7 @@ public class UserController {
 		cus.setAddress("");
 		cus.setEmail(res.getEmail());
 		cus.setNameCustomer(res.getName());
-		cus.setIdCustomer("" + user.getId());
+		cus.setIdCustomer("C" + user.getId());
 		cus.setPhone(Integer.parseInt(res.getPhone()));
 		cus.setTaxCode(Integer.parseInt("0"));
 		cus.setLimitConsume(BigDecimal.valueOf(0));

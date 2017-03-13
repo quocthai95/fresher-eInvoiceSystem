@@ -43,10 +43,10 @@ public class Users implements Serializable {
 	@Column(name = "active")
 	private String active;
 
-	// @JoinColumn(name = "id", referencedColumnName = "id_user", insertable =
-	// false, updatable = false)
-	// @OneToOne(optional = false)
-	// private Customer customer;
+//	@JsonIgnore
+//	@JoinColumn(name = "id", referencedColumnName = "id_user")
+//	@OneToOne(optional = false)
+//	private Customer customer;
 
 	@JsonIgnore
 	@ManyToMany
@@ -89,13 +89,13 @@ public class Users implements Serializable {
 		this.username = username;
 	}
 
-	// public Customer getCustomer() {
-	// return customer;
-	// }
-	//
-	// public void setCustomer(Customer customer) {
-	// this.customer = customer;
-	// }
+//	 public Customer getCustomer() {
+//	 return customer;
+//	 }
+//	
+//	 public void setCustomer(Customer customer) {
+//	 this.customer = customer;
+//	 }
 
 	public String getPassword() {
 		return password;

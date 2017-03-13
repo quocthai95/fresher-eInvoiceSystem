@@ -79,7 +79,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', funct
     }
 
     function fetchAllInvoice(){
-        InvoiceService.fetchAllInvoice($scope.size, $scope.currentPage)
+        InvoiceService.fetchAllInvoice('1',$scope.size, $scope.currentPage)
             .then(
             function(d) {
             	self.invoices = d.content;

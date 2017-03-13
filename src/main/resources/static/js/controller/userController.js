@@ -10,7 +10,7 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     
     function defaultValue() {
         $scope.currentPage = 0;
-        $scope.pageSize = 1;    
+        $scope.pageSize = 5;    
         $scope.search = '';
         $scope.status = 'all';
        
