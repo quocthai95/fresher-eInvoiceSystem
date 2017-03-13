@@ -103,7 +103,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', funct
         );
     }
 
-    function updateInvoie(invoice, id){    	
+    function updateInvoice(invoice, id){    	
     	var r = confirm("Are you sure!");
     	if (r == true) {
     		console.log(invoice);
