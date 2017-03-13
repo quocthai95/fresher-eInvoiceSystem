@@ -1,7 +1,5 @@
 package csc.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,6 +23,6 @@ public interface UserService {
 	
 	public boolean isUserExist(Users user);
 	
-	List<Users> findByActive(String active);
+	Page<Users> findByActive(String active, Pageable pageable);
 			
 }

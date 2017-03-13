@@ -2,7 +2,6 @@ package csc.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;

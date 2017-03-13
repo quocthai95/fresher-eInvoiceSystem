@@ -17,6 +17,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "invoice")
 public class Invoice implements Serializable {
@@ -59,14 +61,17 @@ public class Invoice implements Serializable {
     @Column(name = "grand_total")
     private BigDecimal grandTotal;
     
+    @JsonIgnore
     @JoinColumn(name = "id_customer", referencedColumnName = "id_customer")
     @ManyToOne(optional = false)
     private Customer idCustomer;
     
+    @JsonIgnore
     @JoinColumn(name = "id_cpn", referencedColumnName = "id_cpn")
     @ManyToOne(optional = false)
     private Company idCpn;
     
+    @JsonIgnore
     @JoinColumn(name = "id_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TypeInvoice idType;

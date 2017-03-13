@@ -1,10 +1,10 @@
 package csc.config;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +13,18 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import csc.repository.CompanyRepository;
-import csc.repository.CustomerRepository;
-import csc.repository.InvoiceRepository;
-import csc.repository.RoleRepository;
-import csc.repository.TypeInvoiceRepository;
-import csc.repository.UserRepository;
 import csc.models.Company;
 import csc.models.Customer;
 import csc.models.Invoice;
 import csc.models.Role;
 import csc.models.TypeInvoice;
 import csc.models.Users;
+import csc.repository.CompanyRepository;
+import csc.repository.CustomerRepository;
+import csc.repository.InvoiceRepository;
+import csc.repository.RoleRepository;
+import csc.repository.TypeInvoiceRepository;
+import csc.repository.UserRepository;
 
 @Component
 public class DataSeedingListener implements ApplicationListener<ContextRefreshedEvent> {
