@@ -171,11 +171,11 @@ public class UserController {
 		
 		Customer cus = new Customer();
 		cus.setUser(user);
-		cus.setAddress("");
+//		cus.setAddress("");
 		cus.setEmail(res.getEmail());
 		cus.setNameCustomer(res.getName());
 		cus.setIdCustomer("" + user.getId());
-		cus.setPhone(Integer.parseInt(res.getPhone()));
+//		cus.setPhone(Integer.parseInt(res.getPhone()));
 		cus.setTaxCode(Integer.parseInt("0"));
 		cus.setLimitConsume(BigDecimal.valueOf(0));
 		customerService.saveCustomer(cus);
