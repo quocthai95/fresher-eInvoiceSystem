@@ -7,5 +7,7 @@ import csc.models.Company;
 
 @Repository
 public interface CompanyRepository extends CrudRepository<Company, Long> {
+	Company findByNameCpn(String namecpn);
 
+	Company findById(Integer id);
 }

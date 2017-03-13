@@ -31,13 +31,13 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
         return deferred.promise;
     }
     
-    function getUsersByActive(active) {
+    function getUsersByActive(active, size, page) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getByActive/" +active)
+        $http.get(REST_SERVICE_URI + "getByActive/" +active + "?size="+ size + "&page=" + page)
             .then(
             function (response) {
-            	console.log("Service: " + response.data.content);
-                deferred.resolve(response.data.content);                
+            	console.log("Service: " + response.data);
+                deferred.resolve(response.data);                
             },
             function(errResponse){
                 console.error('Error while fetching Users');
