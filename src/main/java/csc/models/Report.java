@@ -25,9 +25,9 @@ public class Report implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-//	@Basic(optional = false)
-//	@Column(name = "id_customer")
-//	private Long idCustomer;
+	@Basic(optional = false)
+	@Column(name = "id_customer")
+	private String idCustomer;
 
 	@Basic(optional = false)
 	@Column(name = "contract_number")
@@ -53,9 +53,9 @@ public class Report implements Serializable {
 		this.id = id;
 	}
 
-	public Report(Long id, String contractNumber, String nameInvoice, BigDecimal grandTotal) {
+	public Report(Long id, String idCustomer, String contractNumber, String nameInvoice, BigDecimal grandTotal) {
 		this.id = id;
-//		this.idCustomer = idCustomer;
+		this.idCustomer = idCustomer;
 		this.contractNumber = contractNumber;
 		this.nameInvoice = nameInvoice;
 		this.grandTotal = grandTotal;
@@ -69,13 +69,13 @@ public class Report implements Serializable {
 		this.id = id;
 	}
 
-//	public Long getIdCustomer() {
-//		return idCustomer;
-//	}
-//
-//	public void setIdCustomer(Long idCustomer) {
-//		this.idCustomer = idCustomer;
-//	}
+	public String getIdCustomer() {
+		return idCustomer;
+	}
+
+	public void setIdCustomer(String idCustomer) {
+		this.idCustomer = idCustomer;
+	}
 
 	public String getContractNumber() {
 		return contractNumber;
