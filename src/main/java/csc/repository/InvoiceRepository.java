@@ -6,10 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import csc.models.Invoice;
-import java.util.List;
-import java.lang.String;
 import csc.models.Customer;
+import csc.models.Invoice;
 
 @Repository
 public interface InvoiceRepository extends CrudRepository<Invoice, Long> {
@@ -20,4 +18,8 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Long> {
 	Invoice findByContractNumber(String contractnumber);
 
 	List<Invoice> findByIdCustomer(Customer idcustomer);
+
+Page<Invoice> findAll(Pageable pageable);
+	Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable);
+
 }

@@ -19,6 +19,8 @@ import org.hibernate.annotations.NamedNativeQueries;
 import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "invoice")
 @NamedNativeQueries({
@@ -26,12 +28,58 @@ import org.hibernate.validator.constraints.Length;
 				query = "select * from invoice u where u.id_customer= :id and and (u.date between :dateStart and :dateEnd)", resultClass = Invoice.class) })
 public class Invoice implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Basic(optional = false)
-	@Column(name = "id")
-	private Long id;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Long id;
+    
+    @Basic(optional = false)
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+    
+    @Length(max= 100)
+    @Column(name = "contract_number")
+    private String contractNumber;
+    
+    @Column(name = "name_service",length=10485760)
+    private String nameService;
+    
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "index_consumed")
+    private Float indexConsumed;
+    
+    @Basic(optional = false)
+    @Column(name = "total")
+    private BigDecimal total;
+    
+    @Basic(optional = false)
+    @Column(name = "vat")
+    private float vat;
+    
+    @Column(name = "ptef")
+    private BigDecimal ptef;
+    
+    @Basic(optional = false)
+    @Column(name = "grand_total")
+    private BigDecimal grandTotal;
+    
+    @JsonIgnore
+    @JoinColumn(name = "id_customer", referencedColumnName = "id_customer")
+    @ManyToOne(optional = false)
+    private Customer idCustomer;
+    
+    @JsonIgnore
+    @JoinColumn(name = "id_cpn", referencedColumnName = "id_cpn")
+    @ManyToOne(optional = false)
+    private Company idCpn;
+    
+    @JsonIgnore
+    @JoinColumn(name = "id_type", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private TypeInvoice idType;
 
 	@Basic(optional = false)
 	@Column(name = "date")

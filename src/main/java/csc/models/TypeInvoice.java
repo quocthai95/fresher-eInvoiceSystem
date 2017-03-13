@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "typeinvoice")
 public class TypeInvoice implements Serializable {
@@ -38,6 +40,7 @@ public class TypeInvoice implements Serializable {
     @Column(name = "vat")
     private float vat;
     
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idType")
     private Collection<Invoice> invoiceCollection;
 
