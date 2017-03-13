@@ -82,7 +82,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', funct
         InvoiceService.fetchAllInvoice($scope.size, $scope.currentPage)
             .then(
             function(d) {
-            	self.invoice = d.content;
+            	self.invoices = d.content;
             	$scope.totalElements = d.totalElements;
             	//console.log("d.totalElements" + d.totalElements);
             },
@@ -103,7 +103,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', funct
         );
     }
 
-    function updateInvoie(invoice, id){    	
+    function updateInvoice(invoice, id){    	
     	var r = confirm("Are you sure!");
     	if (r == true) {
     		console.log(invoice);

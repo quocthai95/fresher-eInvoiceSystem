@@ -21,17 +21,17 @@
 	<thead>
 		<tr>
 			<th>Invoice Number</th>
-			<th>Type of Invoice</th>
+			<th>Index Consumed</th>
 			<th>Date</th>
 			<th>Grand Total</th>		
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="u in ctrl.invoice|filter:search"> <!-- |startFrom:currentPage*pageSize | limitTo:pageSize -->
-			<td><span ng-bind="u.contract_number"></span></td>
-			<td><span ng-bind="u.name_invoice"></span></td>
+		<tr ng-repeat="u in ctrl.invoices|filter:search"> <!-- |startFrom:currentPage*pageSize | limitTo:pageSize -->
+			<td><span ng-bind="u.contractNumber"></span></td>
+			<td><span ng-bind="u.indexConsumed"></span></td>
 			<td>
-			<span ng-bind="u.date"></span>
+			<span ng-bind="u.date | date"></span>
 				<!--<label style="display: flex" for="id{{u.id}}"><input type="checkbox" value="" name="checked"  ng-model="u.active" id="id{{u.id}}"
 					class="form-control ng-dirty ng-valid-parse" ng-checked="u.active==1 ? 1 : 0" 
 					ng-click="u.active=!u.active" ng-change="u.active=!u.active"
@@ -41,7 +41,7 @@
 			</td>
 			
 			<td>
-			<span ng-bind="u.total"></span>
+			<span ng-bind="u.grandTotal"></span>
 <!-- 				<button type="button" ng-click="ctrl.edit(u.id)" -->
 <!-- 					class="btn btn-success custom-width" >Edit</button>
 					<button type="button" ng-click="ctrl.update(u,u.id)"
