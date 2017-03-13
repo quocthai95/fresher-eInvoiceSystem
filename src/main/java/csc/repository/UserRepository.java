@@ -1,7 +1,5 @@
 package csc.repository;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -25,5 +23,6 @@ public interface UserRepository extends CrudRepository<Users, Long> {
 
 	Users findByUsername(String username);
 	
-	List<Users> findByActive(String active);
+	Page<Users> findByActive(String active, Pageable pageable);
+		
 } // class UserDao

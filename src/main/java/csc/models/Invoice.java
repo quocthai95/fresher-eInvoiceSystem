@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,12 +17,15 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "invoice")
 public class Invoice implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
@@ -56,14 +61,17 @@ public class Invoice implements Serializable {
     @Column(name = "grand_total")
     private BigDecimal grandTotal;
     
+    @JsonIgnore
     @JoinColumn(name = "id_customer", referencedColumnName = "id_customer")
     @ManyToOne(optional = false)
     private Customer idCustomer;
     
+    @JsonIgnore
     @JoinColumn(name = "id_cpn", referencedColumnName = "id_cpn")
     @ManyToOne(optional = false)
     private Company idCpn;
     
+    @JsonIgnore
     @JoinColumn(name = "id_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TypeInvoice idType;

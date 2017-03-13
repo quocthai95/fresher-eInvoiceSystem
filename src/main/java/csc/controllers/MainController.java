@@ -51,6 +51,7 @@ public class MainController {
 	public String getLogin() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
+		System.out.println("auth.getAuthorities():" +auth.getAuthorities()); 
 		if (username != "anonymousUser") {
 			String role = userRepository.findByUsername(username).getActive();
 			System.out.println(role);
