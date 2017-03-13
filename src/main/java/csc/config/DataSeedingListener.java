@@ -1,6 +1,10 @@
 package csc.config;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +15,13 @@ import org.springframework.stereotype.Component;
 
 import csc.repository.CompanyRepository;
 import csc.repository.CustomerRepository;
+import csc.repository.InvoiceRepository;
 import csc.repository.RoleRepository;
 import csc.repository.TypeInvoiceRepository;
 import csc.repository.UserRepository;
 import csc.models.Company;
 import csc.models.Customer;
+import csc.models.Invoice;
 import csc.models.Role;
 import csc.models.TypeInvoice;
 import csc.models.Users;
@@ -34,11 +40,15 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 	@Autowired
 	private CustomerRepository customerRepository;
+	
 	@Autowired
 	private CompanyRepository companyRepository;
 
 	@Autowired
 	private TypeInvoiceRepository typeInvoiceRepository;
+
+	@Autowired
+	private InvoiceRepository invoiceRepository;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
@@ -155,7 +165,52 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			typeInvoiceRepository.save(ti);
 		}
 
-		//
+		// Create Invoice record
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			LocalDateTime now = LocalDateTime.now();
+			Date date = new Date();
+			for (int index = 0; index < 2; index++) {
+				ti = new TypeInvoice();
+				Invoice invoice = new Invoice();
+				Float vat;
+				Float indexConsumed = 100F;
+				BigDecimal total = new BigDecimal(indexConsumed * (index + 1));
+				BigDecimal ptef = new BigDecimal(index);
+				BigDecimal grandTotal;
+				invoice.setContractNumber("AC123456" + index);
+				invoice.setDate(date);
+				invoice.setIndexConsumed(indexConsumed);
+				invoice.setNameService("G20");
+				invoice.setPtef(ptef);
+				invoice.setTotal(total);
+
+				// set Type Invoice
+				int idType = 1;
+				TypeInvoice typeInvoice = new TypeInvoice();
+				typeInvoice = typeInvoiceRepository.findById(idType);
+				vat = typeInvoice.getVat();
+				invoice.setIdType(typeInvoice);
+				invoice.setVat(vat);
+				grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)));
+				invoice.setGrandTotal(grandTotal);
+
+				// set Id Company
+				Company tmpCpn = new Company();
+				tmpCpn = companyRepository.findById(1);
+				invoice.setIdCpn(tmpCpn);
+
+				// set Id Customer
+				Customer tmpCus = new Customer();
+				tmpCus = customerRepository.findById(1L);
+				invoice.setIdCustomer(tmpCus);
+
+				invoiceRepository.save(invoice);
+			}
+		} catch (Exception ex) {
+			System.out.println("Exception:" + ex);
+		}
+
 	}
 
 	public void createCustomer(Users user) {
