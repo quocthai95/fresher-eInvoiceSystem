@@ -73,11 +73,10 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			admin.setActive("1");
 			HashSet<Role> roles = new HashSet<>();
 			roles.add(roleRepository.findByName("ROLE_ADMIN"));
-			roles.add(roleRepository.findByName("ROLE_MEMBER"));
 			admin.setRoles(roles);
-			tmp = new Users();
 			tmp = userRepository.save(admin);
 			createCustomer(tmp);
+
 		}
 
 		// Member account

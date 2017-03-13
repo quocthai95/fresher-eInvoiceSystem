@@ -13,6 +13,12 @@ app.config(function($routeProvider) {
 	}).when("/customer-manage", {
 		templateUrl : "/EInvoice/views/customer/customerManagement.html",
 		controller: 'CustomerController',
+	}).when("/invoice-manage", {
+		templateUrl : "/EInvoice/views/customer/invoiceManagement.html",
+		controller: 'CustomerController',
+	}).when("/report-manage", {
+		templateUrl : "/EInvoice/views/customer/reportManagement.html",
+		controller: 'CustomerController',
 	})
 	.otherwise({
 		redirectTo : '/'
