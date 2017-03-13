@@ -15,12 +15,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "invoice")
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "findDateByIdCus", 
+				query = "select * from invoice u where u.id_customer= :id and and (u.date between :dateStart and :dateEnd)", resultClass = Invoice.class) })
 public class Invoice implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -76,116 +81,158 @@ public class Invoice implements Serializable {
     @ManyToOne(optional = false)
     private TypeInvoice idType;
 
-    public Invoice() {
-    }
+	@Basic(optional = false)
+	@Column(name = "date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date date;
 
-    public Invoice(Long id) {
-        this.id = id;
-    }
+	@Length(max = 100)
+	@Column(name = "contract_number")
+	private String contractNumber;
 
-    public Invoice(Long id, Date date, BigDecimal total, float vat, BigDecimal grandTotal) {
-        this.id = id;
-        this.date = date;
-        this.total = total;
-        this.vat = vat;
-        this.grandTotal = grandTotal;
-    }
+	@Column(name = "name_service", length = 10485760)
+	private String nameService;
 
-    public Long getId() {
-        return id;
-    }
+	// @Max(value=?) @Min(value=?)//if you know range of your decimal fields
+	// consider using these annotations to enforce field validation
+	@Column(name = "index_consumed")
+	private Float indexConsumed;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Basic(optional = false)
+	@Column(name = "total")
+	private BigDecimal total;
 
-    public Date getDate() {
-        return date;
-    }
+	@Basic(optional = false)
+	@Column(name = "vat")
+	private float vat;
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+	@Column(name = "ptef")
+	private BigDecimal ptef;
 
-    public String getContractNumber() {
-        return contractNumber;
-    }
+	@Basic(optional = false)
+	@Column(name = "grand_total")
+	private BigDecimal grandTotal;
 
-    public void setContractNumber(String contractNumber) {
-        this.contractNumber = contractNumber;
-    }
+	@JoinColumn(name = "id_customer", referencedColumnName = "id_customer")
+	@ManyToOne(optional = false)
+	private Customer idCustomer;
 
-    public String getNameService() {
-        return nameService;
-    }
+	@JoinColumn(name = "id_cpn", referencedColumnName = "id_cpn")
+	@ManyToOne(optional = false)
+	private Company idCpn;
 
-    public void setNameService(String nameService) {
-        this.nameService = nameService;
-    }
+	@JoinColumn(name = "id_type", referencedColumnName = "id")
+	@ManyToOne(optional = false)
+	private TypeInvoice idType;
 
-    public Float getIndexConsumed() {
-        return indexConsumed;
-    }
+	public Invoice() {
+	}
 
-    public void setIndexConsumed(Float indexConsumed) {
-        this.indexConsumed = indexConsumed;
-    }
+	public Invoice(Long id) {
+		this.id = id;
+	}
 
-    public BigDecimal getTotal() {
-        return total;
-    }
+	public Invoice(Long id, Date date, BigDecimal total, float vat, BigDecimal grandTotal) {
+		this.id = id;
+		this.date = date;
+		this.total = total;
+		this.vat = vat;
+		this.grandTotal = grandTotal;
+	}
 
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public float getVat() {
-        return vat;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setVat(float vat) {
-        this.vat = vat;
-    }
+	public Date getDate() {
+		return date;
+	}
 
-    public BigDecimal getPtef() {
-        return ptef;
-    }
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
-    public void setPtef(BigDecimal ptef) {
-        this.ptef = ptef;
-    }
+	public String getContractNumber() {
+		return contractNumber;
+	}
 
-    public BigDecimal getGrandTotal() {
-        return grandTotal;
-    }
+	public void setContractNumber(String contractNumber) {
+		this.contractNumber = contractNumber;
+	}
 
-    public void setGrandTotal(BigDecimal grandTotal) {
-        this.grandTotal = grandTotal;
-    }
+	public String getNameService() {
+		return nameService;
+	}
 
-    public Customer getIdCustomer() {
-        return idCustomer;
-    }
+	public void setNameService(String nameService) {
+		this.nameService = nameService;
+	}
 
-    public void setIdCustomer(Customer idCustomer) {
-        this.idCustomer = idCustomer;
-    }
+	public Float getIndexConsumed() {
+		return indexConsumed;
+	}
 
-    public Company getIdCpn() {
-        return idCpn;
-    }
+	public void setIndexConsumed(Float indexConsumed) {
+		this.indexConsumed = indexConsumed;
+	}
 
-    public void setIdCpn(Company idCpn) {
-        this.idCpn = idCpn;
-    }
+	public BigDecimal getTotal() {
+		return total;
+	}
 
-    public TypeInvoice getIdType() {
-        return idType;
-    }
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
 
-    public void setIdType(TypeInvoice idType) {
-        this.idType = idType;
-    }
+	public float getVat() {
+		return vat;
+	}
+
+	public void setVat(float vat) {
+		this.vat = vat;
+	}
+
+	public BigDecimal getPtef() {
+		return ptef;
+	}
+
+	public void setPtef(BigDecimal ptef) {
+		this.ptef = ptef;
+	}
+
+	public BigDecimal getGrandTotal() {
+		return grandTotal;
+	}
+
+	public void setGrandTotal(BigDecimal grandTotal) {
+		this.grandTotal = grandTotal;
+	}
+
+	public Customer getIdCustomer() {
+		return idCustomer;
+	}
+
+	public void setIdCustomer(Customer idCustomer) {
+		this.idCustomer = idCustomer;
+	}
+
+	public Company getIdCpn() {
+		return idCpn;
+	}
+
+	public void setIdCpn(Company idCpn) {
+		this.idCpn = idCpn;
+	}
+
+	public TypeInvoice getIdType() {
+		return idType;
+	}
+
+	public void setIdType(TypeInvoice idType) {
+		this.idType = idType;
+	}
 }
-
-

@@ -40,7 +40,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 	@Autowired
 	private CustomerRepository customerRepository;
-	
+
 	@Autowired
 	private CompanyRepository companyRepository;
 
@@ -167,7 +167,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 		// Create Invoice record
 		try {
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 			LocalDateTime now = LocalDateTime.now();
 			Date date = new Date();
 			for (int index = 0; index < 2; index++) {
@@ -178,7 +178,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 				BigDecimal total = new BigDecimal(indexConsumed * (index + 1));
 				BigDecimal ptef = new BigDecimal(index);
 				BigDecimal grandTotal;
-				invoice.setContractNumber("AC123456" + index);
+				invoice.setContractNumber("AC123457" + index);
 				invoice.setDate(date);
 				invoice.setIndexConsumed(indexConsumed);
 				invoice.setNameService("G20");
@@ -205,7 +205,12 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 				tmpCus = customerRepository.findById(1L);
 				invoice.setIdCustomer(tmpCus);
 
-				invoiceRepository.save(invoice);
+				if (invoiceRepository.findByContractNumber(invoice.getContractNumber()) == null) {
+					invoiceRepository.save(invoice);
+				} else {
+					System.out.println(invoice.getContractNumber() + "is existed!!!!");
+				}
+
 			}
 		} catch (Exception ex) {
 			System.out.println("Exception:" + ex);
