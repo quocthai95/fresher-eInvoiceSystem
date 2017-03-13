@@ -32,7 +32,7 @@ public class Customer implements Serializable {
     private Long id;
     
 	@JoinColumn(name = "id_user", referencedColumnName = "id")
-	@OneToOne(optional = false, cascade = CascadeType.ALL, mappedBy = "customer")
+	@OneToOne(optional = false)
 //    @Basic(optional = false)
 //    @Column(name = "id_user")
     private Users user;
@@ -47,7 +47,6 @@ public class Customer implements Serializable {
     @Column(name = "name_customer")
     private String nameCustomer;
     
-    @Basic(optional = false)
     @Length(max= 100)
     @Column(name = "address")
     private String address;
@@ -57,7 +56,6 @@ public class Customer implements Serializable {
     @Column(name = "email")
     private String email;
     
-    @Basic(optional = false)
     @Column(name = "phone")
     private int phone;
     

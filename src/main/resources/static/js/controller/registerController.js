@@ -1,6 +1,6 @@
 
 
-angular.module('myApp').controller('RegisterController', ['$scope', 'RegisterService', function($scope, RegisterService,$location) {
+angular.module('myApp').controller('RegisterController', ['$scope', 'RegisterService', '$location', function($scope, RegisterService, $location) {
     var self = this;
     self.res={id:null,username:'',password:'',name:'', email:'', phone:''};
     self.users=[];
@@ -13,6 +13,7 @@ angular.module('myApp').controller('RegisterController', ['$scope', 'RegisterSer
             function(succes){
             	$scope.register_succes = "Register success!"
             	console.log('register success!');
+            	//$location.path('/login');
             },
             function(errResponse){
                 console.error('Error while creating User');
