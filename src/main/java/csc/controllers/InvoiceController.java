@@ -35,8 +35,8 @@ public class InvoiceController {
 	
 	//-------------------Retrieve All Users--------------------------------------------------------
     
-    @RequestMapping(value = "/invoice/getAll/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Page<Invoice>> listAllInvoice(@PathVariable("id") Customer idcustomer, Pageable pageable) {
+    @RequestMapping(value = "/invoice/getAll/{id_customer}", method = RequestMethod.GET)
+    public ResponseEntity<Page<Invoice>> listAllInvoice(@PathVariable("id_customer") Customer idcustomer, Pageable pageable) {
     	Page<Invoice> invoice = invoiceService.findByIdCustomer(idcustomer, pageable);
         if(invoice.getSize() == 0){
             return new ResponseEntity<Page<Invoice>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND

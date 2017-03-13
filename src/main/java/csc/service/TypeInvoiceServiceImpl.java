@@ -13,9 +13,9 @@ public class TypeInvoiceServiceImpl implements TypeInvoiceService{
 	TypeInvoiceRepository typeInvoiceRepository;
 
 	@Override
-	public TypeInvoice findById(long id) {
+	public TypeInvoice findById(Integer id) {
 		// TODO Auto-generated method stub
-		return typeInvoiceRepository.findOne(id);
+		return typeInvoiceRepository.findById(id);
 	}
-			
+	
 }

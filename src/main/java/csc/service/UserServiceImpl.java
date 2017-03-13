@@ -1,7 +1,5 @@
 package csc.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -71,9 +69,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<Users> findByActive(String active) {
+	public Page<Users> findByActive(String active, Pageable pageable) {
 		// TODO Auto-generated method stub
-		return userRepository.findByActive(active);
+		return userRepository.findByActive(active, pageable);
 	}
+
+	
 		
 }

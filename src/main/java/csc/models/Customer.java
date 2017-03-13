@@ -18,6 +18,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "customer")
 public class Customer implements Serializable {
@@ -67,6 +69,7 @@ public class Customer implements Serializable {
     @Column(name = "limit_consume")
     private BigDecimal limitConsume;
     
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCustomer")
     private Collection<Invoice> invoiceCollection;
     

@@ -7,5 +7,7 @@ import csc.models.Customer;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long>{
+	
+	Customer findById(Long id);
 
 }

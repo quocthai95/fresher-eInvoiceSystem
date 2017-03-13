@@ -87,23 +87,20 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     	}
     	else{
     		console.log("Filter by status");
-    		getUserByActive(status);
+    		UserService.getUsersByActive(status, $scope.size, $scope.currentPage)
+    		.then(
+    	            function(d) {
+    	            	self.users = d.content;
+    	            	$scope.totalElements = d.totalElements;
+    	            	//console.log("d.totalElements" + d.totalElements);
+    	            },
+    	            function(errResponse){
+    	                console.error('Error while fetching Users');
+    	            }
+    	        );
     	}
     }
-    
-    function getUserByActive(active){
-        UserService.getUsersByActive(active)
-            .then(
-            function(d) {
-            	self.users = d;
-            	console.log(self.users);
-            },
-            function(errResponse){
-                console.error('Error while fetching Users');
-            }
-        );
-    }
-
+        
     function createUser(user){
         UserService.createUser(user)
             .then(
