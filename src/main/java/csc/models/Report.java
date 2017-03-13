@@ -2,6 +2,7 @@ package csc.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -11,7 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "report")
@@ -24,9 +26,9 @@ public class Report implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	@Basic(optional = false)
-	@Column(name = "id_customer")
-	private Long idCustomer;
+//	@Basic(optional = false)
+//	@Column(name = "id_customer")
+//	private Long idCustomer;
 
 	@Basic(optional = false)
 	@Column(name = "contract_number")
@@ -40,6 +42,11 @@ public class Report implements Serializable {
 	@Column(name = "grand_total")
 	private BigDecimal grandTotal;
 
+	@Basic(optional = false)
+	@Column(name = "date")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date date;
+
 	public Report() {
 	}
 
@@ -47,9 +54,9 @@ public class Report implements Serializable {
 		this.id = id;
 	}
 
-	public Report(Long id, Long idCustomer, String contractNumber, String nameInvoice, BigDecimal grandTotal) {
+	public Report(Long id, String contractNumber, String nameInvoice, BigDecimal grandTotal) {
 		this.id = id;
-		this.idCustomer = idCustomer;
+//		this.idCustomer = idCustomer;
 		this.contractNumber = contractNumber;
 		this.nameInvoice = nameInvoice;
 		this.grandTotal = grandTotal;
@@ -63,13 +70,13 @@ public class Report implements Serializable {
 		this.id = id;
 	}
 
-	public Long getIdCustomer() {
-		return idCustomer;
-	}
-
-	public void setIdCustomer(Long idCustomer) {
-		this.idCustomer = idCustomer;
-	}
+//	public Long getIdCustomer() {
+//		return idCustomer;
+//	}
+//
+//	public void setIdCustomer(Long idCustomer) {
+//		this.idCustomer = idCustomer;
+//	}
 
 	public String getContractNumber() {
 		return contractNumber;
@@ -94,5 +101,12 @@ public class Report implements Serializable {
 	public void setGrandTotal(BigDecimal grandTotal) {
 		this.grandTotal = grandTotal;
 	}
-	
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 }

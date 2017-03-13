@@ -6,10 +6,13 @@ import org.springframework.stereotype.Repository;
 import csc.models.Customer;
 import java.lang.Long;
 import java.util.List;
+import java.lang.String;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long>{
 	
 	Customer findById(Long id);
+	
+	Customer findByIdCustomer(String idcustomer);
 
 }
