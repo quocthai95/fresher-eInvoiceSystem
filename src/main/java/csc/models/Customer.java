@@ -47,7 +47,6 @@ public class Customer implements Serializable {
     @Column(name = "name_customer")
     private String nameCustomer;
     
-    @Basic(optional = false)
     @Length(max= 100)
     @Column(name = "address")
     private String address;
@@ -57,7 +56,6 @@ public class Customer implements Serializable {
     @Column(name = "email")
     private String email;
     
-    @Basic(optional = false)
     @Column(name = "phone")
     private int phone;
     
