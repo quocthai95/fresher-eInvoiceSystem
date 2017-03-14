@@ -37,18 +37,18 @@
          <div class="dropdown">
                 <button class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Select Invoice Type</button>
                 <ul class="dropdown-menu">
-                <li  ng-click="showEBForm()"  >
-                   <span ><i class="fa fa-fw fa-gear" ></i>Electric Bill</span>
+                <li nr-repeat="u in ctrl.typeInvoices"   >
+                   <span ng-click="showEBForm()"><i ng-bind="u.nameInvoice" class="fa fa-fw fa-gear" ></i></span>
                 </li >
-                <li ng-click="showWBForm()"  >
-                     <span ><i class="fa fa-fw fa-gear" ></i>Water Bill</span>
-                </li>
-                <li  ng-click="showIBForm()" >
-                     <span ><i class="fa fa-fw fa-gear" ></i> Internet Bill</span>
-                </li>
-                <li ng-click="showPBForm()" >
-                     <span ><i class="fa fa-fw fa-gear" ></i>Phone Bill</span>                                       
-                </li>
+<!--                 <li ng-click="showWBForm()"  > -->
+<!--                      <span ><i class="fa fa-fw fa-gear" ></i>Water Bill</span> -->
+<!--                 </li> -->
+<!--                 <li  ng-click="showIBForm()" > -->
+<!--                      <span ><i class="fa fa-fw fa-gear" ></i> Internet Bill</span> -->
+<!--                 </li> -->
+<!--                 <li ng-click="showPBForm()" > -->
+<!--                      <span ><i class="fa fa-fw fa-gear" ></i>Phone Bill</span>                                        -->
+<!--                 </li> -->
             </ul>
          </div>
                   

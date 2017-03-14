@@ -26,6 +26,10 @@ public class TypeInvoice implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+        
+    @Basic(optional = false)
+    @Column(name = "code")
+    private String code;
     
     @Basic(optional = false)
     @Column(name = "name_invoice")
@@ -51,8 +55,9 @@ public class TypeInvoice implements Serializable {
         this.id = id;
     }
 
-    public TypeInvoice(Integer id, String nameInvoice, String description, float vat) {
+    public TypeInvoice(Integer id, String code, String nameInvoice, String description, float vat) {
         this.id = id;
+        this.code = code;
         this.nameInvoice = nameInvoice;
         this.description = description;
         this.vat = vat;
@@ -65,8 +70,17 @@ public class TypeInvoice implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
+        
 
-    public String getNameInvoice() {
+    public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getNameInvoice() {
         return nameInvoice;
     }
 

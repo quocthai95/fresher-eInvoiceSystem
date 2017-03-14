@@ -174,7 +174,7 @@ public class UserController {
 		//cus.setAddress("");
 		cus.setEmail(res.getEmail());
 		cus.setNameCustomer(res.getName());
-		cus.setIdCustomer("C" + user.getId());
+		cus.setIdCustomer("CUS20170" + user.getId());
 //		cus.setPhone(Integer.parseInt(res.getPhone()));
 //		cus.setTaxCode(Integer.parseInt("0"));
 //		cus.setLimitConsume(BigDecimal.valueOf(0));
