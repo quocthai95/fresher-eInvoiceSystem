@@ -42,6 +42,12 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
         $scope.size = 5;
         //$scope.page = 1;
         $scope.totalElements = 0;
+        
+        self.invoice.total = 400;
+        self.invoice.vat = 10;
+        self.invoice.ptef = 10;
+        self.invoice.grandTotal = 500;
+                
     }
 
     
