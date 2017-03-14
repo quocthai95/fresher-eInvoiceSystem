@@ -19,6 +19,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	idType:'',
     	idCpn:'',
     	idCustomer:'',
+    	
     }; 
     
     self.typeInvoice={
@@ -49,7 +50,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     self.remove = remove;
     self.reset = reset;    
     self.update = updateInvoice;
-    
+    self.showDetail = showDetail;
 
     defaultValue();
     fetchAllInvoice();
@@ -92,7 +93,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
         InvoiceService.fetchAllInvoice($scope.size, $scope.currentPage)
             .then(
             function(d) {
-            	self.invoices = d.content;
+            	self.invoices = d.content; 
             	$scope.totalElements = d.totalElements;
             	//console.log("d.totalElements" + d.totalElements);
             },
@@ -175,7 +176,22 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             }
         }
     }
-    
+    function showDetail(id){
+    	InvoiceService.getID(id)
+        .then(
+        		function(d) {
+        			
+                	self.invoice = d; 
+                	self.invoice.date = new Date(self.invoice.date);
+                	
+                	//console.log("d.totalElements" + d.totalElements);
+                },
+        function(errResponse){
+        	
+            console.error('Error while updating Invoice');
+        }
+    );
+    }
     
     function remove(id){
         console.log('id to be deleted', id);
@@ -207,6 +223,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
 		document.getElementById('ptef').hidden = true;
 		document.getElementById('service').hidden = true;
 		document.getElementById('index').hidden = false;
+		document.getElementById('title').innerHTML ="ELETRIC BILL";
     };
     $scope.showWBForm = function(){
     	
@@ -214,19 +231,21 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
 		document.getElementById('ptef').hidden = false;
 		document.getElementById('service').hidden = true;
 		document.getElementById('index').hidden = false;
-		
+		document.getElementById('title').innerHTML ="WATER BILL";
     };
     $scope.showIBForm = function(){
 		document.myForm.hidden = false;
 		document.getElementById('ptef').hidden = true;
 		document.getElementById('service').hidden = false;
 		document.getElementById('index').hidden = true;
+		document.getElementById('title').innerHTML ="INTERNET BILL";
     };
     $scope.showPBForm = function(){
 		document.myForm.hidden = false;
 		document.getElementById('ptef').hidden = true;
 		document.getElementById('service').hidden = false;
 		document.getElementById('index').hidden = true;
+		document.getElementById('title').innerHTML ="PHONE BILL";
     };
    
 }]);
