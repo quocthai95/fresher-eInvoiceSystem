@@ -1,5 +1,7 @@
 package csc.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,12 @@ public class TypeInvoiceServiceImpl implements TypeInvoiceService{
 	public TypeInvoice findById(Integer id) {
 		// TODO Auto-generated method stub
 		return typeInvoiceRepository.findById(id);
+	}
+
+	@Override
+	public List<TypeInvoice> findAll() {
+		// TODO Auto-generated method stub
+		return (List<TypeInvoice>) typeInvoiceRepository.findAll();
 	}
 	
 }

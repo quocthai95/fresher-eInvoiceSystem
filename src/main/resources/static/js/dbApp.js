@@ -18,10 +18,13 @@ app.config(function($routeProvider) {
 		controller: 'InvoiceController',
 	}).when("/report-manage", {
 		templateUrl : "/EInvoice/views/customer/reportManagement.html",
-		controller: 'CustomerController',
+		controller: 'ReportController as ctrl',
 	}).when("/chart-manage", {
 		templateUrl : "/EInvoice/views/customer/chartManagement.html",
 		controller: 'ChartController',
+
+
+
 	})
 	.otherwise({
 		redirectTo : '/'

@@ -158,6 +158,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		TypeInvoice ti = new TypeInvoice();
 		if (typeInvoiceRepository.findByNameInvoice("Electricity Bill") == null) {
 			ti = new TypeInvoice();
+			ti.setCode("EB");
 			ti.setNameInvoice("Electricity Bill");
 			ti.setDescription("Electricity Bill");
 			ti.setVat(Float.parseFloat("10"));
@@ -165,6 +166,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		}
 		if (typeInvoiceRepository.findByNameInvoice("Water Bill") == null) {
 			ti = new TypeInvoice();
+			ti.setCode("WB");
 			ti.setNameInvoice("Water Bill");
 			ti.setDescription("Water Bill");
 			ti.setVat(Float.parseFloat("8"));
@@ -172,6 +174,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		}
 		if (typeInvoiceRepository.findByNameInvoice("Internet Bill") == null) {
 			ti = new TypeInvoice();
+			ti.setCode("IB");
 			ti.setNameInvoice("Internet Bill");
 			ti.setDescription("Internet Bill");
 			ti.setVat(Float.parseFloat("5"));
@@ -179,6 +182,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		}
 		if (typeInvoiceRepository.findByNameInvoice("Phone Bill") == null) {
 			ti = new TypeInvoice();
+			ti.setCode("PB");
 			ti.setNameInvoice("Phone Bill");
 			ti.setDescription("Phone Bill");
 			ti.setVat(Float.parseFloat("5"));

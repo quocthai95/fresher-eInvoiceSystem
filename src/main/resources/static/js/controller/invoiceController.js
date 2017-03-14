@@ -2,7 +2,8 @@
 
 var app = angular.module('dbApp');
 
-app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', function($scope, $filter, InvoiceService) {
+app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 
+                                     function($scope, $filter, InvoiceService) {
     var self = this;
     
     self.invoice={
@@ -21,8 +22,17 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', funct
     	
     }; 
     
+    self.typeInvoice={
+        	id:null,
+        	code:'',
+        	nameInvoice:'',
+        	description:'',        	
+        	vat:'',        	
+        }; 
+    
     self.invoices=[];
     
+    self.typeInvoices=[];
     
     function defaultValue() {
         $scope.currentPage = 0;
@@ -80,7 +90,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', funct
     }
 
     function fetchAllInvoice(){
-        InvoiceService.fetchAllInvoice('1',$scope.size, $scope.currentPage)
+        InvoiceService.fetchAllInvoice($scope.size, $scope.currentPage)
             .then(
             function(d) {
             	self.invoices = d.content; 
@@ -92,6 +102,20 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', funct
             }
         );
     }
+    
+//    function fetchAllTypeInvoice(){
+//    	TypeInvoiceService.fetchAll()
+//            .then(
+//            function(d) {
+//            	self.invoices = d.content;
+//            	$scope.totalElements = d.totalElements;
+//            	//console.log("d.totalElements" + d.totalElements);
+//            },
+//            function(errResponse){
+//                console.error('Error while fetching Invoice');
+//            }
+//        );
+//    }
      
 
     function createInvoice(invoice){

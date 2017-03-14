@@ -28,9 +28,21 @@ app.directive('userForm', function() {
 		templateUrl : "/EInvoice/views/admin/user-form.html"
 	}
 });
-
+//User directive
 app.directive('listInvoice', function() {
 	return {
 		templateUrl : "/EInvoice/views/customer/listInvoice.html"
+	}
+});
+
+app.directive('listReport', function() {
+	return {
+		templateUrl : "/EInvoice/views/customer/templatedListReport.html"
+	}
+});
+
+app.directive('cusM', function() {
+	return {
+		templateUrl : "/EInvoice/views/customer/templatedCustomer.html"
 	}
 });

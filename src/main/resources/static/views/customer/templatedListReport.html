@@ -1,0 +1,65 @@
+<div class="container" style="margin-top: 20px">
+	<div class="row">
+		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+			<label>Search</label> <input type="text" ng-model="search"
+				class="form-control" placeholder="Filter text...">
+		</div>
+		<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+			<div class="form-group">
+				<label>Start Date</label> <input type="date" ng-model="dateStart"
+					class="form-control" placeholder="Start Date..." /> <label>End
+					Date</label> <input type="date" ng-model="dateEnd" class="form-control"
+					placeholder="End Date..." />
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<button class="btn btn-info" ng-click="btnReport()">Report</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<table class="table table-hover" id="table-no-resize">
+	<thead>
+		<tr>
+			<th>Contract Number</th>
+			<th>Date</th>
+			<th>Name Invoice</th>
+			<th>Grand Total</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="u in ctrl.reports|filter:search">
+			<td><span ng-bind="u.contractNumber"></span></td>
+			<td><span ng-bind="u.date | date:'dd/MM/yyyy'"></span></td>
+			<td><span ng-bind="u.nameInvoice"></span></td>
+			<td><span ng-bind="u.grandTotal | number"></span></td>
+		</tr>
+	</tbody>
+</table>
+
+<form class="form-inline" style="margin-top: 20px">
+	<div class="form-group">
+		<label>Page size</label> <select ng-model="pageSize" id="pageSize"
+			name="pageSize" ng-init="pageSize = '5'" class="form-control"
+			ng-change="onEventPaging(pageSize)">
+			<option value="5">Show 5 per page</option>
+			<option value="10">Show 10 per page</option>
+			<option value="15">Show 15 per page</option>
+			<option value="20">Show 20 per page</option>
+		</select>
+	</div>
+
+	<div class="form-group" style="margin-left: 30px">
+		<button class="btn btn-success custom-width"
+			ng-disabled="currentPage == 0" ng-click="onEventPreCurrentPage()">Previous</button>
+		{{currentPage+1}}/{{numberOfPages()}}
+		<button class="btn btn-success custom-width"
+			ng-disabled="currentPage >= totalElements/pageSize - 1"
+			ng-click="onEventNextCurrentPage()">Next</button>
+	</div>
+
+</form>
