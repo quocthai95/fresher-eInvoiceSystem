@@ -111,19 +111,6 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
         );
     }
     
-//    function fetchAllTypeInvoice(){
-//    	TypeInvoiceService.fetchAll()
-//            .then(
-//            function(d) {
-//            	self.invoices = d.content;
-//            	$scope.totalElements = d.totalElements;
-//            	//console.log("d.totalElements" + d.totalElements);
-//            },
-//            function(errResponse){
-//                console.error('Error while fetching Invoice');
-//            }
-//        );
-//    }
 
     function fetchAllTypeInvoice(){
     	InvoiceService.fetchAllTypeInvoice()
@@ -153,8 +140,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     function updateInvoice(invoice, id){    	
     	var r = confirm("Are you sure!");
     	if (r == true) {
-    		console.log(invoice);
-            InvoiceService.updateInvoie(invoice, id)
+    		console.log(invoice);            
             InvoiceService.updateInvoice(invoice, id)
                 .then(
                 fetchAllInvoice,
@@ -242,25 +228,11 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	    };
         $scope.myForm.$setPristine(); //reset Form
     }
-    $scope.showEBForm = function(){
-		document.myForm.hidden = false;
-		document.getElementById('ptef').hidden = true;
-		document.getElementById('service').hidden = true;
-		document.getElementById('index').hidden = false;
-		document.getElementById('title').innerHTML ="ELETRIC BILL";
-    };
-    $scope.showWBForm = function(){
-
+   
     
     $scope.showForm = function(code, id){
     	self.invoice.idType = id;   	    	   	
-    	$scope.name_type = id.nameInvoice;
-    	
-		document.myForm.hidden = false;
-		document.getElementById('ptef').hidden = false;
-		document.getElementById('service').hidden = true;
-		document.getElementById('index').hidden = false;
-		document.getElementById('title').innerHTML ="WATER BILL";
+    	$scope.name_type = id.nameInvoice;    			
     	if(code == 'EB')
     	{
     		document.myForm.hidden = false;
@@ -290,46 +262,15 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     		document.getElementById('index').hidden = true;
     	} 		
     };
-    $scope.showIBForm = function(){
-		document.myForm.hidden = false;
-		document.getElementById('ptef').hidden = true;
-		document.getElementById('service').hidden = false;
-		document.getElementById('index').hidden = true;
-		document.getElementById('title').innerHTML ="INTERNET BILL";
-    };
-    $scope.showPBForm = function(){
-		document.myForm.hidden = false;
-		document.getElementById('ptef').hidden = true;
-		document.getElementById('service').hidden = false;
-		document.getElementById('index').hidden = true;
-		document.getElementById('title').innerHTML ="PHONE BILL";
-    };
    
-    
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   
 
  $scope.myEnable = function(){
     	
     		document.getElementById('btnset').disabled = false;
     		console.log('enabled form');
         };
-}]);
+    }]);
 
 
 app.filter('startFrom', function() {
