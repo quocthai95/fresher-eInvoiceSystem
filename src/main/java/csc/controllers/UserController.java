@@ -54,6 +54,19 @@ public class UserController {
 	PasswordEncoder passwordEncoder;
 
 	
+	@RequestMapping(value = "/user/getEmail", method = RequestMethod.POST)
+	public boolean getUser(@RequestBody String email) {
+		try {
+			Customer cus = customerService.findByEmail(email);
+			System.out.println("Email " + cus.getEmail());
+		} catch (Exception ex) {
+			System.out.println("Email does not exist");
+			return false;
+		}
+		System.out.println("Email " + email + " does exist");
+		return true;
+	}
+	
 	//-------------------Retrieve All Users--------------------------------------------------------
     
     @RequestMapping(value = "/user/getAll", method = RequestMethod.GET)
