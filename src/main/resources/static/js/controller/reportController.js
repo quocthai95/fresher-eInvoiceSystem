@@ -1,6 +1,6 @@
 var app = angular.module('dbApp');
 
-app.controller('ReportController', [ '$scope', '$filter', 'ReportService', function($scope, $filter, InvoiceService) {
+app.controller('ReportController', [ '$scope', '$filter', 'ReportService', function($scope, $filter, ReportService) {
 	var self = this;
     self.reports=[];
     
@@ -22,26 +22,24 @@ app.controller('ReportController', [ '$scope', '$filter', 'ReportService', funct
     $scope.onEventPaging = function(value) {
     	$scope.size = value;
     	console.log('value ' + $scope.size + "-" + $scope.currentPage);
-    	fetchAllInvoice();
+    	fetchAllReport();
     }
     
     $scope.onEventPreCurrentPage = function() {
     	$scope.currentPage = $scope.currentPage - 1;
     	console.log('value ' + $scope.size + "-" + $scope.currentPage);
-    	fetchAllInvoice();
+    	fetchAllReport();
     }
     
     $scope.onEventNextCurrentPage = function() {
     	$scope.currentPage = $scope.currentPage + 1;
     	console.log('value ' + $scope.size + "-" + $scope.currentPage);
-    	fetchAllInvoice();
+    	fetchAllReport();
     }
     
     
     $scope.getData = function () {
-        
-        return $filter('filter')( self.invoices, $scope.search)
-       
+        return $filter('filter')( self.reports, $scope.search)
     }
     
     $scope.numberOfPages=function(){
@@ -53,12 +51,12 @@ app.controller('ReportController', [ '$scope', '$filter', 'ReportService', funct
     }
 
     function fetchAllReport(){
-    	$scope.dateStart = '2016-01-10';
-    	$scope.dateEnd = '2016-04-10';
-        ReportService.fetchAllReport('1',id, $scope.dateStart, $scope.dateEnd, $scope.size, $scope.currentPage)
+    	$scope.dateStart = new Date('2016-01-10');
+    	$scope.dateEnd = new Date('2016-04-10');
+        ReportService.fetchAllReport($scope.dateStart, $scope.dateEnd, $scope.size, $scope.currentPage)
             .then(
             function(d) {
-            	self.invoices = d.content;
+            	self.reports = d.content;	
             	$scope.totalElements = d.totalElements;
             	//console.log("d.totalElements" + d.totalElements);
             },
@@ -66,6 +64,11 @@ app.controller('ReportController', [ '$scope', '$filter', 'ReportService', funct
                 console.error('Error while fetching Invoice');
             }
         );
+    }
+    
+    $scope.btnReport = function() {
+    	console.log($scope.dateStart);
+    	console.log($scope.dateEnd);
     }
     
 }]);

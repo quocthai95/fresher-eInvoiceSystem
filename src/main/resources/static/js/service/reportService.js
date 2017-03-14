@@ -8,9 +8,9 @@ angular.module('dbApp').factory('ReportService', ['$http', '$q', function($http,
 
     return factory;
     
-    function fetchAllReport(id, start, end, size, page) {
+    function fetchAllReport(start, end, size, page) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI +"id=" + id + "&start="+ start + "&end=" + end + "&size="+ size + "&page=" + page)
+        $http.get(REST_SERVICE_URI + "start="+ start + "&end=" + end + "&size="+ size + "&page=" + page)
             .then(
             function (response) {
                 deferred.resolve(response.data);                
