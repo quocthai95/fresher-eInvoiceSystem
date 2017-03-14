@@ -35,14 +35,15 @@
 						<button class="dropdown-toggle btn btn-primary"
 							data-toggle="dropdown">Select Invoice Type</button>
 						<ul class="dropdown-menu">
-							<li  data-toggle="modal" data-target="#myModal" ng-click="showEBForm()"><span><i
-									class="fa fa-fw fa-gear"></i>Electric Bill</span></li>
-							<li data-toggle="modal" data-target="#myModal" ng-click="showWBForm()"><span><i
-									class="fa fa-fw fa-gear"></i>Water Bill</span></li>
-							<li data-toggle="modal" data-target="#myModal" ng-click="showIBForm()"><span><i
-									class="fa fa-fw fa-gear"></i> Internet Bill</span></li>
-							<li data-toggle="modal" data-target="#myModal" ng-click="showPBForm()"><span><i
-									class="fa fa-fw fa-gear"></i>Phone Bill</span></li>
+							<li ng-repeat="u in ctrl.typeInvoices"  data-toggle="modal" data-target="#myModal" ng-click="showForm(u.code, u)">
+								<i class="fa fa-fw fa-gear"><span ng-bind="u.nameInvoice"></span></i>
+							</li>
+<!-- 							<li data-toggle="modal" data-target="#myModal" ng-click="showWBForm()"><span><i -->
+<!-- 									class="fa fa-fw fa-gear"></i>Water Bill</span></li> -->
+<!-- 							<li data-toggle="modal" data-target="#myModal" ng-click="showIBForm()"><span><i -->
+<!-- 									class="fa fa-fw fa-gear"></i> Internet Bill</span></li> -->
+<!-- 							<li data-toggle="modal" data-target="#myModal" ng-click="showPBForm()"><span><i -->
+<!-- 									class="fa fa-fw fa-gear"></i>Phone Bill</span></li> -->
 						</ul>
 					</div>
 

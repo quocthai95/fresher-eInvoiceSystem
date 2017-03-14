@@ -53,6 +53,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
 
     defaultValue();
     fetchAllInvoice();
+    fetchAllTypeInvoice()
     
     
     $scope.onEventPaging = function(value) {
@@ -102,22 +103,22 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
         );
     }
     
-//    function fetchAllTypeInvoice(){
-//    	TypeInvoiceService.fetchAll()
-//            .then(
-//            function(d) {
-//            	self.invoices = d.content;
-//            	$scope.totalElements = d.totalElements;
-//            	//console.log("d.totalElements" + d.totalElements);
-//            },
-//            function(errResponse){
-//                console.error('Error while fetching Invoice');
-//            }
-//        );
-//    }
+    function fetchAllTypeInvoice(){
+    	InvoiceService.fetchAllTypeInvoice()
+            .then(
+            function(d) {
+            	console.log(d);
+            	self.typeInvoices = d;            	
+            },
+            function(errResponse){
+                console.error('Error while fetching Invoice');
+            }
+        );
+    }
      
 
     function createInvoice(invoice){
+    	console.log("create Invoice: " + invoice);
         InvoiceService.createInvoice(invoice)
             .then(
             fetchAllInvoice,
@@ -162,7 +163,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             updateInvoice(self.invoice, self.invoice.id);
             console.log('User updated with id ', self.invoice.id);
         }
-        reset();
+        //reset();
     }
 
     function edit(id){
@@ -202,33 +203,42 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	    };
         $scope.myForm.$setPristine(); //reset Form
     }
-    $scope.showEBForm = function(){
-		document.myForm.hidden = false;
-		document.getElementById('ptef').hidden = true;
-		document.getElementById('service').hidden = true;
-		document.getElementById('index').hidden = false;
+    
+    $scope.showForm = function(code, id){
+    	self.invoice.idType = id;
+    	console.log(self.invoice.idType);
+    	console.log(code);
+    	console.log("U la: " +id.code);
+    	if(code == 'EB')
+    	{
+    		document.myForm.hidden = false;
+    		document.getElementById('ptef').hidden = true;
+    		document.getElementById('service').hidden = true;
+    		document.getElementById('index').hidden = false;
+    	}	
+    	if(code == 'WB')
+    	{
+    		document.myForm.hidden = false;
+    		document.getElementById('ptef').hidden = false;
+    		document.getElementById('service').hidden = true;
+    		document.getElementById('index').hidden = false;
+    	}   
+    	if(code == 'IB')
+    	{
+    		document.myForm.hidden = false;
+    		document.getElementById('ptef').hidden = true;
+    		document.getElementById('service').hidden = false;
+    		document.getElementById('index').hidden = true;
+    	} 
+    	if(code == 'PB')
+    	{
+    		document.myForm.hidden = false;
+    		document.getElementById('ptef').hidden = true;
+    		document.getElementById('service').hidden = false;
+    		document.getElementById('index').hidden = true;
+    	} 
     };
-    $scope.showWBForm = function(){
-    	
-		document.myForm.hidden = false;
-		document.getElementById('ptef').hidden = false;
-		document.getElementById('service').hidden = true;
-		document.getElementById('index').hidden = false;
-		
-    };
-    $scope.showIBForm = function(){
-		document.myForm.hidden = false;
-		document.getElementById('ptef').hidden = true;
-		document.getElementById('service').hidden = false;
-		document.getElementById('index').hidden = true;
-    };
-    $scope.showPBForm = function(){
-		document.myForm.hidden = false;
-		document.getElementById('ptef').hidden = true;
-		document.getElementById('service').hidden = false;
-		document.getElementById('index').hidden = true;
-    };
-   
+ 
 }]);
 
 

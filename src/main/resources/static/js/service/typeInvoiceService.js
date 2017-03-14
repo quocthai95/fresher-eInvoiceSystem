@@ -14,9 +14,10 @@ angular.module('dbApp').factory('TypeInvoiceService', ['$http', '$q', function($
 
     function fetchAll() {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getTypeAll)
+        $http.get(REST_SERVICE_URI + "getTypeAll")
             .then(
             function (response) {
+            	console.log("Type servcie" + response.data);
                 deferred.resolve(response.data);                
             },
             function(errResponse){
