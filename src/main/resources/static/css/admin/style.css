@@ -22,6 +22,7 @@ body a{
 	-ms-transition:0.5s all;
 	background:#011D4A!mportant;
 }
+
 a:focus, a:active, a:hover ,a.dropdown-toggle{
     outline: none;
     -webkit-transition: all 0.3s;
@@ -37,6 +38,10 @@ body p{
 }
 h1, h2, h3, h4, h5 {
     	font-family: 'Montserrat', sans-serif;
+}
+
+div button{
+    display:inline-block;
 }
 a {
   color: #008DE7;
@@ -3980,7 +3985,7 @@ section#tables  p {
 }
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
 	font-size: 0.9em;
-	color: #999;
+	/* color: #999; */
 	border-top: none !important;
 }
 .tab-content > .active {
@@ -4478,6 +4483,7 @@ label.control-label {
     background: #fff;
     padding: 2em 2em 4em;
     margin: 2em 0;
+    width:1000px;
 }
 .w3l-calendar-left {
     background: #fff;
