@@ -52,7 +52,7 @@ public class ReportController {
 		System.out.println(idCus + " - " + dateStart + " - " + dateEnd);
 		if (reports.getContent().size() != 0) { // if having report, use it
 			System.out.println("get Report with size= " + reports.getContent().size());
-			return new ResponseEntity<Page<Report>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Page<Report>>(reports, HttpStatus.OK);
 		} else { // If don't have report, generate report and use it
 			invoices = this.createListInvoices(idCus, dateStart, dateEnd);
 			System.out.println("invoices= " + invoices.size());

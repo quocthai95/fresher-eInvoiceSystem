@@ -18,7 +18,7 @@ app.config(function($routeProvider) {
 		controller: 'InvoiceController',
 	}).when("/report-manage", {
 		templateUrl : "/EInvoice/views/customer/reportManagement.html",
-		controller: 'CustomerController',
+		controller: 'ReportController',
 	})
 	.otherwise({
 		redirectTo : '/'
