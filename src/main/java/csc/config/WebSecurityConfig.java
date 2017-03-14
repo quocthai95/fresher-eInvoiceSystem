@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             	.and()
             	.csrf()
                 .ignoringAntMatchers("/user/**")
+                .ignoringAntMatchers("/invoice/**")
                 .and()
         	.exceptionHandling()
     			.accessDeniedPage("/403");

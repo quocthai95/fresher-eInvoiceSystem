@@ -9,54 +9,53 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">
                           Invoice's Information        
-                        </h1>       
-                          
+                        </h1>                                
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-8">
                      <div class="agile-grids">    
-		    <div class="agile-tables">
-		        <div class="page-title">
-		            <div class="title_left">
-		                <h3>Invoice List</h3>
-		            </div>		            
-		        </div>
-		
-		        <div class="pull-left">
-		            <h5>
-		                <span class="field-validation-error" id="error_message">
-		                </span>
-		            </h5>
-		        </div>
-		
-		        <div id="list">
-		            <list-invoice></list-invoice>
-		        </div>        
-		    </div>
-		</div>
-                         <div class="dropdown">
-                         <button class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Select Invoice Type</button>
-                        <ul class="dropdown-menu">
-                        <li  ng-click="showEBForm()"  >
-                           <span ><i class="fa fa-fw fa-gear" ></i>Electric Bill</span>
-                        </li >
-                        <li ng-click="showWBForm()"  >
-                             <span ><i class="fa fa-fw fa-gear" ></i>Water Bill</span>
-                        </li>
-                        <li  ng-click="showIBForm()" >
-                             <span ><i class="fa fa-fw fa-gear" ></i> Internet Bill</span>
-                        </li>
-                        <li ng-click="showPBForm()" >
-                             <span ><i class="fa fa-fw fa-gear" ></i>Phone Bill</span>                                       
-                        </li>
-                    </ul>
-                    </div>
+            <div class="agile-tables">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Invoice List</h3>
+                    </div>		            
+                </div>
+        
+                <div class="pull-left">
+                    <h5>
+                        <span class="field-validation-error" id="error_message">
+                        </span>
+                    </h5>
+                </div>
+        
+                <div id="list">
+                    <list-invoice></list-invoice>
+                </div>        
+            </div>
+        </div>
+         <div class="dropdown">
+                <button class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Select Invoice Type</button>
+                <ul class="dropdown-menu">
+                <li  ng-click="showEBForm()"  >
+                   <span ><i class="fa fa-fw fa-gear" ></i>Electric Bill</span>
+                </li >
+                <li ng-click="showWBForm()"  >
+                     <span ><i class="fa fa-fw fa-gear" ></i>Water Bill</span>
+                </li>
+                <li  ng-click="showIBForm()" >
+                     <span ><i class="fa fa-fw fa-gear" ></i> Internet Bill</span>
+                </li>
+                <li ng-click="showPBForm()" >
+                     <span ><i class="fa fa-fw fa-gear" ></i>Phone Bill</span>                                       
+                </li>
+            </ul>
+         </div>
                   
 
-                         <form id="myForm" name="myForm" ng-click="ctrl.submit()" role="form" style="margin-left:300px"  hidden>
+                         <form id="myForm" name="myForm" ng-submit="ctrl.submit()" role="form" style="margin-left:300px"  hidden>
                           <br>
-                          	<input type="hidden" ng-model="ctrl.invoice.id" />
+                            <input type="hidden" ng-model="ctrl.invoice.id" />
                             <div class="form-group" >
                                 <label style="font-weight:bold">Contract Number</label>
                                 <input ng-model="ctrl.invoice.contractNumber" type="text" name="contract"  class="form-control" placeholder="Your Contract Number"   />                              
@@ -121,7 +120,7 @@
                             <input type="hidden" ng-model="ctrl.invoice.idCustomer" />
                             
                             <div align="center">             
-                            	<button type="submit" name="btn" class="btn btn-primary" >Update</button>           
+                                <button type="submit" name="btn" class="btn btn-primary" >Update</button>           
                             </div>      
 
                         </form> 
