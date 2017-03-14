@@ -8,6 +8,7 @@
 				<div class="col-lg-12 page-header">
 					<span><h1 class="">Invoice's Information</h1></span><span class="dropdown">
 						<button class="dropdown-toggle btn btn-primary"
+
 							data-toggle="dropdown">Create Invoice</button>
 						<ul class="dropdown-menu">
 							<li  data-toggle="modal" data-target="#myModal" ng-click="showEBForm()"><span><i
@@ -18,6 +19,10 @@
 									class="fa fa-fw fa-gear"></i>Internet Bill</span></li>
 							<li data-toggle="modal" data-target="#myModal" ng-click="showPBForm()"><span><i
 									class="fa fa-fw fa-gear"></i>Phone Bill</span></li>
+
+							<li ng-repeat="u in ctrl.typeInvoices"  data-toggle="modal" data-target="#myModal" ng-click="showForm(u.code, u)">
+								<i class="fa fa-fw fa-gear"><span ng-bind="u.nameInvoice"></span></i>
+							</li>
 						</ul>
 					</span>
 				</div>
@@ -29,16 +34,18 @@
 						 <div class="modal-content">
 
       <div class="modal-header"> <div id="title" align="center" style="font-weight:bold"></div></div>
+
+      <div class="modal-header"> <div id="title" align="center" style="font-weight:bold">{{name_type}}</div></div>
        <div class="modal-body">
 
 
       
 							<form id="myForm" name="myForm" ng-submit="ctrl.submit()"
 								role="form"  hidden>
-								<br> <input type="hidden"  />
+								<br> <input type="hidden" ng-model="ctrl.invoice.id" />
 								<div class="form-group">
 									<label style="font-weight: bold">Contract Number</label> <input
-										 type="text"
+										ng-model="ctrl.invoice.contractNumber" type="text"
 										name="contract" class="form-control"
 										placeholder="Your Contract Number" />
 
@@ -46,7 +53,7 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">Date</label> <input
-										 type="date" name="date"
+										ng-model="ctrl.invoice.date" type="date" name="date"
 										class="form-control" placeholder="Date" />
 
 
@@ -54,7 +61,7 @@
 
 								<div class="form-group" id="service">
 									<label style="font-weight: bold">Name Service</label> <input
-										type="text" name="service"
+										ng-model="ctrl.invoice.nameService" type="text" name="service"
 										class="form-control" placeholder="Your Service" hidden />
 
 
@@ -62,7 +69,7 @@
 
 								<div class="form-group" id="index">
 									<label style="font-weight: bold">Index Consumed</label> <input
-										 type="number"
+										ng-model="ctrl.invoice.indexConsumed" type="number"
 										name="index" class="form-control"
 										placeholder="Your Index Consumed" />
 
@@ -71,14 +78,16 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">Total</label> <input
-										 type="number" name="total"
+										ng-model="ctrl.invoice.total" type="number" name="total"
+
 										class="form-control" placeholder="Total" disabled/>
 
 								</div>
 
 								<div class="form-group">
 									<label style="font-weight: bold">VAT</label> <input
-										 type="number" name="vat"
+										ng-model="ctrl.invoice.vat" type="number" name="vat"
+
 										class="form-control" placeholder="VAT" disabled/>
 
 
@@ -86,7 +95,8 @@
 
 								<div class="form-group" id="ptef">
 									<label style="font-weight: bold">PTEF</label> <input
-										type="number" name="ptef"
+										ng-model="ctrl.invoice.ptef" type="number" name="ptef"
+
 										class="form-control" placeholder="PTEF" disabled/>
 
 
@@ -94,15 +104,21 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">Grand Total</label> <input
-										 type="number" name="ptef"
+										ng-model="ctrl.invoice.grandTotal" type="number" name="ptef"
+
 										class="form-control" placeholder="Grand Total" disabled/>
 
 								</div>
-								
+								<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
+									type="hidden" ng-model="ctrl.invoice.idCpn" /> <input
+									type="hidden" ng-model="ctrl.invoice.idCustomer" />
 
 								<div align="center">
+
 									<button type="submit" name="btn" class="btn btn-primary">Create</button>
 								</div>
+
+
 
 							</form></div>
     <div class="modal-footer">
