@@ -247,7 +247,12 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
 		document.getElementById('index').hidden = true;
 		document.getElementById('title').innerHTML ="PHONE BILL";
     };
-   
+    $scope.myEnable = function(){
+    	
+    		document.getElementById('btnset').disabled = false;
+    		console.log('enabled form');
+        };
+
 }]);
 
 

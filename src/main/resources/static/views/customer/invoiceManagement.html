@@ -35,10 +35,10 @@
       
 							<form id="myForm" name="myForm" ng-submit="ctrl.submit()"
 								role="form"  hidden>
-								<br> <input type="hidden" ng-model="ctrl.invoice.id" />
+								<br> <input type="hidden"  />
 								<div class="form-group">
 									<label style="font-weight: bold">Contract Number</label> <input
-										ng-model="ctrl.invoice.contractNumber" type="text"
+										 type="text"
 										name="contract" class="form-control"
 										placeholder="Your Contract Number" />
 
@@ -46,7 +46,7 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">Date</label> <input
-										ng-model="ctrl.invoice.date" type="date" name="date"
+										 type="date" name="date"
 										class="form-control" placeholder="Date" />
 
 
@@ -54,7 +54,7 @@
 
 								<div class="form-group" id="service">
 									<label style="font-weight: bold">Name Service</label> <input
-										ng-model="ctrl.invoice.nameService" type="text" name="service"
+										type="text" name="service"
 										class="form-control" placeholder="Your Service" hidden />
 
 
@@ -62,7 +62,7 @@
 
 								<div class="form-group" id="index">
 									<label style="font-weight: bold">Index Consumed</label> <input
-										ng-model="ctrl.invoice.indexConsumed" type="number"
+										 type="number"
 										name="index" class="form-control"
 										placeholder="Your Index Consumed" />
 
@@ -71,14 +71,14 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">Total</label> <input
-										ng-model="ctrl.invoice.total" type="number" name="total"
+										 type="number" name="total"
 										class="form-control" placeholder="Total" disabled/>
 
 								</div>
 
 								<div class="form-group">
 									<label style="font-weight: bold">VAT</label> <input
-										ng-model="ctrl.invoice.vat" type="number" name="vat"
+										 type="number" name="vat"
 										class="form-control" placeholder="VAT" disabled/>
 
 
@@ -86,7 +86,7 @@
 
 								<div class="form-group" id="ptef">
 									<label style="font-weight: bold">PTEF</label> <input
-										ng-model="ctrl.invoice.ptef" type="number" name="ptef"
+										type="number" name="ptef"
 										class="form-control" placeholder="PTEF" disabled/>
 
 
@@ -94,13 +94,11 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">Grand Total</label> <input
-										ng-model="ctrl.invoice.grandTotal" type="number" name="ptef"
+										 type="number" name="ptef"
 										class="form-control" placeholder="Grand Total" disabled/>
 
 								</div>
-								<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
-									type="hidden" ng-model="ctrl.invoice.idCpn" /> <input
-									type="hidden" ng-model="ctrl.invoice.idCustomer" />
+								
 
 								<div align="center">
 									<button type="submit" name="btn" class="btn btn-primary">Create</button>
