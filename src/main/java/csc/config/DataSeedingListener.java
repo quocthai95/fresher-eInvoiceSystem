@@ -136,6 +136,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		createInvoiceRecord("UC123458", 1, 1L, 3, 10);
 		createInvoiceRecord("KC123458", 1, 1L, 4, 10);
 		
+		createInvoiceRecord("KC123450", 1, 3L, 4, 10);
+		
 		createInvoiceRecord("UC123457", 1, 2L, 1, 10);
 
 
@@ -156,11 +158,11 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 	private void createTypeInvoice() {
 		TypeInvoice ti = new TypeInvoice();
-		if (typeInvoiceRepository.findByNameInvoice("Electricity Bill") == null) {
+		if (typeInvoiceRepository.findByNameInvoice("Electric bill") == null) {
 			ti = new TypeInvoice();
 			ti.setCode("EB");
-			ti.setNameInvoice("Electricity Bill");
-			ti.setDescription("Electricity Bill");
+			ti.setNameInvoice("Electric bill");
+			ti.setDescription("Electric bill");
 			ti.setVat(Float.parseFloat("10"));
 			typeInvoiceRepository.save(ti);
 		}

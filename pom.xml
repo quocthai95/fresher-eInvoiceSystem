@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>csc</groupId>
-	<artifactId>EIS1</artifactId>
+	<artifactId>EIS</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>EIS1</name>
+	<name>EIS</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
