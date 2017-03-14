@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.SocketUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -94,7 +95,7 @@ public class InvoiceController {
 		String username = auth.getName();
 		Users user = new Users();
 		user = userService.findByName(username);
-		
+		System.out.println("Type invoice" +invoice.getIdType()); 
 		Customer cus = new Customer();
 		cus = customerService.findByUser(user);
 		

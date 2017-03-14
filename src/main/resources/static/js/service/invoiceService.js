@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('dbApp').factory('InvoiceService', ['$http', '$q', function($http, $q){
+angular.module('dbApp').factory('InvoiceService', ['$http', '$q', 'TypeInvoiceService', function($http, $q, TypeInvoiceService){
 
     var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/invoice/';
     
@@ -8,8 +8,9 @@ angular.module('dbApp').factory('InvoiceService', ['$http', '$q', function($http
     	fetchAllInvoice : fetchAllInvoice,
         createInvoice : createInvoice,
         updateInvoice : updateInvoice,
-        deleteInvoice : deleteInvoice,      
-    };
+        fetchAllTypeInvoice: fetchAllTypeInvoice,        
+        getID : getID,    
+        };
 
     return factory;
     
@@ -29,9 +30,26 @@ angular.module('dbApp').factory('InvoiceService', ['$http', '$q', function($http
         );
         return deferred.promise;
     }
+    
+    function fetchAllTypeInvoice() {
+        var deferred = $q.defer();
+        TypeInvoiceService.fetchAll()
+            .then(
+            function (d) {
+            	console.log(d);
+                deferred.resolve(d);                
+            },
+            function(errResponse){
+                console.error('Error while fetching Invoice');
+                deferred.reject(errResponse);
+            }
+        );
+        return deferred.promise;
+    }
        
 
     function createInvoice(invoice) {
+    	console.log("Service create: "+invoice);
         var deferred = $q.defer();
         $http.post(REST_SERVICE_URI + "create", invoice)
             .then(
@@ -77,7 +95,20 @@ angular.module('dbApp').factory('InvoiceService', ['$http', '$q', function($http
         );
         return deferred.promise;
     }
-
+function getID(id){
+	var deferred = $q.defer();
+	$http.get(REST_SERVICE_URI + "get/" + id)
+	.then(
+            function (response) {
+                deferred.resolve(response.data);                
+            },
+            function(errResponse){
+                console.error('Error while fetching Invoice');
+                deferred.reject(errResponse);
+            }
+        );
+        return deferred.promise;
+}
 }]);
 
 

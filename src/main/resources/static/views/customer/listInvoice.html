@@ -30,7 +30,7 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="u in ctrl.invoices|filter:search"> <!-- |startFrom:currentPage*pageSize | limitTo:pageSize -->
-			<td><span ng-bind="u.idType"></span></td>
+			<td><span ng-bind="u.idType.nameInvoice"></span></td>
 			<td><span ng-bind="u.contractNumber"></span></td>
 			<td><span ng-bind="u.indexConsumed"></span></td>
 			<td>
@@ -52,7 +52,7 @@
 				
 			</td>		
 			<td>
-			<button type="button" class="btn btn-success btn-xs" title="View" data-toggle="modal" data-target="#btnModal"><span class="glyphicon glyphicon-eye-open " style="color:white"></span></button>
+			<button type="button" class="btn btn-success btn-xs" title="View" data-toggle="modal" data-target="#btnModal" ng-click="ctrl.showDetail(u.id)"><span class="glyphicon glyphicon-eye-open " style="color:white"></span></button>
 		     <div id="btnModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
              
@@ -62,22 +62,21 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Modal Header</h4>
       </div>
-      <div class="modal-body">
-      <form id="myForm" name="btnForm" ng-submit="ctrl.submit()"
+      <div class="modal-body">      <form id="myForm" name="btnForm" ng-submit="ctrl.submit()"
 								role="form"  >
 								<fieldset id="btnset" disabled>
-								<br> <input type="hidden" ng-model="ctrl.invoice.id" />
+								<br> <input type="hidden" ng-model="ctrl.invoice.id" /> 
 								<div class="form-group">
 									<label style="font-weight: bold">Contract Number</label> <input
 										ng-model="ctrl.invoice.contractNumber" type="text"
 										name="contract" class="form-control"
-										placeholder="Your Contract Number" />
+										placeholder="Your Contract Number" /> 
 
 								</div>
 
 								<div class="form-group">
 									<label style="font-weight: bold">Date</label> <input
-										ng-model="ctrl.invoice.date" type="date" name="date"
+										ng-model="ctrl.invoice.date " type="date" name="date"
 										class="form-control" placeholder="Date" />
 
 
