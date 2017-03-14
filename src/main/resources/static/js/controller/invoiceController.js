@@ -141,7 +141,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	var r = confirm("Are you sure!");
     	if (r == true) {
     		console.log(invoice);
-            InvoiceService.updateInvoie(invoice, id)
+            InvoiceService.updateInvoice(invoice, id)
                 .then(
                 fetchAllInvoice,
                 function(errResponse){
@@ -230,10 +230,9 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
 
     
     $scope.showForm = function(code, id){
-    	self.invoice.idType = id;
-    	console.log(self.invoice.idType);
-    	console.log(code);
-    	console.log("U la: " +id.code);
+    	self.invoice.idType = id;   	    	   	
+    	$scope.name_type = id.nameInvoice;
+    	
     	if(code == 'EB')
     	{
     		document.myForm.hidden = false;
@@ -261,8 +260,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     		document.getElementById('ptef').hidden = true;
     		document.getElementById('service').hidden = false;
     		document.getElementById('index').hidden = true;
-    	} 
-		document.getElementById('title').innerHTML ="ELETRIC BILL";
+    	} 		
     };
     
  
