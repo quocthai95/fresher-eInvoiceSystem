@@ -21,6 +21,7 @@ import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "invoice")
@@ -77,7 +78,7 @@ public class Invoice implements Serializable {
     @ManyToOne(optional = false)
     private Company idCpn;
     
-    @JsonIgnore
+    @JsonIgnoreProperties("invoiceCollection")
     @JoinColumn(name = "id_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TypeInvoice idType;

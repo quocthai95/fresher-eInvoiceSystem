@@ -19,6 +19,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	idType:'',
     	idCpn:'',
     	idCustomer:'',
+    	
     }; 
     
     self.typeInvoice={
@@ -93,7 +94,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
         InvoiceService.fetchAllInvoice($scope.size, $scope.currentPage)
             .then(
             function(d) {
-            	self.invoices = d.content;
+
+            	self.invoices = d.content; 
             	$scope.totalElements = d.totalElements;
             	//console.log("d.totalElements" + d.totalElements);
             },
@@ -103,6 +105,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
         );
     }
     
+
     function fetchAllTypeInvoice(){
     	InvoiceService.fetchAllTypeInvoice()
             .then(
@@ -163,7 +166,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             updateInvoice(self.invoice, self.invoice.id);
             console.log('User updated with id ', self.invoice.id);
         }
-        //reset();
+
     }
 
     function edit(id){
@@ -203,6 +206,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	    };
         $scope.myForm.$setPristine(); //reset Form
     }
+
     
     $scope.showForm = function(code, id){
     	self.invoice.idType = id;
@@ -237,7 +241,9 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     		document.getElementById('service').hidden = false;
     		document.getElementById('index').hidden = true;
     	} 
+		document.getElementById('title').innerHTML ="ELETRIC BILL";
     };
+    
  
 }]);
 
