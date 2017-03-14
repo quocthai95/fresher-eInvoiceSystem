@@ -7,6 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import csc.models.Company;
 import csc.models.Customer;
 import csc.models.Invoice;
+import csc.models.Users;
+import csc.service.CompanyService;
+import csc.service.CustomerService;
 import csc.service.InvoiceService;
+import csc.service.UserService;
 
 /**
  * A class to test interactions with the SQLSERVER database using the UserDao
@@ -31,13 +38,30 @@ public class InvoiceController {
 	// ------------------------
 	@Autowired
 	InvoiceService invoiceService;
+	
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	CustomerService customerService;
+	
+	@Autowired
+	CompanyService companyService;
 		
 	
 	//-------------------Retrieve All Users--------------------------------------------------------
     
-    @RequestMapping(value = "/invoice/getAll/{id_customer}", method = RequestMethod.GET)
-    public ResponseEntity<Page<Invoice>> listAllInvoice(@PathVariable("id_customer") Customer idcustomer, Pageable pageable) {
-    	Page<Invoice> invoice = invoiceService.findByIdCustomer(idcustomer, pageable);
+    @RequestMapping(value = "/invoice/getAll", method = RequestMethod.GET)
+    public ResponseEntity<Page<Invoice>> listAllInvoice(Pageable pageable) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Users user = new Users();
+		user = userService.findByName(username);
+		
+		Customer cus = new Customer();
+		cus = customerService.findByUser(user);
+		
+    	Page<Invoice> invoice = invoiceService.findByIdCustomer(cus, pageable);
         if(invoice.getSize() == 0){
             return new ResponseEntity<Page<Invoice>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
@@ -65,7 +89,20 @@ public class InvoiceController {
     @RequestMapping(value = "/invoice/create", method = RequestMethod.POST)
     public ResponseEntity<Void> createInvoice(@RequestBody Invoice invoice,    UriComponentsBuilder ucBuilder) {
         System.out.println("Creating Invoice " + invoice.getId());
-  
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Users user = new Users();
+		user = userService.findByName(username);
+		
+		Customer cus = new Customer();
+		cus = customerService.findByUser(user);
+		
+		Company com = new Company();
+		com = companyService.findById(1);
+		
+		invoice.setIdCustomer(cus);
+		invoice.setIdCpn(com);
     
         invoiceService.saveInvoice(invoice);
   
