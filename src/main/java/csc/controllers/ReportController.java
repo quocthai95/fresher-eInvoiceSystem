@@ -20,6 +20,12 @@ import csc.repository.ReportRepository;
 import csc.service.CustomerService;
 import csc.service.UserService;
 
+/**
+ * URL test= http://localhost:8080/EInvoice/user/getReport/id=CUS2017031&start=2016-01-10&end=2016-04-10
+ * Query MySQL test= SELECT * FROM eis.invoice u where u.id_customer = 'CUS2017031' and u.date between '2016-01-10' and '2016-04-10'
+ * @author user
+ *
+ */
 @RestController
 public class ReportController {
 	static List<Invoice> LIST;
@@ -41,26 +47,22 @@ public class ReportController {
 	@RequestMapping(value = "/user/getReport/id={id}&start={start}&end={end}", method = RequestMethod.GET)
 	public ResponseEntity<Page<Report>> getListReport(Pageable pageable, @PathVariable("id") String idCus,
 			@PathVariable("start") String dateStart, @PathVariable("end") String dateEnd) {
-		Page<Report> flag = this.isExistReport(pageable, idCus, dateStart, dateEnd);
+		Page<Report> reports = this.isExistReport(pageable, idCus, dateStart, dateEnd);
 		List<Invoice> invoices = null;
-		Page<Report> reports = null;
-		System.out.println("flag= " + flag.getContent().size());
-		if (flag.getContent().size() != 0) { // if having report, use it
-			reports = flag;
-			//System.out.println("flag= " + flag);
-			if (reports.getSize() == 0) {
-				return new ResponseEntity<Page<Report>>(HttpStatus.NO_CONTENT);
-			}
+		System.out.println(idCus + " - " + dateStart + " - " + dateEnd);
+		if (reports.getContent().size() != 0) { // if having report, use it
+			System.out.println("get Report with size= " + reports.getContent().size());
+			return new ResponseEntity<Page<Report>>(HttpStatus.NO_CONTENT);
 		} else { // If don't have report, generate report and use it
 			invoices = this.createListInvoices(idCus, dateStart, dateEnd);
-			System.out.println("invoices= " + invoices);
+			System.out.println("invoices= " + invoices.size());
 			if (invoices.size() == 0) {
 				return new ResponseEntity<Page<Report>>(HttpStatus.NO_CONTENT);
 			} else {
 				this.generateReport(idCus, dateStart, dateEnd);
 				System.out.println("generateReport");
 			}
-			//use report
+			// use report
 			reports = reportRepository.findReport(idCus, dateStart, dateEnd, pageable);
 		}
 		return new ResponseEntity<Page<Report>>(reports, HttpStatus.OK);
@@ -78,15 +80,19 @@ public class ReportController {
 
 	private boolean generateReport(String id, String dateStart, String dateEnd) {
 		boolean flag = false;
-		Report rp = new Report();
+		Report rp;
 		List<Invoice> lstInv = LIST;
+		System.out.println("LIST=" + LIST.size());
 		try {
-			for (Invoice l : lstInv) {
-				rp.setNameInvoice(l.getIdType().getNameInvoice());
-				rp.setContractNumber(l.getContractNumber());
-				rp.setGrandTotal(l.getGrandTotal());
+			for (int index = 0; index < lstInv.size(); index++) {
+				rp = new Report();
+				rp.setIdCustomer((lstInv.get(index).getIdCustomer()).getIdCustomer());
+				rp.setDate(lstInv.get(index).getDate());
+				rp.setNameInvoice(lstInv.get(index).getIdType().getNameInvoice());
+				rp.setContractNumber(lstInv.get(index).getContractNumber());
+				rp.setGrandTotal(lstInv.get(index).getGrandTotal());
 				Report tmp = reportRepository.save(rp);
-				System.out.println("generate= " + tmp);
+				 System.out.println("generate= " + tmp.getContractNumber());
 			}
 			flag = true;
 		} catch (Exception ex) {
