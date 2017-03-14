@@ -8,7 +8,8 @@ angular.module('dbApp').factory('InvoiceService', ['$http', '$q', function($http
     	fetchAllInvoice : fetchAllInvoice,
         createInvoice : createInvoice,
         updateInvoice : updateInvoice,
-        deleteInvoice : deleteInvoice,      
+        deleteInvoice : deleteInvoice,
+        getID : getID,
     };
 
     return factory;
@@ -77,7 +78,20 @@ angular.module('dbApp').factory('InvoiceService', ['$http', '$q', function($http
         );
         return deferred.promise;
     }
-
+function getID(id){
+	var deferred = $q.defer();
+	$http.get(REST_SERVICE_URI + "get/" + id)
+	.then(
+            function (response) {
+                deferred.resolve(response.data);                
+            },
+            function(errResponse){
+                console.error('Error while fetching Invoice');
+                deferred.reject(errResponse);
+            }
+        );
+        return deferred.promise;
+}
 }]);
 
 

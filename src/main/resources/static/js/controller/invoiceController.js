@@ -50,7 +50,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     self.remove = remove;
     self.reset = reset;    
     self.update = updateInvoice;
-    
+    self.showDetail = showDetail;
 
     defaultValue();
     fetchAllInvoice();
@@ -176,7 +176,22 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             }
         }
     }
-    
+    function showDetail(id){
+    	InvoiceService.getID(id)
+        .then(
+        		function(d) {
+        			
+                	self.invoice = d; 
+                	self.invoice.date = new Date(self.invoice.date);
+                	
+                	//console.log("d.totalElements" + d.totalElements);
+                },
+        function(errResponse){
+        	
+            console.error('Error while updating Invoice');
+        }
+    );
+    }
     
     function remove(id){
         console.log('id to be deleted', id);
