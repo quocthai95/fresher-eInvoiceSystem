@@ -1,6 +1,4 @@
-
-
-angular.module('myApp').controller('RegisterController', ['$scope', 'RegisterService', '$location', function($scope, RegisterService, $location) {
+app.controller('RegisterController', ['$scope', 'RegisterService', '$location', function($scope, RegisterService, $location) {
     var self = this;
     self.res={id:null,username:'',password:'',name:'', email:'', phone:''};
     self.users=[];
@@ -14,6 +12,21 @@ angular.module('myApp').controller('RegisterController', ['$scope', 'RegisterSer
             	$scope.register_succes = "Register success!"
             	console.log('register success!');
             	//$location.path('/login');
+                $scope.sweet = {};
+                $scope.sweet.option = {
+                    title: "Login successful!!!",
+                    type: "success",
+                    confirmButtonColor: "blue",
+                    confirmButtonText: "Go to Login Page",
+                }
+                
+                $scope.checkCancel=function(){
+                console.log("check cancel")
+                }
+                
+                 $scope.checkConfirm=function(){
+                  console.log("check confrim")
+                }
             },
             function(errResponse){
                 console.error('Error while creating User');
