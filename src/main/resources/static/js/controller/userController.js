@@ -12,8 +12,9 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
         $scope.currentPage = 0;
         $scope.pageSize = 5;    
         $scope.search = '';
+        $scope.status = 'all';
        
-        $scope.size = 5;
+        $scope.size = 1;
         //$scope.page = 1;
         $scope.totalElements = 0;
     }
@@ -33,20 +34,20 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     
     
     $scope.onEventPaging = function(value) {
-    	$scope.size = value;
-    	console.log('value ' + $scope.size + "-" + $scope.currentPage);
+    	$scope.pageSize = value;
+    	console.log('value ' + $scope.pageSize + "-" + $scope.currentPage);
     	fetchAllUsers();
     }
     
     $scope.onEventPreCurrentPage = function() {
     	$scope.currentPage = $scope.currentPage - 1;
-    	console.log('value ' + $scope.size + "-" + $scope.currentPage);
+    	console.log('value ' + $scope.pageSize + "-" + $scope.currentPage);
     	fetchAllUsers();
     }
     
     $scope.onEventNextCurrentPage = function() {
     	$scope.currentPage = $scope.currentPage + 1;
-    	console.log('value ' + $scope.size + "-" + $scope.currentPage);
+    	console.log('value ' + $scope.pageSize + "-" + $scope.currentPage);
     	fetchAllUsers();
     }
     
@@ -66,8 +67,44 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     }
 
     function fetchAllUsers(){
-        UserService.fetchAllUsers($scope.size, $scope.currentPage)
-            .then(
+    	if($scope.status == 'all')
+    	{
+    		UserService.fetchAllUsers($scope.pageSize, $scope.currentPage)
+	            .then(
+	            function(d) {
+	            	self.users = d.content;
+	            	$scope.totalElements = d.totalElements;
+	            	//console.log("d.totalElements" + d.totalElements);
+	            },
+	            function(errResponse){
+	                console.error('Error while fetching Users');
+	            }
+	        );
+    		
+    	}
+    	else{
+    		$scope.currentPage = $scope.currentPage;
+    		getUsersByActive($scope.status, $scope.pageSize, $scope.currentPage)
+    	}
+        
+    }
+    
+    function filterActive(status){
+    	$scope.currentPage = 0;
+    	console.log(status);
+    	if(status == 'all')
+    	{
+    		fetchAllUsers();
+    	}
+    	else{    		
+    		console.log("Filter by status");
+    		getUsersByActive(status, $scope.pageSize, $scope.currentPage);
+    	}
+    }
+    
+    function getUsersByActive(status, pageSize, currentPage){
+    	UserService.getUsersByActive(status, pageSize, currentPage)
+		.then(
             function(d) {
             	self.users = d.content;
             	$scope.totalElements = d.totalElements;
@@ -77,28 +114,6 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
                 console.error('Error while fetching Users');
             }
         );
-    }
-    
-    function filterActive(status){
-    	console.log(status);
-    	if(status == 'all')
-    	{
-    		fetchAllUsers();
-    	}
-    	else{
-    		console.log("Filter by status");
-    		UserService.getUsersByActive(status, $scope.size, $scope.currentPage)
-    		.then(
-    	            function(d) {
-    	            	self.users = d.content;
-    	            	$scope.totalElements = d.totalElements;
-    	            	//console.log("d.totalElements" + d.totalElements);
-    	            },
-    	            function(errResponse){
-    	                console.error('Error while fetching Users');
-    	            }
-    	        );
-    	}
     }
         
     function createUser(user){

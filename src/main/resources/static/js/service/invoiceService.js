@@ -15,9 +15,9 @@ angular.module('dbApp').factory('InvoiceService', ['$http', '$q', function($http
     
 
 
-    function fetchAllInvoice(size, page) {
+    function fetchAllInvoice(id, size, page) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getAll?" + "size="+ size + "&page=" + page)
+        $http.get(REST_SERVICE_URI + "getAll/"+ id + "?size="+ size + "&page=" + page)
             .then(
             function (response) {
                 deferred.resolve(response.data);                

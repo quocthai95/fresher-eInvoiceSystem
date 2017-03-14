@@ -79,10 +79,10 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', funct
     }
 
     function fetchAllInvoice(){
-        InvoiceService.fetchAllInvoice($scope.size, $scope.currentPage)
+        InvoiceService.fetchAllInvoice('1',$scope.size, $scope.currentPage)
             .then(
             function(d) {
-            	self.invoice = d.content;
+            	self.invoices = d.content;
             	$scope.totalElements = d.totalElements;
             	//console.log("d.totalElements" + d.totalElements);
             },
@@ -103,7 +103,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', funct
         );
     }
 
-    function updateInvoie(invoice, id){    	
+    function updateInvoice(invoice, id){    	
     	var r = confirm("Are you sure!");
     	if (r == true) {
     		console.log(invoice);
@@ -132,7 +132,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', funct
 
     function submit() {
         if(self.invoice.id===null){
-            console.log('Saving New User', self.invoice);
+            console.log('Saving New Invoice', self.invoice);
             createInvoice(self.invoice);
         }else{
             updateInvoice(self.invoice, self.invoice.id);
