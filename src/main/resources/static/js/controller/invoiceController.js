@@ -2,8 +2,8 @@
 
 var app = angular.module('dbApp');
 
-app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'TypeInvoiceService', 
-                                     function($scope, $filter, InvoiceService, TypeInvoiceService) {
+app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 
+                                     function($scope, $filter, InvoiceService) {
     var self = this;
     
     self.invoice={
@@ -102,19 +102,19 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Type
         );
     }
     
-    function fetchAllTypeInvoice(){
-    	TypeInvoiceService.fetchAll()
-            .then(
-            function(d) {
-            	self.invoices = d.content;
-            	$scope.totalElements = d.totalElements;
-            	//console.log("d.totalElements" + d.totalElements);
-            },
-            function(errResponse){
-                console.error('Error while fetching Invoice');
-            }
-        );
-    }
+//    function fetchAllTypeInvoice(){
+//    	TypeInvoiceService.fetchAll()
+//            .then(
+//            function(d) {
+//            	self.invoices = d.content;
+//            	$scope.totalElements = d.totalElements;
+//            	//console.log("d.totalElements" + d.totalElements);
+//            },
+//            function(errResponse){
+//                console.error('Error while fetching Invoice');
+//            }
+//        );
+//    }
      
 
     function createInvoice(invoice){
