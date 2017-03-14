@@ -1,4 +1,4 @@
-var app = angular.module('dbApp', [ 'ngRoute' ]);
+var app = angular.module('dbApp', [ 'ngRoute','zingchart-angularjs' ]);
 app.config(function($routeProvider) {
 
 	$routeProvider.when("/", {
@@ -18,7 +18,13 @@ app.config(function($routeProvider) {
 		controller: 'InvoiceController',
 	}).when("/report-manage", {
 		templateUrl : "/EInvoice/views/customer/reportManagement.html",
-		controller: 'CustomerController',
+		controller: 'ReportController as ctrl',
+	}).when("/chart-manage", {
+		templateUrl : "/EInvoice/views/customer/chartManagement.html",
+		controller: 'ChartController',
+
+
+
 	})
 	.otherwise({
 		redirectTo : '/'

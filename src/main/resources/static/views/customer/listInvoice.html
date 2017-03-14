@@ -19,16 +19,18 @@
 
 <table class="table table-hover" id="table-no-resize">
 	<thead  >
-		<tr>
+		<tr >
+		    <th>Type Invoice </th>
 			<th>Invoice Number</th>
 			<th>Index Consumed</th>
 			<th>Date</th>
 			<th>Grand Total</th>
-			<th colspan="3">Action</th>				
+			<th >Action</th>				
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="u in ctrl.invoices|filter:search"> <!-- |startFrom:currentPage*pageSize | limitTo:pageSize -->
+			<td><span ng-bind="u.idType"></span></td>
 			<td><span ng-bind="u.contractNumber"></span></td>
 			<td><span ng-bind="u.indexConsumed"></span></td>
 			<td>
@@ -49,20 +51,108 @@
 					class="btn btn-success custom-width" >Update</button> -->
 				
 			</td>		
-			<td >
-			<button type="button" class="btn btn-success btn-xs" title="View"><span class="glyphicon glyphicon-eye-open " style="color:white"></span></button>
-			
-			
-			<button type="button" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit " style="color:white"></span></button>
-			
-				
+			<td>
+			<button type="button" class="btn btn-success btn-xs" title="View" data-toggle="modal" data-target="#btnModal"><span class="glyphicon glyphicon-eye-open " style="color:white"></span></button>
+		     <div id="btnModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+             
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+      <form id="myForm" name="btnForm" ng-submit="ctrl.submit()"
+								role="form"  >
+								<fieldset id="btnset" disabled>
+								<br> <input type="hidden" ng-model="ctrl.invoice.id" />
+								<div class="form-group">
+									<label style="font-weight: bold">Contract Number</label> <input
+										ng-model="ctrl.invoice.contractNumber" type="text"
+										name="contract" class="form-control"
+										placeholder="Your Contract Number" />
+
+								</div>
+
+								<div class="form-group">
+									<label style="font-weight: bold">Date</label> <input
+										ng-model="ctrl.invoice.date" type="date" name="date"
+										class="form-control" placeholder="Date" />
+
+
+								</div>
+
+								<div class="form-group" id="service">
+									<label style="font-weight: bold">Name Service</label> <input
+										ng-model="ctrl.invoice.nameService" type="text" name="service"
+										class="form-control" placeholder="Your Service" hidden />
+
+
+								</div>
+
+								<div class="form-group" id="index">
+									<label style="font-weight: bold">Index Consumed</label> <input
+										ng-model="ctrl.invoice.indexConsumed" type="number"
+										name="index" class="form-control"
+										placeholder="Your Index Consumed" />
+
+
+								</div>
+
+								<div class="form-group">
+									<label style="font-weight: bold">Total</label> <input
+										ng-model="ctrl.invoice.total" type="number" name="total"
+										class="form-control" placeholder="Total" disabled/>
+
+								</div>
+
+								<div class="form-group">
+									<label style="font-weight: bold">VAT</label> <input
+										ng-model="ctrl.invoice.vat" type="number" name="vat"
+										class="form-control" placeholder="VAT" disabled/>
+
+
+								</div>
+
+								<div class="form-group" id="ptef">
+									<label style="font-weight: bold">PTEF</label> <input
+										ng-model="ctrl.invoice.ptef" type="number" name="ptef"
+										class="form-control" placeholder="PTEF" disabled/>
+
+
+								</div>
+
+								<div class="form-group">
+									<label style="font-weight: bold">Grand Total</label> <input
+										ng-model="ctrl.invoice.grandTotal" type="number" name="ptef"
+										class="form-control" placeholder="Grand Total" disabled/>
+
+								</div>
+								<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
+									type="hidden" ng-model="ctrl.invoice.idCpn" /> <input
+									type="hidden" ng-model="ctrl.invoice.idCustomer" />
+</fieldset>
+								<div align="center">
+									<button type="submit" name="btn" class="btn btn-primary">Edit</button>
+								</div>
+
+							</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 			<button type="button" class="btn btn-danger btn-xs" title="Delete"><span class="glyphicon glyphicon-trash" style="color:white"></span></button>
 			</td>
 		</tr>
 	</tbody>
 </table>
 
-<form class="form-inline" style="margin-top: 20px">
+<form class="form-inline" style="margin-top: 20px" align="right"> 
     <div class="form-group">
     	<label >Page size</label>
         <select ng-model="pageSize" id="pageSize" name="pageSize" ng-init="pageSize = '5'" class="form-control" ng-change="onEventPaging(pageSize)">
