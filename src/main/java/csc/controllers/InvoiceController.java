@@ -30,11 +30,14 @@ import csc.service.InvoiceService;
 import csc.service.UserService;
 
 /**
-* URL test= http://localhost:8080/EInvoice/user/getReport/start=2016-01-10&end=2016-04-10
-* Query MySQL test= SELECT * FROM eis.invoice u where u.id_customer = 'CUS2017031' and u.date between '2016-01-10' and '2016-04-10'
-* @author user
-*
-*/
+ * URL test=
+ * http://localhost:8080/EInvoice/user/getReport/start=2016-01-10&end=2016-04-10&page=0&pageSize=10
+ * Query MySQL test= SELECT * FROM eis.invoice u where u.id_customer =
+ * 'CUS2017031' and u.date between '2016-01-10' and '2016-04-10'
+ * 
+ * @author user
+ *
+ */
 @RestController
 public class InvoiceController {
 
@@ -54,26 +57,19 @@ public class InvoiceController {
 	CompanyService companyService;
 
 	@RequestMapping(value = "/user/getReport/start={start}&end={end}&page={page}&pageSize={pageSize}", method = RequestMethod.GET)
-	public ResponseEntity<List<Invoice>> getListReport(@PathVariable("start") String dateStart,
+	public ResponseEntity<Page<Invoice>> getListReport(@PathVariable("start") String dateStart,
 			@PathVariable("end") String dateEnd, @PathVariable("page") int page,
 			@PathVariable("pageSize") int pageSize) {
 		System.out.println("getListReport");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
-		Users user = new Users();
-		user = userService.findByName(username);
+		
+		String idCus = this.getIdCustomer();
 
-		Customer cus = new Customer();
-		cus = customerService.findByUser(user);
-
-		String idCus = cus.getIdCustomer();
-
-		List<Invoice> invoices = invoiceService.getListReport(idCus, dateStart, dateEnd, page, pageSize);
-		System.out.println("invoices count= " + invoices.size());
-		if (invoices == null) {
-			return new ResponseEntity<List<Invoice>>(HttpStatus.NO_CONTENT);
+		Page<Invoice> invoices = invoiceService.getListReport(idCus, dateStart, dateEnd, page, pageSize);
+		System.out.println("invoices count= " + invoices.getContent().size());
+		if (invoices.getContent() == null) {
+			return new ResponseEntity<Page<Invoice>>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
+		return new ResponseEntity<Page<Invoice>>(invoices, HttpStatus.OK);
 	}
 
 	// -------------------Retrieve All
@@ -183,6 +179,22 @@ public class InvoiceController {
 
 		invoiceService.deleteInvoiceById(id);
 		return new ResponseEntity<Invoice>(HttpStatus.NO_CONTENT);
+	}
+
+	private String getIdCustomer() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Users user = new Users();
+		Customer cus = new Customer();
+		String idCus = null;
+		
+		user = userService.findByName(username);
+
+		cus = customerService.findByUser(user);
+
+		idCus = cus.getIdCustomer();
+		
+		return idCus;
 	}
 
 } // class UserController

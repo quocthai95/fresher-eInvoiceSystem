@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public void updateInvoice(Invoice invoice) {
 		// TODO Auto-generated method stub
-		invoiceRepository.save(invoice);
+		//invoiceRepository.save(invoice);
+		invoiceRepository.saveAndFlush(invoice);
 	}
 
 	@Override
@@ -58,8 +60,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public List<Invoice> getListReport(String idCus, String dateStart, String dateEnd, int page, int pageSize) {
-		return invoiceRepository.findDateByIdCus(idCus, dateStart, dateEnd, page, pageSize);
+	public Page<Invoice> getListReport(String idCus, String dateStart, String dateEnd, int page, int pageSize) {
+		PageRequest pageable = new PageRequest(page, pageSize);
+		return invoiceRepository.findDateByIdCus(idCus, dateStart, dateEnd, pageable);
 	}
-
 }
