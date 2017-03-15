@@ -61,7 +61,7 @@ public class InvoiceController {
 			@PathVariable("end") String dateEnd, @PathVariable("page") int page,
 			@PathVariable("pageSize") int pageSize) {
 		System.out.println("getListReport");
-		
+		System.out.println("start= " + dateStart + " -end= " +dateEnd + " -page "+page + " -pageSize " +pageSize );
 		String idCus = this.getIdCustomer();
 
 		Page<Invoice> invoices = invoiceService.getListReport(idCus, dateStart, dateEnd, page, pageSize);
