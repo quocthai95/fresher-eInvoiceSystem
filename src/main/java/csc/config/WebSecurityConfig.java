@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**", "/index.html", "/login.html", "/partials/**", "/", "/error/**", "/user/register"
+		web.ignoring().antMatchers("/resources/**", "/index.html", "/login.html", "/partials/**", "/", "/error/**", "/user/register", "/user/getEmail/**"
 				 );
 	}
 
@@ -52,8 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             	.and().logout().logoutSuccessUrl("/#/login?logout").permitAll()
             	.and()
             	.csrf()
-                .ignoringAntMatchers("/user/**")
-                .ignoringAntMatchers("/invoice/**")
+                .ignoringAntMatchers("/user/**", "/invoice/**", "/user/getEmail/**")
                 .and()
         	.exceptionHandling()
     			.accessDeniedPage("/403");
