@@ -12,7 +12,7 @@ app.config(function($routeProvider) {
 		controller : 'UserController',
 	}).when("/customer-manage", {
 		templateUrl : "/EInvoice/views/customer/customerManagement.html",
-		controller: 'CustomerController',
+		controller: 'CustomerController as ctrl',
 	}).when("/invoice-manage", {
 		templateUrl : "/EInvoice/views/customer/invoiceManagement.html",
 		controller: 'InvoiceController',
