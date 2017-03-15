@@ -68,7 +68,7 @@ public class Customer implements Serializable {
     private BigDecimal limitConsume;
     
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCustomer")
+    @OneToMany( mappedBy = "idCustomer")//cascade = CascadeType.ALL,
     private Collection<Invoice> invoiceCollection;
     
     
