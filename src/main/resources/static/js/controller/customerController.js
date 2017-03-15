@@ -82,4 +82,4 @@ angular.module('dbApp').controller('CustomerController', ['$scope', 'CustomerSer
         }
     }
 	    	    
-});
+}]);
