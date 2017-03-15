@@ -126,7 +126,15 @@ public class InvoiceController {
             System.out.println("Invoice with id " + id + " not found");
             return new ResponseEntity<Invoice>(HttpStatus.NOT_FOUND);
         }
-  
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Users user = new Users();
+		user = userService.findByName(username);
+		System.out.println("Type invoice" +invoice.getIdType()); 
+		Customer cus = new Customer();
+		cus = customerService.findByUser(user);
+        Company com = new Company();
+		com = companyService.findById(1);
         currentInvoice.setDate(invoice.getDate());
         currentInvoice.setContractNumber(invoice.getContractNumber());
         currentInvoice.setNameService(invoice.getNameService());
@@ -135,8 +143,8 @@ public class InvoiceController {
         currentInvoice.setVat(invoice.getVat());
         currentInvoice.setPtef(invoice.getPtef());
         currentInvoice.setGrandTotal(invoice.getGrandTotal());
-        currentInvoice.setIdCustomer(invoice.getIdCustomer());
-        currentInvoice.setIdCpn(invoice.getIdCpn());
+        currentInvoice.setIdCustomer(cus);
+        currentInvoice.setIdCpn(com);
         currentInvoice.setIdType(invoice.getIdType());
           
         invoiceService.updateInvoice(currentInvoice);
