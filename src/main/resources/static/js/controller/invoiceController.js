@@ -14,16 +14,14 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	indexConsumed:'',
     	total:'',
     	vat:'',
-    	ptef:'',
+    	ptef:'10',
     	grandTotal:'',
     	idType:'',
     	idCpn:'',
     	idCustomer:'',
     	
     }; 
-    
-    $scope.total = $scope.indexConsumed * 3000;
-    
+         
     self.typeInvoice={
         	id:null,
         	code:'',
@@ -173,7 +171,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             updateInvoice(self.invoice, self.invoice.id);
             console.log('User updated with id ', self.invoice.id);
         }
-        reset();
+        //reset();
 
     }
 
