@@ -73,7 +73,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			roles.add(roleRepository.findByName("ROLE_ADMIN"));
 			admin.setRoles(roles);
 			tmp = userRepository.save(admin);
-			createCustomer(tmp);
+			createCustomer(tmp, "admin02@gmail.com");
 
 		}
 
@@ -88,7 +88,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			roles.add(roleRepository.findByName("ROLE_ADMIN"));
 			admin.setRoles(roles);
 			tmp = userRepository.save(admin);
-			createCustomer(tmp);
+			createCustomer(tmp, "admin01@gmail.com");
 
 		}
 
@@ -104,7 +104,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			user.setRoles(roles);
 			tmp = new Users();
 			tmp = userRepository.save(user);
-			createCustomer(tmp);
+			createCustomer(tmp, "member@gmail.com");
 		}
 		// Test create 100 record for function paging with role admin
 		// for (int index = 0; index < 20; index++) {
@@ -143,11 +143,11 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 	}
 
-	private void createCustomer(Users user) {
+	private void createCustomer(Users user, String email) {
 		Customer cus = new Customer();
 		cus.setUser(user);
 		cus.setAddress("test");
-		cus.setEmail("test");
+		cus.setEmail(email);
 		cus.setNameCustomer("test");
 		cus.setIdCustomer("CUS201703" + user.getId());
 		cus.setPhone(12345671);

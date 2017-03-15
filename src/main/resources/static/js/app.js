@@ -1,4 +1,4 @@
-var app = angular.module('myApp', [ 'ngRoute', 'ng-sweet-alert']);
+var app = angular.module('myApp', [ 'ngRoute', 'ngMessages', 'oitozero.ngSweetAlert']);
 app.config(function($routeProvider) {
 	$routeProvider.when("/", {
 		templateUrl : "/EInvoice/views/home.html",
