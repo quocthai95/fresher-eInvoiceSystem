@@ -60,7 +60,7 @@ public class Company implements Serializable {
     private int taxCode;
     
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCpn")
+    @OneToMany(mappedBy = "idCpn")//cascade = CascadeType.ALL,
     private Collection<Invoice> invoiceCollection;
 
     public Company() {
