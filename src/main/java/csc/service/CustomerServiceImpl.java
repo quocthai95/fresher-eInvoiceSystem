@@ -25,4 +25,10 @@ public class CustomerServiceImpl implements CustomerService{
 		return customerRepository.findByUser(user);
 	}
 
+	@Override
+	public Customer findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return customerRepository.findByEmail(email);
+	}
+
 }
