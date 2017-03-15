@@ -63,7 +63,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     
     function changeTotal(){
     	self.invoice.total = self.invoice.indexConsumed * 3000;
-    	self.invoice.grandTotal = self.invoice.total - ((self.invoice.total * self.invoice.vat)/100);
+    	self.invoice.grandTotal = self.invoice.total + ((self.invoice.total * self.invoice.vat)/100);
     }
     
     
