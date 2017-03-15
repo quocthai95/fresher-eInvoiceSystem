@@ -52,17 +52,16 @@
 				
 			</td>		
 			<td>
-			<button type="button" class="btn btn-success btn-xs" title="View" data-toggle="modal" data-target="#btnModal" ng-click="ctrl.showDetail(u.id)"><span class="glyphicon glyphicon-eye-open " style="color:white"></span></button>
+			<button type="button" class="btn btn-success btn-xs" title="View" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#btnModal" ng-click="ctrl.showDetail(u.idType.code,u.id) "><span class="glyphicon glyphicon-eye-open " style="color:white"></span></button>
 		     <div id="btnModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
              
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title" style="font-weight:bold">Information: {{u.idType.nameInvoice}}</h4>
       </div>
-      <div class="modal-body">      <form  name="btnForm" ng-submit="ctrl.submit()"
+      <div class="modal-body">      <form  name="btnForm" 
 								role="form"  >
 								<fieldset id="btnset" name="btnset" disabled>
 								<br> <input type="hidden" ng-model="ctrl.invoice.id" /> 
@@ -82,7 +81,7 @@
 
 								</div>
 
-								<div class="form-group" id="service">
+								<div class="form-group" id="service2">
 									<label style="font-weight: bold">Name Service</label> <input
 										ng-model="ctrl.invoice.nameService" type="text" name="service"
 										class="form-control" placeholder="Your Service" hidden />
@@ -90,7 +89,7 @@
 
 								</div>
 
-								<div class="form-group" id="index">
+								<div class="form-group" id="index2">
 									<label style="font-weight: bold">Index Consumed</label> <input
 										ng-model="ctrl.invoice.indexConsumed" type="number"
 										name="index" class="form-control"
@@ -114,7 +113,7 @@
 
 								</div>
 
-								<div class="form-group" id="ptef">
+								<div class="form-group" id="ptef2">
 									<label style="font-weight: bold">PTEF</label> <input
 										ng-model="ctrl.invoice.ptef" type="number" name="ptef"
 										class="form-control" placeholder="PTEF" disabled/>
@@ -124,7 +123,7 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">Grand Total</label> <input
-										ng-model="ctrl.invoice.grandTotal" type="number" name="ptef"
+										ng-model="ctrl.invoice.grandTotal" type="number" name="grandtotal"
 										class="form-control" placeholder="Grand Total" disabled/>
 
 								</div>
@@ -133,13 +132,15 @@
 									type="hidden" ng-model="ctrl.invoice.idCustomer" />
 </fieldset>
 								<div align="center">
-									<button type="button"  name="btn" class="btn btn-primary" ng-click="myEnable()">Edit</button>
+									<input type="button" id="btn" name="btn" class="btn btn-primary" value="Edit" ng-click="myEnable(ctrl.invoice.id)" 
+									>
+									</input>
 								</div>
 
 							</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="closemodal" class="btn btn-default" data-dismiss="modal" ng-click="clear()">Close</button>
       </div>
     </div>
 

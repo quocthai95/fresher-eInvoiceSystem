@@ -31,4 +31,16 @@ public class CustomerServiceImpl implements CustomerService{
 		return customerRepository.findByEmail(email);
 	}
 
+	@Override
+	public Customer findById(long id) {
+		// TODO Auto-generated method stub
+		return customerRepository.findById(id);
+	}
+
+	@Override
+	public void updateCustomer(Customer currentCustomer) {
+		// TODO Auto-generated method stub
+		customerRepository.save(currentCustomer);
+	}
+
 }

@@ -1,6 +1,6 @@
 
 
-        <div id="page-wrapper" ng-controller="CustomerController">
+        <div id="page-wrapper" ng-controller="CustomerController as ctrl">
 
             <div class="container-fluid" >
 
@@ -16,41 +16,42 @@
                 <div class="row">
                     <div class="col-lg-8">
 
-                        <form name="myForm" role="form" style="margin-left:300px"  >
+                        <form ng-submit="ctrl.updateCustomer(ctrl.cus.id)" name="myForm" role="form" style="margin-left:300px"  >
                          <fieldset name="set" disabled>
+                         <input type="hidden" ng-model="ctrl.cus.id" />
                             <div class="form-group" >
                                 <label style="font-weight:bold">Full Name</label>
-                                <input type="text" name="name"  class="form-control" placeholder="Your Name"  required />
+                                <input ng-model="ctrl.cus.nameCustomer" type="text" name="name"  class="form-control" placeholder="Your Name"  required />
                                 
                             </div>
 
                             <div class="form-group">
                                 <label style="font-weight:bold">Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="Your Email"  required/>
+                                <input ng-model="ctrl.cus.email" type="email" name="email" class="form-control" placeholder="Your Email"  required/>
                                 
                             </div>
                             
                             <div class="form-group">
                                 <label style="font-weight:bold">Address</label>
-                                <input type="text" name="address" class="form-control" placeholder="Your Address"  required/>
+                                <input ng-model="ctrl.cus.address" type="text" name="address" class="form-control" placeholder="Your Address"  required/>
                                
                             </div>
                             
                             <div class="form-group">
                                 <label style="font-weight:bold">Phone</label>
-                                <input type="number" name="phone" class="form-control" placeholder="Your Phone Number"   required/>
+                                <input ng-model="ctrl.cus.phone" type="number" name="phone" class="form-control" placeholder="Your Phone Number"   required/>
                                
                             </div>
                             
                             <div class="form-group">
                                 <label style="font-weight:bold">Tax Code</label>
-                                <input type="number" name="taxcode" class="form-control" placeholder="Your Tax-Code" required/>
+                                <input ng-model="ctrl.cus.taxCode" type="number" name="taxcode" class="form-control" placeholder="Your Tax-Code" required/>
                                 
                             </div>
                             
                             <div class="form-group">
                                 <label style="font-weight:bold">Your Limit Money </label>
-                                <input type="number" name="limit" class="form-control" placeholder="Your Limit Money"  required/>
+                                <input ng-model="ctrl.cus.limitConsume" type="number" name="limit" class="form-control" placeholder="Your Limit Money"  required/>
                                 
                             </div >       <div align="center">                                     
                             <button type="submit" name="btn" class="btn btn-primary" >Update</button>        
