@@ -144,19 +144,14 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     }
 
     function updateInvoice(invoice, id){    	
-    	var r = confirm("Are you sure!");
-    	if (r == true) {
-    		console.log(invoice);            
-            InvoiceService.updateInvoice(invoice, id)
-                .then(
-                fetchAllInvoice,
-                function(errResponse){
-                    console.error('Error while updating Invoice');
-                }
-            );
-    	} else {
-    		fetchAllInvoice();
-    	}
+    	console.log(invoice);            
+        InvoiceService.updateInvoice(invoice, id)
+            .then(
+            fetchAllInvoice, 
+            function(errResponse){
+                console.error('Error while updating Invoice');
+            }
+        );
     	
     }
 
@@ -192,7 +187,35 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             }
         }
     }
-    function showDetail(id){
+    function showDetail(code,id){    	   			
+    	if(code == 'EB')
+    	{
+    		document.myForm.hidden = false;
+    		document.getElementById('ptef2').hidden = true;
+    		document.getElementById('service2').hidden = true;
+    		document.getElementById('index2').hidden = false;
+    	}	
+    	if(code == 'WB')
+    	{
+    		document.myForm.hidden = false;
+    		document.getElementById('ptef2').hidden = false;
+    		document.getElementById('service2').hidden = true;
+    		document.getElementById('index2').hidden = false;
+    	}   
+    	if(code == 'IB')
+    	{
+    		document.myForm.hidden = false;
+    		document.getElementById('ptef2').hidden = true;
+    		document.getElementById('service2').hidden = false;
+    		document.getElementById('index2').hidden = true;
+    	} 
+    	if(code == 'PB')
+    	{
+    		document.myForm.hidden = false;
+    		document.getElementById('ptef2').hidden = true;
+    		document.getElementById('service2').hidden = false;
+    		document.getElementById('index2').hidden = true;
+    	} 
     	InvoiceService.getID(id)
         .then(
         		function(d) {
@@ -232,7 +255,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	    };
         $scope.myForm.$setPristine(); //reset Form
     }
-   
+  
     
     $scope.showForm = function(code, id){
     	self.invoice.idType = id; 
@@ -269,11 +292,25 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     };
    
    
-
- $scope.myEnable = function(){
-    	
+$scope.clear = function(){
+	reset();
+	document.getElementById('btnset').disabled = true;
+	console.log('clear form');
+}
+ $scope.myEnable = function(id){
+    	    if(document.getElementById('btn').value == 'Edit'){
     		document.getElementById('btnset').disabled = false;
+    		document.getElementById('btn').value ='Update';
     		console.log('enabled form');
+    	    }
+    	    else {
+    	    	updateInvoice(self.invoice, id);
+    	    	$('.modal-backdrop').remove();
+        		console.log('update success!!');
+        		       		
+        	
+        		
+    	    }
         };
     }]);
 

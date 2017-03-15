@@ -136,31 +136,39 @@ public class InvoiceController {
 	// --------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/update/{id}", method = RequestMethod.POST)
-	public ResponseEntity<Invoice> updateInvoice(@PathVariable("id") long id, @RequestBody Invoice invoice) {
-		System.out.println("Updating Invoice " + id);
-
-		Invoice currentInvoice = invoiceService.findById(id);
-
-		if (currentInvoice == null) {
-			System.out.println("Invoice with id " + id + " not found");
-			return new ResponseEntity<Invoice>(HttpStatus.NOT_FOUND);
-		}
-
-		currentInvoice.setDate(invoice.getDate());
-		currentInvoice.setContractNumber(invoice.getContractNumber());
-		currentInvoice.setNameService(invoice.getNameService());
-		currentInvoice.setIndexConsumed(invoice.getIndexConsumed());
-		currentInvoice.setTotal(invoice.getTotal());
-		currentInvoice.setVat(invoice.getVat());
-		currentInvoice.setPtef(invoice.getPtef());
-		currentInvoice.setGrandTotal(invoice.getGrandTotal());
-		currentInvoice.setIdCustomer(invoice.getIdCustomer());
-		currentInvoice.setIdCpn(invoice.getIdCpn());
-		currentInvoice.setIdType(invoice.getIdType());
-
-		invoiceService.updateInvoice(currentInvoice);
-		return new ResponseEntity<Invoice>(currentInvoice, HttpStatus.OK);
-	}
+    public ResponseEntity<Invoice> updateInvoice(@PathVariable("id") long id, @RequestBody Invoice invoice) {
+        System.out.println("Updating Invoice " + id);
+          
+        Invoice currentInvoice = invoiceService.findById(id);
+          
+        if (currentInvoice==null) {
+            System.out.println("Invoice with id " + id + " not found");
+            return new ResponseEntity<Invoice>(HttpStatus.NOT_FOUND);
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Users user = new Users();
+		user = userService.findByName(username);
+		System.out.println("Type invoice" +invoice.getIdType()); 
+		Customer cus = new Customer();
+		cus = customerService.findByUser(user);
+        Company com = new Company();
+		com = companyService.findById(1);
+        currentInvoice.setDate(invoice.getDate());
+        currentInvoice.setContractNumber(invoice.getContractNumber());
+        currentInvoice.setNameService(invoice.getNameService());
+        currentInvoice.setIndexConsumed(invoice.getIndexConsumed());
+        currentInvoice.setTotal(invoice.getTotal());
+        currentInvoice.setVat(invoice.getVat());
+        currentInvoice.setPtef(invoice.getPtef());
+        currentInvoice.setGrandTotal(invoice.getGrandTotal());
+        currentInvoice.setIdCustomer(cus);
+        currentInvoice.setIdCpn(com);
+        currentInvoice.setIdType(invoice.getIdType());
+          
+        invoiceService.updateInvoice(currentInvoice);
+        return new ResponseEntity<Invoice>(currentInvoice, HttpStatus.OK);
+    }
 
 	// ------------------- Delete a User
 	// --------------------------------------------------------
