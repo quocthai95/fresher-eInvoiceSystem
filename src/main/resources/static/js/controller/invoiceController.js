@@ -295,6 +295,11 @@ $scope.clear = function(){
 	document.getElementById('btnset').disabled = true;
 	console.log('clear form');
 }
+$scope.deleteinvoice = function(id){
+	deleteInvoice(id);
+	console.log('delete success' + id);
+	
+}
  $scope.myEnable = function(id){
     	    if(document.getElementById('btn').value == 'Edit'){
     		document.getElementById('btnset').disabled = false;

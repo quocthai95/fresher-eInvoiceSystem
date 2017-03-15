@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import javax.annotation.Resource;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -198,5 +201,26 @@ public class UserController {
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
         
-
+  //------------------- Get Customer  --------------------------------------------------------
+    @RequestMapping(value = "/customer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Customer> getCurrentCus() {
+       Customer cus = this.getCustomer();
+       cus.setUser(null);
+        if (cus == null) {        
+            return new ResponseEntity<Customer>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Customer>(cus, HttpStatus.OK);
+    }
+    private Customer getCustomer() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Users user = new Users();
+		Customer cus = new Customer();
+		user = userService.findByName(username);
+		cus = customerService.findByUser(user);
+		
+		return cus;
+			}
+	
+	
 } // class UserController

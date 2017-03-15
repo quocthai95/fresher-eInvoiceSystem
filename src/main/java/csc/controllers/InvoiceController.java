@@ -70,8 +70,7 @@ public class InvoiceController {
 		return new ResponseEntity<Page<Invoice>>(invoices, HttpStatus.OK);
 	}
 
-	// -------------------Retrieve All
-	// Users--------------------------------------------------------
+	// -------------------Retrieve All Users--------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/getAll", method = RequestMethod.GET)
 	public ResponseEntity<Page<Invoice>> listAllInvoice(Pageable pageable) {
@@ -90,8 +89,7 @@ public class InvoiceController {
 		return new ResponseEntity<Page<Invoice>>(invoice, HttpStatus.OK);
 	}
 
-	// -------------------Retrieve Single
-	// User--------------------------------------------------------
+	// -------------------Retrieve Single User--------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Invoice> getInvoice(@PathVariable("id") long id) {
@@ -104,8 +102,7 @@ public class InvoiceController {
 		return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
 	}
 
-	// -------------------Create a
-	// User--------------------------------------------------------
+	// -------------------Create a User--------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/create", method = RequestMethod.POST)
 	public ResponseEntity<Void> createInvoice(@RequestBody Invoice invoice, UriComponentsBuilder ucBuilder) {
@@ -132,8 +129,7 @@ public class InvoiceController {
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	// ------------------- Update a User
-	// --------------------------------------------------------
+	// ------------------- Update a User --------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/update/{id}", method = RequestMethod.POST)
     public ResponseEntity<Invoice> updateInvoice(@PathVariable("id") long id, @RequestBody Invoice invoice) {
@@ -170,8 +166,7 @@ public class InvoiceController {
         return new ResponseEntity<Invoice>(currentInvoice, HttpStatus.OK);
     }
 
-	// ------------------- Delete a User
-	// --------------------------------------------------------
+	// ------------------- Delete a User --------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/delete/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Invoice> deleteInvoice(@PathVariable("id") long id) {
