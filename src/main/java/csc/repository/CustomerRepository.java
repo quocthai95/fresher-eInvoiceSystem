@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import csc.models.Customer;
 import csc.models.Users;
+import java.lang.String;
+import java.util.List;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long>{
@@ -14,5 +16,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long>{
 	Customer findByIdCustomer(String idcustomer);
 	
 	Customer findByUser(Users user);
+	
+	Customer findByEmail(String email);
 
 }
