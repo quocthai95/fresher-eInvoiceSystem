@@ -1,49 +1,17 @@
-package csc.models;
+/*package csc.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-@Entity
-@Table(name = "report")
 public class Report implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Basic(optional = false)
-	@Column(name = "id")
 	private Long id;
-
-	@Basic(optional = false)
-	@Column(name = "id_customer")
 	private String idCustomer;
-
-	@Basic(optional = false)
-	@Column(name = "contract_number")
 	private String contractNumber;
-
-	@Basic(optional = false)
-	@Column(name = "name_invoice")
 	private String nameInvoice;
-
-	@Basic(optional = false)
-	@Column(name = "grand_total")
 	private BigDecimal grandTotal;
-
-	@Basic(optional = false)
-	@Column(name = "date")
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
 	public Report() {
@@ -61,6 +29,13 @@ public class Report implements Serializable {
 		this.grandTotal = grandTotal;
 	}
 
+	public Report(String idCustomer, String contractNumber, String nameInvoice, BigDecimal grandTotal) {
+		this.idCustomer = idCustomer;
+		this.contractNumber = contractNumber;
+		this.nameInvoice = nameInvoice;
+		this.grandTotal = grandTotal;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -109,3 +84,4 @@ public class Report implements Serializable {
 		this.date = date;
 	}
 }
+*/
