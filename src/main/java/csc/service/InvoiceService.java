@@ -23,7 +23,6 @@ public interface InvoiceService {
 	Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable);
 	
 	@Cacheable("report")
-	List<Invoice> getListReport(String idCus, String dateStart, String dateEnd, int page, int pageSize);
-	
-	
+	Page<Invoice> getListReport(String idCus, String dateStart, String dateEnd, int page, int pageSize);
+
 }
