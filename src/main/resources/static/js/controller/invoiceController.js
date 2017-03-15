@@ -14,14 +14,14 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	indexConsumed:'',
     	total:'',
     	vat:'',
-    	ptef:'',
+    	ptef:'10',
     	grandTotal:'',
     	idType:'',
     	idCpn:'',
     	idCustomer:'',
     	
     }; 
-    
+         
     self.typeInvoice={
         	id:null,
         	code:'',
@@ -42,11 +42,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
         $scope.size = 5;
         //$scope.page = 1;
         $scope.totalElements = 0;
-        
-        self.invoice.total = 400;
-        self.invoice.vat = 10;
-        self.invoice.ptef = 10;
-        self.invoice.grandTotal = 500;
+                     
+        self.invoice.ptef = 10;        
                 
     }
 
@@ -57,11 +54,17 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     self.reset = reset;    
     self.update = updateInvoice;
     self.showDetail = showDetail;
-    self.deleteInvoice = deleteInvoice;
+    self.changeTotal = changeTotal;
 
     defaultValue();
     fetchAllInvoice();
-    fetchAllTypeInvoice()
+    fetchAllTypeInvoice();
+    
+    
+    function changeTotal(){
+    	self.invoice.total = self.invoice.indexConsumed * 3000;
+    	self.invoice.grandTotal = self.invoice.total + ((self.invoice.total * self.invoice.vat)/100);
+    }
     
     
     $scope.onEventPaging = function(value) {
@@ -151,9 +154,9 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     }
 
     function deleteInvoice(id){
-        InvoiceService.deleteInvoice(id)
+        InvoiceService.deleteInvoie(id)
             .then(
-            fetchAllInvoice,
+            fetchAllInvoive,
             function(errResponse){
                 console.error('Error while deleting Invoice');
             }
@@ -168,7 +171,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             updateInvoice(self.invoice, self.invoice.id);
             console.log('User updated with id ', self.invoice.id);
         }
-        reset();
+        //reset();
 
     }
 
@@ -242,9 +245,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	    	contractNumber:'',
     	    	nameService:'',
     	    	indexConsumed:'',
-    	    	total:'',
-    	    	vat:'',
-    	    	ptef:'',
+    	    	total:'',    	    	
     	    	grandTotal:'',
     	    	idType:'',
     	    	idCpn:'',
@@ -255,7 +256,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
   
     
     $scope.showForm = function(code, id){
-    	self.invoice.idType = id;   	    	   	
+    	self.invoice.idType = id; 
+    	self.invoice.vat = id.vat;
     	$scope.name_type = id.nameInvoice;    			
     	if(code == 'EB')
     	{

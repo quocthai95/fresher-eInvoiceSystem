@@ -30,9 +30,15 @@
 								ng-model="ctrl.res.email" type="email" class="form-control"
 								name="email" id="email" placeholder="Enter your Email" required/> -->
 								
-								<input ng-model="ctrl.res.email" email-not-used ng-model-options="{ debounce: 500 }" type="text" name="email" id="email" class="form-control" placeholder="Enter your Email" required />
+								<input ng-change="ctrl.changeUserName()" ng-model="ctrl.res.email" email-not-used ng-model-options="{ debounce: 500 }" type="email" name="email" id="email" class="form-control" placeholder="Enter your Email" required />
+																
 						</div>
-					  	<div ng-messages="myForm.email.$error">
+						
+						<div align="center" role="alert" style="color:red">					      
+					      <span class="error" ng-show="myForm.email.$error.email">
+					        Not valid email!</span>
+					    </div>
+					  	<div align="center" ng-messages="myForm.email.$error">
 					    	<div ng-message="emailNotUsed" style="color:red">User with this email already exists.</div>
 					  	</div>
 					</div>
