@@ -14,8 +14,8 @@ import csc.models.Invoice;
 @Repository
 public interface InvoiceRepository extends CrudRepository<Invoice, Long> {
 
-	@Query(value = "select * from Invoice u where u.id_customer = ?#{[0]} and u.date between ?#{[1]} and ?#{[2]} ", nativeQuery = true)
-	List<Invoice> findDateByIdCus(String idCus, String dateStart, String dateEnd);
+	@Query(value = "select * from Invoice u where u.id_customer = ?#{[0]} and u.date between ?#{[1]} and ?#{[2]} limit ?#{[3]} , ?#{[4]}", nativeQuery = true)
+	List<Invoice> findDateByIdCus(String idCus, String dateStart, String dateEnd, int page, int pageSize);
 
 	Invoice findByContractNumber(String contractnumber);
 
