@@ -10,6 +10,8 @@ angular.module('dbApp').factory('InvoiceService', ['$http', '$q', 'TypeInvoiceSe
         updateInvoice : updateInvoice,
         fetchAllTypeInvoice: fetchAllTypeInvoice,        
         getID : getID,    
+        deleteInvoice : deleteInvoice ,
+        
         };
 
     return factory;

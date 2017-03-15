@@ -57,6 +57,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     self.reset = reset;    
     self.update = updateInvoice;
     self.showDetail = showDetail;
+    self.deleteInvoice = deleteInvoice;
 
     defaultValue();
     fetchAllInvoice();
@@ -150,9 +151,9 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     }
 
     function deleteInvoice(id){
-        InvoiceService.deleteInvoie(id)
+        InvoiceService.deleteInvoice(id)
             .then(
-            fetchAllInvoive,
+            fetchAllInvoice,
             function(errResponse){
                 console.error('Error while deleting Invoice');
             }
@@ -291,6 +292,11 @@ $scope.clear = function(){
 	reset();
 	document.getElementById('btnset').disabled = true;
 	console.log('clear form');
+}
+$scope.deleteinvoice = function(id){
+	deleteInvoice(id);
+	console.log('delete success' + id);
+	
 }
  $scope.myEnable = function(id){
     	    if(document.getElementById('btn').value == 'Edit'){
