@@ -1,3 +1,4 @@
+
 'use strict';
 angular.module('dbApp').controller('CustomerController', ['$scope', 'CustomerService', function($scope, CustomerService) {
 	 var self = this;
@@ -80,5 +81,5 @@ angular.module('dbApp').controller('CustomerController', ['$scope', 'CustomerSer
             }
         }
     }
-
-}]);
+	    	    
+});
