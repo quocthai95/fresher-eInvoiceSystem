@@ -1,5 +1,6 @@
 package csc.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -9,6 +10,7 @@ public interface UserService {
 	
 	Users findById(long id);
 	
+	@Cacheable("users")
 	Users findByName(String name);
 	
 	void saveUser(Users user);

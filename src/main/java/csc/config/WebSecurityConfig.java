@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/dashboard.html", "/user/getReport/**", "/invoice/**","/customer/**").hasRole("MEMBER")
-                .antMatchers("/user/**", "/user/getReport/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("ADMIN")
                 .antMatchers("/").permitAll()                
                 .and()
             .formLogin()
@@ -52,8 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             	.and().logout().logoutSuccessUrl("/#/login?logout").permitAll()
             	.and()
             	.csrf()
-                .ignoringAntMatchers("/user/**", "/invoice/**", "/user/getEmail/**", "/customer/**")
-                .and()
+                .ignoringAntMatchers("/user/**", "/invoice/**", "/user/getEmail/**", "/user/getReport/**","/customer/**")                .and()
         	.exceptionHandling()
     			.accessDeniedPage("/403");
     }
