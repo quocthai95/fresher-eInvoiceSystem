@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -12,11 +13,11 @@ import csc.models.Customer;
 import csc.models.Invoice;
 
 @Repository
-public interface InvoiceRepository extends CrudRepository<Invoice, Long> {
+public interface InvoiceRepository extends CrudRepository<Invoice, Long>, JpaRepository<Invoice, Long> {
 
-	@Query(value = "select * from Invoice u where u.id_customer = ?#{[0]} and u.date between ?#{[1]} and ?#{[2]} limit ?#{[3]} , ?#{[4]}", nativeQuery = true)
-	List<Invoice> findDateByIdCus(String idCus, String dateStart, String dateEnd, int page, int pageSize);
-
+	@Query(value = "select * from Invoice u where u.id_customer = ?#{[0]} and u.date between ?#{[1]} and ?#{[2]} ORDER BY ?#{#pageable}", nativeQuery = true)
+	Page<Invoice> findDateByIdCus(String idCus, String dateStart, String dateEnd, Pageable pageable);
+	
 	Invoice findByContractNumber(String contractnumber);
 
 	List<Invoice> findByIdCustomer(Customer idcustomer);
