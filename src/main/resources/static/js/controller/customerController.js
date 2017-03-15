@@ -1,16 +1,25 @@
 
-angular.module('dbApp').controller('CustomerController', ['$scope', 'UserService', function($scope, UserService) {
+angular.module('dbApp').controller('CustomerController',function($scope, CustomerService) {
     
-	$scope.myEnable = function(){
-	/*	document.myForm.name.disabled = false;
-		document.myForm.email.disabled = false;
-		document.myForm.address.disabled = false;
-		document.myForm.phone.disabled = false;
-		document.myForm.taxcode.disabled = false;
-		document.myForm.limit.disabled = false;
-		document.myForm.btn.disabled = false;*/
-		document.myForm.set.disabled = false;
-		console.log('enabled form');
-    };
+	 var self = this;
+	    self.customer={id:null,idCustomer:'',nameCustomer:'',address:'',email:'',phone:'',taxCode:'',limitConsume:''};    
+	     
+	    fetchCustomer();
 
-}]);
+	    function fetchCustomer(){
+	    	
+	    		CustomerService.fetchCustomer()
+		            .then(
+		            function(d) {
+		            	self.customer = d;
+		            	$scope.totalElements = d.totalElements;
+		            	//console.log("d.totalElements" + d.totalElements);
+		            },
+		            function(errResponse){
+		                console.error('Error while fetching Users');
+		            }
+		        );	    			 	    	
+	        
+	    };
+	    	    
+});

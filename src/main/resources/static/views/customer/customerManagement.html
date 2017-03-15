@@ -1,6 +1,6 @@
 
 
-        <div id="page-wrapper" ng-controller="CustomerController">
+        <div id="page-wrapper" ng-controller="CustomerController as ctrl">
 
             <div class="container-fluid" >
 
@@ -20,7 +20,7 @@
                          <fieldset name="set" disabled>
                             <div class="form-group" >
                                 <label style="font-weight:bold">Full Name</label>
-                                <input type="text" name="name"  class="form-control" placeholder="Your Name"  required />
+                                <input type="text" name="name"  class="form-control" placeholder="Your Name" ng-model="ctrl.customer.nameCustomer" required />
                                 
                             </div>
 
