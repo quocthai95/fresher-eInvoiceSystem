@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
@@ -16,6 +18,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "company")
@@ -59,10 +62,15 @@ public class Company implements Serializable {
     @Column(name = "tax_code")
     private int taxCode;
     
-    @JsonIgnore
-    @OneToMany(mappedBy = "idCpn")//cascade = CascadeType.ALL,
-    private Collection<Invoice> invoiceCollection;
-
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "idCpn")//cascade = CascadeType.ALL,
+//    private Collection<TypeInvoice> typeInvoiceCollection;
+    
+    @JsonIgnoreProperties("cpnCollection")
+	@JoinColumn(name = "id_type", referencedColumnName = "id_type")
+	@ManyToOne(optional = false)
+	private TypeInvoice idType;
+    
     public Company() {
     }
 
@@ -144,13 +152,21 @@ public class Company implements Serializable {
     public void setTaxCode(int taxCode) {
         this.taxCode = taxCode;
     }
-
-    @XmlTransient
-    public Collection<Invoice> getInvoiceCollection() {
-        return invoiceCollection;
-    }
-
-    public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
-        this.invoiceCollection = invoiceCollection;
-    }
+    
+//    @XmlTransient
+//    public Collection<TypeInvoice> getTypeInvoiceCollection() {
+//		return typeInvoiceCollection;
+//	}
+//    
+//    public void setTypeInvoiceCollection(Collection<TypeInvoice> typeInvoiceCollection) {
+//		this.typeInvoiceCollection = typeInvoiceCollection;
+//	}
+    
+    public TypeInvoice getIdType() {
+		return idType;
+	}
+    
+    public void setIdType(TypeInvoice idType) {
+		this.idType = idType;
+	}
 }

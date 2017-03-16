@@ -120,7 +120,6 @@ public class InvoiceController {
 		com = companyService.findById(1);
 
 		invoice.setIdCustomer(cus);
-		invoice.setIdCpn(com);
 
 		invoiceService.saveInvoice(invoice);
 
@@ -159,7 +158,6 @@ public class InvoiceController {
         currentInvoice.setPtef(invoice.getPtef());
         currentInvoice.setGrandTotal(invoice.getGrandTotal());
         currentInvoice.setIdCustomer(cus);
-        currentInvoice.setIdCpn(com);
         currentInvoice.setIdType(invoice.getIdType());
           
         invoiceService.updateInvoice(currentInvoice);
