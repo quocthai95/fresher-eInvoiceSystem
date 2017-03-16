@@ -45,7 +45,7 @@ public class TypeInvoice implements Serializable {
     private float vat;
     
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idType")
+    @OneToMany(mappedBy = "idType")//cascade = CascadeType.ALL,
     private Collection<Invoice> invoiceCollection;
 
     public TypeInvoice() {

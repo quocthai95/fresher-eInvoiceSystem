@@ -39,7 +39,7 @@ public class Invoice implements Serializable {
     
     @Basic(optional = false)
     @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date date;
     
     @Length(max= 100)
