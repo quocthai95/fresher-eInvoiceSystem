@@ -1,7 +1,5 @@
 package csc.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import csc.models.Company;
 import csc.models.Customer;
 import csc.models.Invoice;
 import csc.models.Users;
@@ -115,12 +112,8 @@ public class InvoiceController {
 		System.out.println("Type invoice" + invoice.getIdType());
 		Customer cus = new Customer();
 		cus = customerService.findByUser(user);
-
-		Company com = new Company();
-		com = companyService.findById(1);
-
+		
 		invoice.setIdCustomer(cus);
-		invoice.setIdCpn(com);
 
 		invoiceService.saveInvoice(invoice);
 
@@ -148,8 +141,7 @@ public class InvoiceController {
 		System.out.println("Type invoice" +invoice.getIdType()); 
 		Customer cus = new Customer();
 		cus = customerService.findByUser(user);
-        Company com = new Company();
-		com = companyService.findById(1);
+        
         currentInvoice.setDate(invoice.getDate());
         currentInvoice.setContractNumber(invoice.getContractNumber());
         currentInvoice.setNameService(invoice.getNameService());
@@ -159,7 +151,6 @@ public class InvoiceController {
         currentInvoice.setPtef(invoice.getPtef());
         currentInvoice.setGrandTotal(invoice.getGrandTotal());
         currentInvoice.setIdCustomer(cus);
-        currentInvoice.setIdCpn(com);
         currentInvoice.setIdType(invoice.getIdType());
           
         invoiceService.updateInvoice(currentInvoice);

@@ -52,7 +52,7 @@
 				
 			</td>		
 			<td>
-			<button type="button" class="btn btn-success btn-xs" title="View" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#btnModal" ng-click="ctrl.showDetail(u.idType.code,u.id) "><span class="glyphicon glyphicon-eye-open " style="color:white"></span></button>
+			<button type="button" class="btn btn-success btn-xs" title="View" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#btnModal" ng-click="ctrl.showDetail(u.idType,u.id) "><span class="glyphicon glyphicon-eye-open " style="color:white"></span></button>
 		     <div id="btnModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
              
@@ -82,9 +82,11 @@
 								</div>
 
 								<div class="form-group" id="service2">
-									<label style="font-weight: bold">Name Service</label> <input
-										ng-model="ctrl.invoice.nameService" type="text" name="service"
-										class="form-control" placeholder="Your Service" hidden />
+									<label style="font-weight: bold">Name Service</label> 
+									
+									<select ng-model="ctrl.invoice.nameService"  class="form-control" id="sel1" ng-change="ctrl.getService()">
+									    <option ng-repeat="s in ctrl.services" >{{s.nameService}}</option>									    
+									</select>
 
 
 								</div>
