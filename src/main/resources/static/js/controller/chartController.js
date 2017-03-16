@@ -4,6 +4,7 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
     var reports=[];
     var eb = [];
     var pb = [];
+    var dt = [];
     
     
    $scope.size='0';
@@ -23,20 +24,26 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
             	console.log('reports=' + reports);
             	
 	            	for(var temp in reports){
+	            		//reports[temp].date = new Date(reports[temp].date);
+	            		dt.push(reports[temp].date);
+	            		console.log(dt);
 	            		
 	            		if(reports[temp].idType.code=="PB"){
-	            			pb.push(reports[temp].grandTotal);
-	            			eb.push(0);
-		            		console.log(pb);
+	 
+	            			pb.splice(temp,0,reports[temp].grandTotal);
+	            			eb.push(1110);
+		            		
 	            		}
 	            		if(reports[temp].idType.code=="EB"){
-	            			eb.push(reports[temp].grandTotal);
-	            			pb.push(0);
-		            		console.log(eb);
+	            			eb.splice(temp,0,reports[temp].grandTotal);
+	            			pb.push(1110);
+		            		
 	            		}
 	            		
 	            	}
-            	
+	            	
+	            	console.log(pb);
+	            	console.log(eb);
             	
             	//reports.push(item);
             },
@@ -47,35 +54,34 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
     }
     
     
-    $scope.myData = [pb,eb];
+  //  $scope.myData = [pb,eb];
 	 $scope.myObj = {  
-		      type : 'bar',  
-		      "scale-x":{
-//	                "min-value":1372982401000,
-//	                "step":2629743000,
-	                "transform":{
-	                    "type":"date",
-	                    "all":"%m.%d.%Y",
-	                    
-	                    
-	                }
-	            },
-		      series:[  
-		          {  
-		              backgroundColor : "#FAEE00"  
-		          } ,
-		          {  
-		              backgroundColor : "#A0FFEE"  
-		          },  
-		          {  
-		              backgroundColor : "#ff0000"  
-		          },  
-		          {  
-		              backgroundColor : "#00995c"  
-		          }
-		         
-		        ]  
-		    };  
+			
+			                
+			                    "type":"bar",
+			                   
+			                    "scale-x":{
+			                        "min-value":dt,
+			                        "step":2629743000,
+			                       "transform":{
+			                            "type":"date",
+			                            "all":"%d.%m.%Y"
+			                        }
+			                    },
+			                    "series":[
+									{  'values': pb,
+									    backgroundColor : "#FAEE00"  ,
+									    	
+									},  
+									{  'values':eb,
+									    backgroundColor : "#A0FFEE"  
+									    	
+									} 
+									
+			                    ]
+			                
+			            
+			 };  
 	 $scope.myObj1 = {
 			    type: "pie",
 			    title: {
