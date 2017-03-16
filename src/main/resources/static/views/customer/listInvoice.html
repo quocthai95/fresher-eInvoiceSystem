@@ -1,4 +1,5 @@
 <form class="form-inline" style="margin-top: 20px">
+
 	<div class="form-group">
 		<label>Search</label> <input type="text" ng-model="search"
 			class="form-control" placeholder="Filter text...">
@@ -18,6 +19,7 @@
 </form>
 
 <table class="table table-hover" id="table-no-resize">
+
 	<thead>
 		<tr>
 			<th>Type Invoice</th>
@@ -70,49 +72,36 @@
 												ng-model="ctrl.invoice.contractNumber" type="text"
 												name="contract" class="form-control"
 												placeholder="Your Contract Number" />
-
 										</div>
-
 										<div class="form-group">
 											<label style="font-weight: bold">Date</label> <input
 												ng-model="ctrl.invoice.date " type="date" name="date"
 												class="form-control" placeholder="Date" />
-
-
 										</div>
-
-										<div class="form-group" id="service2">
-											<label style="font-weight: bold">Name Service</label> <input
-												ng-model="ctrl.invoice.nameService" type="text"
-												name="service" class="form-control"
-												placeholder="Your Service" hidden />
-
-
+								<div class="form-group" id="service2">
+									<label style="font-weight: bold">Name Service</label> 
+									
+									<select ng-model="ctrl.invoice.nameService"  class="form-control" id="sel1" ng-change="ctrl.getService()">
+									    <option ng-repeat="s in ctrl.services" >{{s.nameService}}</option>									    
+									</select>
 										</div>
-
 										<div class="form-group" id="index2">
 											<label style="font-weight: bold">Index Consumed</label> <input
 												ng-model="ctrl.invoice.indexConsumed" type="number"
 												name="index" class="form-control"
 												placeholder="Your Index Consumed"
 												ng-change="ctrl.changeTotal()" />
-
-
 										</div>
-
 										<div class="form-group">
 											<label style="font-weight: bold">Total</label> <label
 												style="color: red">{{ctrl.invoice.total | number }}
 											</label>
-
 										</div>
 
 										<div class="form-group">
 											<label style="font-weight: bold">VAT</label> <label
 												style="color: red">{{ ctrl.invoice.vat }}%</label>
 										</div>
-
-
 										<div class="form-group" id="ptef2">
 											<label style="font-weight: bold">PTEF</label> <label
 												style="color: red">{{ ctrl.invoice.ptef }}%</label>
@@ -122,7 +111,6 @@
 											<label style="font-weight: bold">Grand Total</label> <label
 												style="color: red"> {{ ctrl.invoice.grandTotal |
 												number }} </label>
-
 										</div>
 										<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
 											type="hidden" ng-model="ctrl.invoice.idCpn" /> <input
@@ -133,7 +121,6 @@
 											class="btn btn-primary" value="Edit"
 											ng-click="myEnable(ctrl.invoice.id)"> </input>
 									</div>
-
 								</form>
 							</div>
 							<div class="modal-footer">
@@ -141,7 +128,6 @@
 									data-dismiss="modal" ng-click="clear()">Close</button>
 							</div>
 						</div>
-
 					</div>
 				</div>
 				<button type="button" class="btn btn-danger btn-xs" title="Delete"
@@ -152,7 +138,6 @@
 		</tr>
 	</tbody>
 </table>
-
 <form class="form-inline" style="margin-top: 20px" align="right">
 	<div class="form-group">
 		<label>Page size</label> <select ng-model="pageSize" id="pageSize"
@@ -175,6 +160,3 @@
 	</div>
 
 </form>
-
-
-

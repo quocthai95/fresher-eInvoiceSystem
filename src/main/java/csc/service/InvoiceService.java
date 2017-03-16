@@ -1,8 +1,5 @@
 package csc.service;
 
-import java.util.List;
-
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +10,7 @@ import csc.models.Invoice;
 public interface InvoiceService {
 	
 	Invoice findById(long id);
+		
 	
 	@CacheEvict(value="report", allEntries=true)
 	void saveInvoice(Invoice invoice);
