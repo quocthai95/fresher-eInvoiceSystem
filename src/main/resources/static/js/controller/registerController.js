@@ -4,6 +4,12 @@ app.controller('RegisterController', function($scope, RegisterService, $location
     self.users=[];
 
     self.submit = submit;
+    self.changeUserName = changeUserName
+    
+    
+    function changeUserName(){
+    	self.res.username = self.res.email;
+    }
     
     function register(res){
     	RegisterService.register(res)

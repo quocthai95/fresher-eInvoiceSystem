@@ -13,8 +13,8 @@
 						<ul class="dropdown-menu">
 							
 
-							<li ng-repeat="u in ctrl.typeInvoices"  data-toggle="modal" data-target="#myModal" ng-click="showForm(u.code, u)">
-								<i class="fa fa-fw fa-gear"><span ng-bind="u.nameInvoice"></span></i>
+							<li ng-repeat="u in ctrl.typeInvoices"  data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" ng-click="showForm(u.code, u)">
+								<span>{{u.nameInvoice}}</span>
 							</li>
 						</ul>
 					</span>
@@ -64,14 +64,15 @@
 									<label style="font-weight: bold">Index Consumed</label> <input
 										ng-model="ctrl.invoice.indexConsumed" type="number"
 										name="index" class="form-control"
-										placeholder="Your Index Consumed" />
+										placeholder="Your Index Consumed"
+										ng-change="ctrl.changeTotal()" />
 
 
 								</div>
 
 								<div class="form-group">
 									<label style="font-weight: bold">Total</label> <input
-										ng-model="ctrl.invoice.total" type="number" name="total"
+										ng-model="ctrl.invoice.total | currency:'':0" type="text" name="total"
 
 										class="form-control" placeholder="Total" disabled/>
 
@@ -79,7 +80,7 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">VAT</label> <input
-										ng-model="ctrl.invoice.vat" type="number" name="vat"
+										ng-model="ctrl.invoice.vat" type="text" name="vat"
 
 										class="form-control" placeholder="VAT" disabled/>
 
@@ -97,7 +98,7 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">Grand Total</label> <input
-										ng-model="ctrl.invoice.grandTotal" type="number" name="ptef"
+										ng-model="ctrl.invoice.grandTotal | currency:'':0" type="text" name="grandTotal"
 
 										class="form-control" placeholder="Grand Total" disabled/>
 

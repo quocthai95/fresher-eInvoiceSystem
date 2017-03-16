@@ -1,10 +1,8 @@
 package csc.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -72,8 +70,7 @@ public class InvoiceController {
 		return new ResponseEntity<Page<Invoice>>(invoices, HttpStatus.OK);
 	}
 
-	// -------------------Retrieve All
-	// Users--------------------------------------------------------
+	// -------------------Retrieve All Users--------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/getAll", method = RequestMethod.GET)
 	public ResponseEntity<Page<Invoice>> listAllInvoice(Pageable pageable) {
@@ -92,8 +89,7 @@ public class InvoiceController {
 		return new ResponseEntity<Page<Invoice>>(invoice, HttpStatus.OK);
 	}
 
-	// -------------------Retrieve Single
-	// User--------------------------------------------------------
+	// -------------------Retrieve Single User--------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Invoice> getInvoice(@PathVariable("id") long id) {
@@ -106,8 +102,7 @@ public class InvoiceController {
 		return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
 	}
 
-	// -------------------Create a
-	// User--------------------------------------------------------
+	// -------------------Create a User--------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/create", method = RequestMethod.POST)
 	public ResponseEntity<Void> createInvoice(@RequestBody Invoice invoice, UriComponentsBuilder ucBuilder) {
@@ -125,7 +120,6 @@ public class InvoiceController {
 		com = companyService.findById(1);
 
 		invoice.setIdCustomer(cus);
-		invoice.setIdCpn(com);
 
 		invoiceService.saveInvoice(invoice);
 
@@ -134,38 +128,43 @@ public class InvoiceController {
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	// ------------------- Update a User
-	// --------------------------------------------------------
+	// ------------------- Update a User --------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/update/{id}", method = RequestMethod.POST)
-	public ResponseEntity<Invoice> updateInvoice(@PathVariable("id") long id, @RequestBody Invoice invoice) {
-		System.out.println("Updating Invoice " + id);
+    public ResponseEntity<Invoice> updateInvoice(@PathVariable("id") long id, @RequestBody Invoice invoice) {
+        System.out.println("Updating Invoice " + id);
+          
+        Invoice currentInvoice = invoiceService.findById(id);
+          
+        if (currentInvoice==null) {
+            System.out.println("Invoice with id " + id + " not found");
+            return new ResponseEntity<Invoice>(HttpStatus.NOT_FOUND);
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Users user = new Users();
+		user = userService.findByName(username);
+		System.out.println("Type invoice" +invoice.getIdType()); 
+		Customer cus = new Customer();
+		cus = customerService.findByUser(user);
+        Company com = new Company();
+		com = companyService.findById(1);
+        currentInvoice.setDate(invoice.getDate());
+        currentInvoice.setContractNumber(invoice.getContractNumber());
+        currentInvoice.setNameService(invoice.getNameService());
+        currentInvoice.setIndexConsumed(invoice.getIndexConsumed());
+        currentInvoice.setTotal(invoice.getTotal());
+        currentInvoice.setVat(invoice.getVat());
+        currentInvoice.setPtef(invoice.getPtef());
+        currentInvoice.setGrandTotal(invoice.getGrandTotal());
+        currentInvoice.setIdCustomer(cus);
+        currentInvoice.setIdType(invoice.getIdType());
+          
+        invoiceService.updateInvoice(currentInvoice);
+        return new ResponseEntity<Invoice>(currentInvoice, HttpStatus.OK);
+    }
 
-		Invoice currentInvoice = invoiceService.findById(id);
-
-		if (currentInvoice == null) {
-			System.out.println("Invoice with id " + id + " not found");
-			return new ResponseEntity<Invoice>(HttpStatus.NOT_FOUND);
-		}
-
-		currentInvoice.setDate(invoice.getDate());
-		currentInvoice.setContractNumber(invoice.getContractNumber());
-		currentInvoice.setNameService(invoice.getNameService());
-		currentInvoice.setIndexConsumed(invoice.getIndexConsumed());
-		currentInvoice.setTotal(invoice.getTotal());
-		currentInvoice.setVat(invoice.getVat());
-		currentInvoice.setPtef(invoice.getPtef());
-		currentInvoice.setGrandTotal(invoice.getGrandTotal());
-		currentInvoice.setIdCustomer(invoice.getIdCustomer());
-		currentInvoice.setIdCpn(invoice.getIdCpn());
-		currentInvoice.setIdType(invoice.getIdType());
-
-		invoiceService.updateInvoice(currentInvoice);
-		return new ResponseEntity<Invoice>(currentInvoice, HttpStatus.OK);
-	}
-
-	// ------------------- Delete a User
-	// --------------------------------------------------------
+	// ------------------- Delete a User --------------------------------------------------------
 
 	@RequestMapping(value = "/invoice/delete/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Invoice> deleteInvoice(@PathVariable("id") long id) {

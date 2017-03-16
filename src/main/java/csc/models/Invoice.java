@@ -39,7 +39,7 @@ public class Invoice implements Serializable {
     
     @Basic(optional = false)
     @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date date;
     
     @Length(max= 100)
@@ -72,14 +72,9 @@ public class Invoice implements Serializable {
     @JoinColumn(name = "id_customer", referencedColumnName = "id_customer")
     @ManyToOne(optional = false)
     private Customer idCustomer;
-    
-    @JsonIgnore
-    @JoinColumn(name = "id_cpn", referencedColumnName = "id_cpn")
-    @ManyToOne(optional = false)
-    private Company idCpn;
-    
+      
     @JsonIgnoreProperties("invoiceCollection")
-    @JoinColumn(name = "id_type", referencedColumnName = "id")
+    @JoinColumn(name = "id_type", referencedColumnName = "id_type")
     @ManyToOne(optional = false)
     private TypeInvoice idType;
 	
@@ -106,7 +101,7 @@ public class Invoice implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public Date getDate() {
 		return date;
 	}
@@ -170,21 +165,13 @@ public class Invoice implements Serializable {
 	public void setGrandTotal(BigDecimal grandTotal) {
 		this.grandTotal = grandTotal;
 	}
-
+	
 	public Customer getIdCustomer() {
 		return idCustomer;
 	}
 
 	public void setIdCustomer(Customer idCustomer) {
 		this.idCustomer = idCustomer;
-	}
-
-	public Company getIdCpn() {
-		return idCpn;
-	}
-
-	public void setIdCpn(Company idCpn) {
-		this.idCpn = idCpn;
 	}
 
 	public TypeInvoice getIdType() {
