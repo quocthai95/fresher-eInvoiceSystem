@@ -7,6 +7,14 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
     var wb = [];
     var dt = [] ;
     var day ;
+    var totalpb = 0;
+    var totaleb = 0;
+    var totalib = 0;
+    var totalwb = 0;
+    var tpb =[];
+    var teb =[];
+    var tib =[];
+    var twb =[];
    
     
    $scope.size='0';
@@ -19,11 +27,11 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
     	$scope.dateEnd = '2016-04-10';
     	var x = $scope.dateStart;
     	x = new Date(x);
-    	console.log(x.getMonth());
-    	console.log(x.getFullYear());
+    	//console.log(x.getMonth());
+    	//console.log(x.getFullYear());
     	var y = $scope.dateEnd;
     	y = new Date(y);
-    	console.log(y.getMonth());
+    	//console.log(y.getMonth());
     	
     	ReportService.fetchAllReport($scope.dateStart, $scope.dateEnd,$scope.size,  $scope.currentpage)
             .then(
@@ -31,10 +39,10 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
             	reports = d.content;	
             	//$scope.totalElements = d.totalElements;
             	//console.log("d.totalElements" + d.totalElements);
-            	console.log('reports=' + reports);
+            	//console.log('reports=' + reports);
             	var a = new Date(reports[0].date);
                 dt.push(a.getTime());
-            	console.log('dt' + dt);
+            	//console.log('dt' + dt);
          if (x.getFullYear() == y.getFullYear())
         	{
             	for ( i = x.getMonth();i<=y.getMonth();i++){
@@ -42,7 +50,7 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
 	           	for(var temp in reports){
 	           		day = new Date(reports[temp].date);
 	           		
-	           		console.log('day    ' + day.getMonth());
+	           		//console.log('day    ' + day.getMonth());
 	   
 	           		if (day.getMonth() ==  i)
 	           			{
@@ -74,7 +82,7 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
 	           	for(var temp in reports){
 	           		day = new Date(reports[temp].date);
 	           		
-	           		console.log('day    ' + day.getMonth());
+	           		//console.log('day    ' + day.getMonth());
 	   
 	           		if (day.getMonth() ==  i)
 	           			{
@@ -99,11 +107,29 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
 	           	}
             	}
          }
+         for(i=0;i<pb.length;i++){
+        	 totalpb += pb[i];
+         }
+         for(i=0;i<eb.length;i++){
+        	 totaleb += eb[i];
+         }
+         for(i=0;i<ib.length;i++){
+        	 totalib += ib[i];
+         }
+         for(i=0;i<wb.length;i++){
+        	 totalwb += wb[i];
+         }
+         
 	           	
-	           	console.log('final' + '' + pb);
-	           	console.log('final' + ''  + eb);
-	           	console.log('final' + ''  + wb);
-	           	console.log('final' + ''  + ib);
+//	           	console.log('final' + '' + pb);
+//	           	console.log('final' + ''  + eb);
+//	           	console.log('final' + ''  + wb);
+//	           	console.log('final' + ''  + ib);
+	           	
+	        	tpb.push(totalpb);
+	        	teb.push(totaleb);
+	        	tib.push(totalib);
+	        	twb.push(totalwb);
 
             	
             	//reports.push(item);
@@ -165,19 +191,19 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
 			     slice: 50 //to make a donut
 			   },
 			   series: [{
-			     values: [3],
+			     values: tpb,
 			     text: "Total Commits"
 
 			   },
 			   {
-			     values: [4],
+			     values: teb,
 			     text: "Issues Solved"
 
 			   }, {
-			     values: [8],
+			     values: tib,
 			     text: "Issues Submitted"
 			   }, {
-			     values: [7],
+			     values: twb,
 			     text: "Number of Clones"
 
 			   }]
