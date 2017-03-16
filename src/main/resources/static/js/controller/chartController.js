@@ -4,6 +4,8 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
     var reports=[];
     var eb = [];
     var pb = [];
+    var ib = [];
+    var wb = [];
     var dt = [];
     
     
@@ -30,20 +32,43 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
 	            		
 	            		if(reports[temp].idType.code=="PB"){
 	 
-	            			pb.splice(temp,0,reports[temp].grandTotal);
-	            			eb.push(1110);
-		            		
+	            			pb.push(reports[temp].grandTotal);
+	            			eb.push(0);
+	            			ib.push(0);
+	            			wb.push(0);
+		            		//console.log(pb);
 	            		}
 	            		if(reports[temp].idType.code=="EB"){
-	            			eb.splice(temp,0,reports[temp].grandTotal);
-	            			pb.push(1110);
-		            		
+	            			eb.push(reports[temp].grandTotal);
+	            			pb.push(0);
+	            			ib.push(0);
+	            			wb.push(0);
+		            		//console.log(eb);
 	            		}
+	            		if(reports[temp].idType.code=="IB"){
+	            			 
+	            			ib.push(reports[temp].grandTotal);
+	            			eb.push(0);
+	            			pb.push(0);
+	            			wb.push(0);
+		            		//console.log(pb);
+	            		}
+	            		if(reports[temp].idType.code=="WB"){
+	            			 
+	            			wb.push(reports[temp].grandTotal);
+	            			eb.push(0);
+	            			pb.push(0);
+	            			ib.push(0);
+		            		//console.log(pb);
+	            		}
+	            		console.log(pb);
+	            		console.log(eb);
+	            		console.log(ib);
+	            		console.log(wb);
 	            		
 	            	}
 	            	
-	            	console.log(pb);
-	            	console.log(eb);
+            	
             	
             	//reports.push(item);
             },
@@ -75,6 +100,16 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
 									},  
 									{  'values':eb,
 									    backgroundColor : "#A0FFEE"  
+									    	
+									} 
+									,  
+									{  'values':ib,
+									    backgroundColor : "red"  
+									    	
+									} 
+									,  
+									{  'values':wb,
+									    backgroundColor : "green"  
 									    	
 									} 
 									
