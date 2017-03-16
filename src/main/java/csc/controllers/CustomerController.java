@@ -4,8 +4,6 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -58,15 +56,10 @@ public class CustomerController {
       
     @RequestMapping(value = "/customer/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> getCustomer() {
-    	
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
-		Users user = new Users();
-		user = userService.findByName(username);
-		
-		Customer cus = new Customer();
-		cus = customerService.findByUser(user);
-		cus.setUser(null);
+    			
+		Customer cus = this.getCustomerAuthen();
+		cus.getUser().setPassword(null);
+		cus.getUser().setRoles(null);
 		
         System.out.println("Fetching Customer with id " + cus.getId());
         
@@ -79,14 +72,12 @@ public class CustomerController {
     
     //------------------- Update a Customer--------------------------------------------------------
     
-    @RequestMapping(value = "/customer/update/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Customer> updateCustomer(@PathVariable("id") long id, @RequestBody Customer customer) {
-        System.out.println("Updating Customer " + id);
+    @RequestMapping(value = "/customer/update", method = RequestMethod.POST)
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
           
-        Customer currentCustomer = customerService.findById(id);
+        Customer currentCustomer = this.getCustomerAuthen();
           
         if (currentCustomer==null) {
-            System.out.println("User with id " + id + " not found");
             return new ResponseEntity<Customer>(HttpStatus.NOT_FOUND);
         }
   
@@ -100,4 +91,15 @@ public class CustomerController {
         customerService.updateCustomer(currentCustomer);
         return new ResponseEntity<Customer>(currentCustomer, HttpStatus.OK);
     }
+    
+    private Customer getCustomerAuthen() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Users user = new Users();
+		Customer cus = new Customer();
+		user = userService.findByName(username);
+		cus = customerService.findByUser(user);
+		
+		return cus;
+	}
 }

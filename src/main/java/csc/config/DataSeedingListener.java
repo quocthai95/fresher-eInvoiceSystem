@@ -1,10 +1,8 @@
 package csc.config;
-
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -155,12 +153,16 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		createInvoiceRecord("UC123458", 1, 1L, 3, 10);
 		createInvoiceRecord("KC123458", 1, 1L, 4, 10);
 
+
 		createInvoiceRecord("KC121450", 1, 3L, 1, 10);
-		createInvoiceRecord("KC122450", 1, 3L, 2, 10);
-		createInvoiceRecord("KC123450", 1, 3L, 3, 10);
-		createInvoiceRecord("KC124450", 1, 3L, 4, 10);
+		createInvoiceRecord("KC122550", 1, 3L, 2, 10);
+		createInvoiceRecord("KC123650", 1, 3L, 3, 10);
+		createInvoiceRecord("KC124750", 1, 3L, 4, 10);
+
 
 		createInvoiceRecord("UC123457", 1, 2L, 1, 10);
+
+
 
 	}
 
@@ -268,7 +270,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			int day = 10;
 			int month = 0;
 			int year = 2016;
-
+			System.out.println("contractNumber:" + contractNumber);
 			Invoice invoice;
 			// TypeInvoice ti;
 			// DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -294,6 +296,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					Date date = calendar.getTime();
 					invoice.setDate(date);
 					invoice.setIndexConsumed(indexConsumed);
+					
+					
 					invoice.setNameService("G20");
 					invoice.setPtef(ptef);
 					invoice.setTotal(total);

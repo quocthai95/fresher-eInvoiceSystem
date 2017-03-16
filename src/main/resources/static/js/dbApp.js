@@ -1,4 +1,4 @@
-var app = angular.module('dbApp', [ 'ngRoute','zingchart-angularjs' ]);
+var app = angular.module('dbApp', [ 'ngRoute','zingchart-angularjs', 'oitozero.ngSweetAlert' ]);
 app.config(function($routeProvider) {
 
 	$routeProvider.when("/", {
@@ -15,7 +15,7 @@ app.config(function($routeProvider) {
 		controller: 'CustomerController as ctrl',
 	}).when("/invoice-manage", {
 		templateUrl : "/EInvoice/views/customer/invoiceManagement.html",
-		controller: 'InvoiceController',
+		controller: 'InvoiceController as ctrl',
 	}).when("/report-manage", {
 		templateUrl : "/EInvoice/views/customer/reportManagement.html",
 		controller: 'ReportController as ctrl',
