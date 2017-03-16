@@ -1,5 +1,6 @@
 package csc.service;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import csc.models.Customer;
@@ -11,5 +12,6 @@ public interface CustomerService {
 	Customer findByUser(Users user);
 	Customer findByEmail(String email);
 	Customer findById(long id);
+	@CacheEvict(value = "users", allEntries = true)
 	void updateCustomer(Customer currentCustomer);
 }

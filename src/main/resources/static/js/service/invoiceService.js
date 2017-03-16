@@ -11,7 +11,8 @@ angular.module('dbApp').factory('InvoiceService', ['$http', '$q', 'TypeInvoiceSe
         fetchAllTypeInvoice: fetchAllTypeInvoice,        
         getID : getID,    
         deleteInvoice : deleteInvoice ,
-        
+        fetchAllService: fetchAllService,
+        getService: getService,
         };
 
     return factory;
@@ -36,6 +37,38 @@ angular.module('dbApp').factory('InvoiceService', ['$http', '$q', 'TypeInvoiceSe
     function fetchAllTypeInvoice() {
         var deferred = $q.defer();
         TypeInvoiceService.fetchAll()
+            .then(
+            function (d) {
+            	console.log(d);
+                deferred.resolve(d);                
+            },
+            function(errResponse){
+                console.error('Error while fetching Invoice');
+                deferred.reject(errResponse);
+            }
+        );
+        return deferred.promise;
+    }
+    
+    function fetchAllService(id) {
+        var deferred = $q.defer();
+        TypeInvoiceService.fetchAllService(id)
+            .then(
+            function (d) {
+            	console.log(d);
+                deferred.resolve(d);                
+            },
+            function(errResponse){
+                console.error('Error while fetching Invoice');
+                deferred.reject(errResponse);
+            }
+        );
+        return deferred.promise;
+    }
+    
+    function getService(name, id) {
+        var deferred = $q.defer();
+        TypeInvoiceService.getService(name, id)
             .then(
             function (d) {
             	console.log(d);

@@ -53,10 +53,10 @@
 								</div>
 
 								<div class="form-group" id="service">
-									<label style="font-weight: bold">Name Service</label> <input
-										ng-model="ctrl.invoice.nameService" type="text" name="service"
-										class="form-control" placeholder="Your Service" hidden />
-
+									<label style="font-weight: bold">Name Service</label> 
+									<select ng-model="ctrl.invoice.nameService"  class="form-control" id="sel1" ng-change="ctrl.getService()">
+									    <option ng-repeat="s in ctrl.services" ng-selected="$first">{{s.nameService}}</option>									    
+									</select>
 
 								</div>
 
