@@ -8,19 +8,20 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     
     self.invoice={
     	id:null,
-    	date:'',
+    	date: new Date(),
     	contractNumber:'',
     	nameService:'',
     	indexConsumed:'',
-    	total:'',
+    	total:0,
     	vat:'',
-    	ptef:'10',
-    	grandTotal:'',
+    	ptef:10,
+    	grandTotal:0,
     	idType:'',
     	idCpn:'',
     	idCustomer:'',
     	
     }; 
+    
          
     self.typeInvoice={
         	id:null,
@@ -55,6 +56,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     self.update = updateInvoice;
     self.showDetail = showDetail;
     self.changeTotal = changeTotal;
+    self.deleteInvoice = deleteInvoice;
 
     defaultValue();
     fetchAllInvoice();
@@ -154,9 +156,9 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     }
 
     function deleteInvoice(id){
-        InvoiceService.deleteInvoie(id)
+        InvoiceService.deleteInvoice(id)
             .then(
-            fetchAllInvoive,
+    		fetchAllInvoice,
             function(errResponse){
                 console.error('Error while deleting Invoice');
             }
@@ -171,7 +173,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             updateInvoice(self.invoice, self.invoice.id);
             console.log('User updated with id ', self.invoice.id);
         }
-        //reset();
+        reset();
 
     }
 
@@ -241,7 +243,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     function reset(){
     	self.invoice={
     	    	id:null,
-    	    	date:'',
+    	    	date:new Date(),
     	    	contractNumber:'',
     	    	nameService:'',
     	    	indexConsumed:'',
@@ -290,16 +292,17 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     };
    
    
-$scope.clear = function(){
-	reset();
-	document.getElementById('btnset').disabled = true;
-	console.log('clear form');
-}
-$scope.deleteinvoice = function(id){
-	deleteInvoice(id);
-	console.log('delete success' + id);
+	$scope.clear = function(){
+		reset();
+		document.getElementById('btnset').disabled = true;
+		console.log('clear form');
+	}
+	$scope.deleteinvoice = function(id){
+		deleteInvoice(id);
+		console.log('delete success' + id);
+		
+	}
 	
-}
  $scope.myEnable = function(id){
     	    if(document.getElementById('btn').value == 'Edit'){
     		document.getElementById('btnset').disabled = false;
