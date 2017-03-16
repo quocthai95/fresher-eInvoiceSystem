@@ -1,9 +1,6 @@
 package csc.config;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -18,12 +15,14 @@ import csc.models.Company;
 import csc.models.Customer;
 import csc.models.Invoice;
 import csc.models.Role;
+import csc.models.Service;
 import csc.models.TypeInvoice;
 import csc.models.Users;
 import csc.repository.CompanyRepository;
 import csc.repository.CustomerRepository;
 import csc.repository.InvoiceRepository;
 import csc.repository.RoleRepository;
+import csc.repository.ServiceRepository;
 import csc.repository.TypeInvoiceRepository;
 import csc.repository.UserRepository;
 
@@ -50,6 +49,9 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 	@Autowired
 	private InvoiceRepository invoiceRepository;
+
+	@Autowired
+	private ServiceRepository serviceRepository;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
@@ -124,10 +126,27 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		// }
 		// End Test
 
-		// Create Company record
-		createCpnRecord();
+
 		// Create TypeInvoice record
 		createTypeInvoice();
+		
+		// Create Company record
+		// name - idCpn - nameInvoice
+		createCpnRecord("Thang Long", "1230000", "Electric Bill");
+		createCpnRecord("Sai Gon TNHH MTV", "3210000", "Water Bill");
+		createCpnRecord("Gia Dinh", "6660000", "Water Bill");
+		createCpnRecord("Thang Long 2", "4440000", "Electric Bill");
+		createCpnRecord("Viettel", "1110000", "Internet Bill");
+		createCpnRecord("VPN", "1120000", "Internet Bill");
+		createCpnRecord("Mobi", "1130000", "Phone Bill");
+		createCpnRecord("Vina", "1140000", "Phone Bill");
+		
+		// Create Service
+		// name - idType - count - unit
+		createService("G", 1, 2, 1000);
+		createService("G", 2, 2, 1000);
+		createService("G", 3, 5, 5000);
+		createService("G", 4, 5, 1000);
 
 		// Create Invoice record
 		// contractNumber - idCompany - idCustomer - idType - totalRecord
@@ -135,15 +154,32 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		createInvoiceRecord("IC123458", 1, 1L, 2, 10);
 		createInvoiceRecord("UC123458", 1, 1L, 3, 10);
 		createInvoiceRecord("KC123458", 1, 1L, 4, 10);
-		
+
 		createInvoiceRecord("KC121450", 1, 3L, 1, 10);
 		createInvoiceRecord("KC122450", 1, 3L, 2, 10);
 		createInvoiceRecord("KC123450", 1, 3L, 3, 10);
 		createInvoiceRecord("KC124450", 1, 3L, 4, 10);
-		
+
 		createInvoiceRecord("UC123457", 1, 2L, 1, 10);
 
+	}
 
+	private void createService(String name, int idType, int count, int unit) {
+		Service s;
+		TypeInvoice ti;
+		for (int index = 1; index <= count; index++) {
+			System.out.println("name + index" + (name + index));
+			ti = new TypeInvoice();
+			ti = typeInvoiceRepository.findById(idType);
+			if (serviceRepository.findByNameServiceAndIdType(name + index, ti) == null) {
+				s = new Service();
+				s.setIdType(ti);
+				s.setNameService(name + index);
+				s.setUnit(BigDecimal.valueOf(unit * index));
+				System.out.println("createService=" + ti);
+				serviceRepository.save(s);
+			}
+		}
 	}
 
 	private void createCustomer(Users user, String email) {
@@ -161,16 +197,21 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 	private void createTypeInvoice() {
 		TypeInvoice ti = new TypeInvoice();
-		if (typeInvoiceRepository.findByNameInvoice("Electric bill") == null) {
+		// Company cpn = null;
+		// int unit;
+		if (typeInvoiceRepository.findByNameInvoice("Electric Bill") == null) {
 			ti = new TypeInvoice();
+			// unit = 3000;
 			ti.setCode("EB");
-			ti.setNameInvoice("Electric bill");
-			ti.setDescription("Electric bill");
+			ti.setNameInvoice("Electric Bill");
+			ti.setDescription("Electric Bill");
 			ti.setVat(Float.parseFloat("10"));
 			typeInvoiceRepository.save(ti);
 		}
 		if (typeInvoiceRepository.findByNameInvoice("Water Bill") == null) {
 			ti = new TypeInvoice();
+			// unit = 2500;
+
 			ti.setCode("WB");
 			ti.setNameInvoice("Water Bill");
 			ti.setDescription("Water Bill");
@@ -179,6 +220,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		}
 		if (typeInvoiceRepository.findByNameInvoice("Internet Bill") == null) {
 			ti = new TypeInvoice();
+			// unit = 150000;
+
 			ti.setCode("IB");
 			ti.setNameInvoice("Internet Bill");
 			ti.setDescription("Internet Bill");
@@ -187,6 +230,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		}
 		if (typeInvoiceRepository.findByNameInvoice("Phone Bill") == null) {
 			ti = new TypeInvoice();
+			// unit = 1500;
+
 			ti.setCode("PB");
 			ti.setNameInvoice("Phone Bill");
 			ti.setDescription("Phone Bill");
@@ -195,22 +240,30 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		}
 	}
 
-	private void createCpnRecord() {
-		System.out.println(companyRepository.findByNameCpn("Thang Long"));
-		if (companyRepository.findByNameCpn("Thang Long") == null) {
+	private void createCpnRecord(String name, String idCpn, String nameInvoice) {
+		TypeInvoice ti;
+		System.out.println(companyRepository.findByNameCpn(name));
+		if (companyRepository.findByNameCpn(name) == null) {
 			Company cpn = new Company();
 			cpn.setAddress("123 Dong Khoi");
 			cpn.setBankAccount("123456789");
 			cpn.setFax(Integer.parseInt("085623149"));
-			cpn.setNameCpn("Thang Long");
+			cpn.setNameCpn(name);
 			cpn.setPhoneCpn(Integer.parseInt("0123456852"));
 			cpn.setTaxCode(Integer.parseInt("105878523"));
-			cpn.setIdCpn("123456");
+			cpn.setIdCpn(idCpn);
+			// set idType
+			ti = new TypeInvoice();
+			ti = typeInvoiceRepository.findByNameInvoice(nameInvoice);
+			cpn.setIdType(ti);
+
 			companyRepository.save(cpn);
 		}
+
 	}
 
-	private void createInvoiceRecord(String contractNumber, int idCompany, Long idCustomer, int idType, int totalRecord) {
+	private void createInvoiceRecord(String contractNumber, int idCompany, Long idCustomer, int idType,
+			int totalRecord) {
 		try {
 			int day = 10;
 			int month = 0;
@@ -251,13 +304,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					vat = typeInvoice.getVat();
 					invoice.setIdType(typeInvoice);
 					invoice.setVat(vat);
-					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)));
+					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)).divide(BigDecimal.valueOf(100)));
 					invoice.setGrandTotal(grandTotal);
-
-					// set Id Company
-					Company tmpCpn = new Company();
-					tmpCpn = companyRepository.findById(idCompany);
-					invoice.setIdCpn(tmpCpn);
 
 					// set Id Customer
 					Customer tmpCus = new Customer();
