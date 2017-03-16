@@ -140,6 +140,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		
 		createInvoiceRecord("FC123457", 1, 3L, 1, 10);
 		createInvoiceRecord("FC123480", 1, 3L, 2, 10);
+		createInvoiceRecord("BC123487", 1, 3L, 1, 10);
+		createInvoiceRecord("BC123489", 1, 2L, 3, 10);
 
 
 	}
