@@ -7,7 +7,7 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
     var wb = [];
     var dt = [] ;
     var day ;
-    
+   
     
    $scope.size='0';
    $scope.currentpage = '10';
@@ -32,8 +32,9 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
             	//$scope.totalElements = d.totalElements;
             	//console.log("d.totalElements" + d.totalElements);
             	console.log('reports=' + reports);
-            	dt.push(reports[0].date);
-            	console.log('dt    ' + dt);
+            	var a = new Date(reports[0].date);
+                dt.push(a.getTime());
+            	console.log('dt' + dt);
          if (x.getFullYear() == y.getFullYear())
         	{
             	for ( i = x.getMonth();i<=y.getMonth();i++){
@@ -123,10 +124,11 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
 			                   "scale-x":{
 			                       "min-value":dt,
 			                       "step":2629743000,
-			                      "transform":{
-			                           "type":"date",
+			                       
+		                      "transform":{
+		                           "type":"date",
 			                           "all":"%m.%Y"
-			                       }
+		                       }
 			                   },
 			                   "series":[
 									{  'values': pb,
