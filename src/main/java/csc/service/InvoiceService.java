@@ -1,5 +1,6 @@
 package csc.service;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +22,10 @@ public interface InvoiceService {
 	@CacheEvict(value="report", allEntries=true)
 	void deleteInvoiceById(long id);
 
+	@Cacheable("report")
 	Page<Invoice> findAllInvoice(Pageable pageable);
 	
+	@Cacheable("report")
 	Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable);
 	
 	@Cacheable("report")
