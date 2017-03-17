@@ -1,7 +1,5 @@
 package csc.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import csc.models.Company;
 import csc.models.Customer;
 import csc.models.Invoice;
 import csc.models.Users;
@@ -59,7 +56,7 @@ public class InvoiceController {
 			@PathVariable("end") String dateEnd, @PathVariable("page") int page,
 			@PathVariable("pageSize") int pageSize) {
 		System.out.println("getListReport");
-		
+		System.out.println("start= " + dateStart + " -end= " +dateEnd + " -page "+page + " -pageSize " +pageSize );
 		String idCus = this.getIdCustomer();
 
 		Page<Invoice> invoices = invoiceService.getListReport(idCus, dateStart, dateEnd, page, pageSize);
@@ -115,10 +112,7 @@ public class InvoiceController {
 		System.out.println("Type invoice" + invoice.getIdType());
 		Customer cus = new Customer();
 		cus = customerService.findByUser(user);
-
-		Company com = new Company();
-		com = companyService.findById(1);
-
+		
 		invoice.setIdCustomer(cus);
 
 		invoiceService.saveInvoice(invoice);
@@ -147,8 +141,7 @@ public class InvoiceController {
 		System.out.println("Type invoice" +invoice.getIdType()); 
 		Customer cus = new Customer();
 		cus = customerService.findByUser(user);
-        Company com = new Company();
-		com = companyService.findById(1);
+        
         currentInvoice.setDate(invoice.getDate());
         currentInvoice.setContractNumber(invoice.getContractNumber());
         currentInvoice.setNameService(invoice.getNameService());

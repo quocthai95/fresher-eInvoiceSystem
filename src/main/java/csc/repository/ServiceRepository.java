@@ -16,4 +16,6 @@ public interface ServiceRepository extends CrudRepository<Service, Long> {
 	
 	Service findByNameServiceAndIdType(String nameservice, TypeInvoice idType);
 	
+	List<Service> findByIdType(TypeInvoice idtype);
+	
 }
