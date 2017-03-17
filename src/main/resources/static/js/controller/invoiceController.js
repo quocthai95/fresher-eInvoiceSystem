@@ -180,12 +180,13 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
 
     function createInvoice(invoice){
     	console.log("create Invoice: " + invoice);
-        InvoiceService.createInvoice(invoice)
-            .then(
-            fetchAllInvoice,
-            function(errResponse){
-                console.error('Error while creating Invoice');
-            }
+        InvoiceService.createInvoice(invoice).then(function(success){
+        	SweetAlert.swal("Create!", "Your invoice has been created.", "success");
+        	fetchAllInvoice();
+        },
+        function(errResponse){
+            SweetAlert.swal("Error!", "Error while creating Invoice", "error");
+        	}
         );
     }
 
@@ -199,7 +200,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
 			reset();
 
 			}, function(errResponse){
-				//Do nothing
+				SweetAlert.swal("Error!", "Error while updating invoice", "error");
 			});
 	}
 
