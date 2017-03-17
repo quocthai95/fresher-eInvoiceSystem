@@ -16,7 +16,7 @@ app.controller('ReportController', [ '$scope', '$filter', 'ReportService', funct
 
 
     defaultValue();
-    fetchAllReport();
+    //fetchAllReport();
     
     
     $scope.onEventPaging = function(value) {
@@ -51,24 +51,30 @@ app.controller('ReportController', [ '$scope', '$filter', 'ReportService', funct
     }
 
     function fetchAllReport(){
-    	$scope.dateStart = new Date('2016-01-10');
-    	$scope.dateEnd = new Date('2016-04-10');
-        //ReportService.fetchAllReport($scope.dateStart, $scope.dateEnd, $scope.size, $scope.currentPage)
-//            .then(
-//            function(d) {
-//            	self.reports = d.content;	
-//            	$scope.totalElements = d.totalElements;
-//            	//console.log("d.totalElements" + d.totalElements);
-//            },
-//            function(errResponse){
-//                console.error('Error while fetching Invoice');
-//            }
-//        );
+//    	$scope.dateStart = new Date('2016-01-10');
+//    	$scope.dateEnd = new Date('2016-04-10');
+//    	$scope.dateStart = (new Date($scope.dateStart)).toISOString();
+//    	$scope.dateEnd = (new Date($scope.dateEnd)).toISOString();
+        ReportService.fetchAllReport($scope.dateStart.toJSON().substring(0, 10), 
+        		$scope.dateEnd.toJSON().substring(0, 10), 
+        		$scope.currentPage, 
+        		$scope.size)
+            .then(
+            function(d) {
+            	self.reports = d.content;	
+            	$scope.totalElements = d.totalElements;
+            	//console.log("d.totalElements" + d.totalElements);
+            },
+            function(errResponse){
+                console.error('Error while fetching Invoice');
+            }
+        );
     }
     
     $scope.btnReport = function() {
-    	console.log($scope.dateStart);
-    	console.log($scope.dateEnd);
+//    	console.log(new Date().toJSON().substring(0, 10));
+//    	console.log($scope.dateStart.toJSON().substring(0, 10))
+    	fetchAllReport();
     }
     
 }]);

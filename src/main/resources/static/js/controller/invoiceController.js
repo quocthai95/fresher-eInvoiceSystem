@@ -348,6 +348,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     		document.getElementById('ptef').hidden = true;
     		document.getElementById('service').hidden = false;
     		document.getElementById('index').hidden = true;
+    		
+    		self.invoice.indexConsumed = 1;
     	} 		
     };
    

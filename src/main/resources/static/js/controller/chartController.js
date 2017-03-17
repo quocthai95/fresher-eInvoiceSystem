@@ -17,8 +17,8 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
     var twb =[];
    
     
-   $scope.size='0';
-   $scope.currentpage = '10';
+   $scope.size=10;
+   $scope.currentpage = 0;
     
     fetchAllReport();
 //	$scope.myData = [[1,4,5,5,10], [9,3,4,5,6],[11,8,5,5,10],[10,4,5,5,9]] ;
@@ -33,7 +33,7 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
     	y = new Date(y);
     	//console.log(y.getMonth());
     	
-    	ReportService.fetchAllReport($scope.dateStart, $scope.dateEnd,$scope.size,  $scope.currentpage)
+    	ReportService.fetchAllReport($scope.dateStart, $scope.dateEnd,$scope.currentpage, $scope.size)
             .then(
             function(d) {
             	reports = d.content;	

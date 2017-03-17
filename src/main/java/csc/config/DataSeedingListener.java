@@ -149,7 +149,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		// name - idType - count - unit
 		createService("G", 1, 2, 1000);
 		createService("G", 2, 2, 1000);
-		createService("G", 3, 5, 5000);
+		createService("G", 3, 5, 50000);
 		createService("G", 4, 5, 1000);
 
 		// Create Invoice record
