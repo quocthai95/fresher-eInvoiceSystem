@@ -147,6 +147,7 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
 			               
 			                   "type":"bar",
 			                  
+			                  
 			                   "scale-x":{
 			                       "min-value":dt,
 			                       "step":2629743000,
@@ -177,34 +178,70 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
 									} ,
 									
 									
-			                   ]
+			                   ],
+			                   "labels":[
+			                             {
+			                                 "text":"Phone Bill",
+			                                 "x":"350px",
+			                                 "y":"10px",
+			                                 "background-color":"#FAEE00",
+			                                 "width":"100px",
+			                                 "height":"30px"
+			                             },
+			                             {
+			                                 "text":"Electric Bill",
+			                                 "x":"450px",
+			                                 "y":"10px",
+			                                 "background-color":"#A0FFEE",
+			                                 "width":"100px",
+			                                 "height":"30px"
+			                             },
+			                             {
+			                                 "text":"Water Bill",
+			                                 "x":"550px",
+			                                 "y":"10px",
+			                                 "background-color":"green",
+			                                 "width":"100px",
+			                                 "height":"30px"
+			                             },
+			                             {
+			                                 "text":"Internet Bill",
+			                                 "x":"650px",
+			                                 "y":"10px",
+			                                 "background-color":"red",
+			                                 "width":"100px",
+			                                 "height":"30px"
+			                             }
+			                         ]
 			               
 			           
 			};  
+	
 	$scope.myObj1 = {
 			   type: "pie",
-			   title: {
-			     textAlign: 'center',
-			     text: "Pie Chart"
-			   },
+			   
 			   plot: {
 			     slice: 50 //to make a donut
 			   },
 			   series: [{
 			     values: tpb,
-			     text: "Total Commits"
+			     text: "Phone Bill",
+			     "background-color":"#FAEE00"
 
 			   },
 			   {
 			     values: teb,
-			     text: "Issues Solved"
+			     text: "Electric Bill",
+			     "background-color":"#A0FFEE"
 
 			   }, {
 			     values: tib,
-			     text: "Issues Submitted"
+			     text: "Iternet Bill",
+			     "background-color":"red"
 			   }, {
 			     values: twb,
-			     text: "Number of Clones"
+			     text: "Water Bill",
+			     "background-color":"green"
 
 			   }]
 			 };
