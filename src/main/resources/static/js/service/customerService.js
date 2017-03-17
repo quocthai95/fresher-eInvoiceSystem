@@ -23,10 +23,10 @@ angular.module('dbApp').factory('CustomerService', ['$http', '$q', function($htt
 	        return deferred.promise;
 	    }
 	  
-	  function updateCustomer(customer, id) {
+	  function updateCustomer(customer) {
 	    	console.log(customer);
 	        var deferred = $q.defer();
-	        $http.post(REST_SERVICE_URI + "update/" +id, customer)
+	        $http.post(REST_SERVICE_URI + "update", customer)
 	            .then(
 	            function (response) {
 	                deferred.resolve(response.data);

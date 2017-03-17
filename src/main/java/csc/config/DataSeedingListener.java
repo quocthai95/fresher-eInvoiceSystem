@@ -1,8 +1,11 @@
 package csc.config;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -126,8 +129,11 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 
 		// Create TypeInvoice record
-		createTypeInvoice();
-		
+		createTypeInvoice("Electric Bill", "EB", 10F);
+		createTypeInvoice("Water Bill", "WB", 8F);
+		createTypeInvoice("Internet Bill", "IB", 5F);
+		createTypeInvoice("Phone Bill", "PB", 5F);
+
 		// Create Company record
 		// name - idCpn - nameInvoice
 		createCpnRecord("Thang Long", "1230000", "Electric Bill");
@@ -155,9 +161,9 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 
 		createInvoiceRecord("KC121450", 1, 3L, 1, 10);
-		createInvoiceRecord("KC122450", 1, 3L, 2, 10);
-		createInvoiceRecord("KC123450", 1, 3L, 3, 10);
-		createInvoiceRecord("KC124450", 1, 3L, 4, 10);
+		createInvoiceRecord("KC122550", 1, 3L, 2, 10);
+		createInvoiceRecord("KC123650", 1, 3L, 3, 10);
+		createInvoiceRecord("KC124750", 1, 3L, 4, 10);
 
 
 		createInvoiceRecord("UC123457", 1, 2L, 1, 10);
@@ -197,47 +203,17 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		customerRepository.save(cus);
 	}
 
-	private void createTypeInvoice() {
+	private void createTypeInvoice(String name, String code, float vat) {
 		TypeInvoice ti = new TypeInvoice();
 		// Company cpn = null;
 		// int unit;
-		if (typeInvoiceRepository.findByNameInvoice("Electric Bill") == null) {
+		if (typeInvoiceRepository.findByNameInvoice(name) == null) {
 			ti = new TypeInvoice();
 			// unit = 3000;
-			ti.setCode("EB");
-			ti.setNameInvoice("Electric Bill");
-			ti.setDescription("Electric Bill");
-			ti.setVat(Float.parseFloat("10"));
-			typeInvoiceRepository.save(ti);
-		}
-		if (typeInvoiceRepository.findByNameInvoice("Water Bill") == null) {
-			ti = new TypeInvoice();
-			// unit = 2500;
-
-			ti.setCode("WB");
-			ti.setNameInvoice("Water Bill");
-			ti.setDescription("Water Bill");
-			ti.setVat(Float.parseFloat("8"));
-			typeInvoiceRepository.save(ti);
-		}
-		if (typeInvoiceRepository.findByNameInvoice("Internet Bill") == null) {
-			ti = new TypeInvoice();
-			// unit = 150000;
-
-			ti.setCode("IB");
-			ti.setNameInvoice("Internet Bill");
-			ti.setDescription("Internet Bill");
-			ti.setVat(Float.parseFloat("5"));
-			typeInvoiceRepository.save(ti);
-		}
-		if (typeInvoiceRepository.findByNameInvoice("Phone Bill") == null) {
-			ti = new TypeInvoice();
-			// unit = 1500;
-
-			ti.setCode("PB");
-			ti.setNameInvoice("Phone Bill");
-			ti.setDescription("Phone Bill");
-			ti.setVat(Float.parseFloat("5"));
+			ti.setCode(code);
+			ti.setNameInvoice(name);
+			ti.setDescription(name);
+			ti.setVat(vat);
 			typeInvoiceRepository.save(ti);
 		}
 	}
@@ -272,6 +248,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			int year = 2016;
 			System.out.println("contractNumber:" + contractNumber);
 			Invoice invoice;
+			List<Service> s;
 			// TypeInvoice ti;
 			// DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 			// LocalDateTime now = LocalDateTime.now();
@@ -296,7 +273,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					Date date = calendar.getTime();
 					invoice.setDate(date);
 					invoice.setIndexConsumed(indexConsumed);
-					invoice.setNameService("G20");
+					
 					invoice.setPtef(ptef);
 					invoice.setTotal(total);
 
@@ -305,6 +282,21 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					typeInvoice = typeInvoiceRepository.findById(idType);
 					vat = typeInvoice.getVat();
 					invoice.setIdType(typeInvoice);
+					
+					
+					//get name service
+					s = new ArrayList<Service>();
+					s = serviceRepository.findByIdType(typeInvoice);
+					System.out.println("s.size() " + s.size());
+					if (totalRecord > s.size() ) {
+						invoice.setNameService(s.get(index).getNameService());
+					} else {
+						invoice.setNameService(s.get(totalRecord).getNameService());
+					}
+
+					
+					
+					
 					invoice.setVat(vat);
 					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)).divide(BigDecimal.valueOf(100)));
 					invoice.setGrandTotal(grandTotal);

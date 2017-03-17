@@ -8,10 +8,14 @@ import csc.models.Users;
 
 public interface CustomerService {
 	void saveCustomer(Customer customer);
+	
 	@Cacheable("users")
 	Customer findByUser(Users user);
+	
 	Customer findByEmail(String email);
+	
 	Customer findById(long id);
-	@CacheEvict(value = "users", allEntries = true)
+	
+	@CacheEvict(value="users", allEntries=true)
 	void updateCustomer(Customer currentCustomer);
 }

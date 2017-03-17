@@ -8,19 +8,20 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     
     self.invoice={
     	id:null,
-    	date:'',
+    	date: new Date(),
     	contractNumber:'',
     	nameService:'',
     	indexConsumed:'',
-    	total:'',
+    	total:0,
     	vat:'',
-    	ptef:'10',
-    	grandTotal:'',
+    	ptef:10,
+    	grandTotal:0,
     	idType:'',
     	idCpn:'',
     	idCustomer:'',
     	
     }; 
+    
          
     self.typeInvoice={
         	id:null,
@@ -65,6 +66,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     self.showDetail = showDetail;
     self.changeTotal = changeTotal;
     self.getService = getService;
+	self.deleteInvoice = deleteInvoice;
 
     defaultValue();
     fetchAllInvoice();
@@ -72,28 +74,19 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     
     
     function changeTotal(){
-    	calculate('true');
+    	calculate();
     }
     
-    function getService(){    	
-    	console.log("Vao roi ne: " + self.invoice.nameService);    	
+    function getService(){    	 	
     	getServiceByName(self.invoice.nameService, self.invoice.idType.id)  
-    	calculate('false');
     }
     
-    function calculate(boolean){
+    function calculate(){
     	var temp;
-    	if(boolean == 'true')
-    	{
-    		temp = self.invoice.indexConsumed;
-    	}
-    	else{
-    		temp = 1;
-    	}
+		temp = self.invoice.indexConsumed;
     	self.invoice.total = temp * self.service.unit;
     	self.invoice.grandTotal = self.invoice.total + ((self.invoice.total * self.invoice.vat)/100);
     }
-    
     
     
     $scope.onEventPaging = function(value) {
@@ -122,7 +115,6 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
       }
     
     $scope.numberOfPages=function(){
-    	//console.log('$scope.totalElements ' + $scope.totalElements);
     	
     	// $scope.totalElements / pageSize
     	return Math.ceil($scope.totalElements/$scope.pageSize);
@@ -176,7 +168,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             .then(
             function(d) {
             	console.log(d);
-            	self.service = d;            	
+            	self.service = d;
+            	calculate();
             },
             function(errResponse){
                 console.error('Error while fetching Invoice');
@@ -211,7 +204,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     function deleteInvoice(id){
         InvoiceService.deleteInvoice(id)
             .then(
-            	fetchAllInvoice,
+    		fetchAllInvoice,
             function(errResponse){
                 console.error('Error while deleting Invoice');
             }
@@ -226,7 +219,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             updateInvoice(self.invoice, self.invoice.id);
             console.log('User updated with id ', self.invoice.id);
         }
-        //reset();
+        reset();
 
     }
 
@@ -247,16 +240,20 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	{
     		document.myForm.hidden = false;
     		document.getElementById('ptef2').hidden = true;
+
     		document.getElementById('service2').hidden = false;
     		document.getElementById('index2').hidden = false;
     	}	
+
     	if(type.code == 'WB')
     	{
     		document.myForm.hidden = false;
     		document.getElementById('ptef2').hidden = false;
+
     		document.getElementById('service2').hidden = false;
     		document.getElementById('index2').hidden = false;
     	}   
+
     	if(type.code == 'IB')
     	{
     		document.myForm.hidden = false;
@@ -264,6 +261,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     		document.getElementById('service2').hidden = false;
     		document.getElementById('index2').hidden = true;
     	} 
+
     	if(type.code == 'PB')
     	{
     		document.myForm.hidden = false;
@@ -298,7 +296,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     function reset(){
     	self.invoice={
     	    	id:null,
-    	    	date:'',
+
+    	    	date:new Date(),
     	    	contractNumber:'',
     	    	nameService:'',
     	    	indexConsumed:'',
@@ -315,12 +314,14 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     $scope.showForm = function(code, id){
     	self.invoice.idType = id; 
     	self.invoice.vat = id.vat;
+ 			
     	$scope.name_type = id.nameInvoice;    
     	fetchAllService(id.id)
     	if(code == 'EB')
     	{
     		document.myForm.hidden = false;
     		document.getElementById('ptef').hidden = true;
+
     		document.getElementById('service').hidden = false;
     		document.getElementById('index').hidden = false;
     	}	
@@ -328,6 +329,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	{
     		document.myForm.hidden = false;
     		document.getElementById('ptef').hidden = false;
+
     		document.getElementById('service').hidden = false;
     		document.getElementById('index').hidden = false;
     	}   
@@ -337,6 +339,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     		document.getElementById('ptef').hidden = true;
     		document.getElementById('service').hidden = false;
     		document.getElementById('index').hidden = true;
+    		
+    		self.invoice.indexConsumed = 1;
     	} 
     	if(code == 'PB')
     	{
@@ -348,29 +352,30 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     };
    
    
-$scope.clear = function(){
-	reset();
-	document.getElementById('btnset').disabled = true;
-	console.log('clear form');
-}
-$scope.deleteinvoice = function(id){
-	deleteInvoice(id);
-	console.log('delete success' + id);
+
+	$scope.clear = function(){
+		reset();
+		document.getElementById('btnset').disabled = true;
+		document.getElementById('btn').value ='Edit';
+		console.log('clear form');
+		
+		self.service.unit = 0;
+	}
+	$scope.deleteinvoice = function(id){
+		deleteInvoice(id);
+		console.log('delete success' + id);
+		
+	}
 	
-}
  $scope.myEnable = function(id){
     	    if(document.getElementById('btn').value == 'Edit'){
     		document.getElementById('btnset').disabled = false;
     		document.getElementById('btn').value ='Update';
     		console.log('enabled form');
-    	    }
-    	    else {
+    	    } else {
     	    	updateInvoice(self.invoice, id);
     	    	$('.modal-backdrop').remove();
         		console.log('update success!!');
-        		       		
-        	
-        		
     	    }
         };
     }]);
