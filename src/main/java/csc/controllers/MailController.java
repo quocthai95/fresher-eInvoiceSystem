@@ -1,4 +1,4 @@
-package csc.controllers;
+/*package csc.controllers;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -132,4 +132,4 @@ public class MailController {
 //
 //        return "redirect:/home";
 //    }
-}
+}*/
