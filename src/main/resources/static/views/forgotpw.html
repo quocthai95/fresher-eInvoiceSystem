@@ -1,0 +1,43 @@
+	<div class="container" >
+		<div class="card card-container">
+			<!-- <img class="profile-img-card" src="/EInvoice/images/csc.png" alt="" /> -->
+			<img id="profile-img" class="profile-img-card"
+				src="/EInvoice/images/forgotpw.gif" />
+			<h2 id="profile-name" class="profile-name-card">Forgot Password? </h2>
+			<p>Input Your Email To Reset Password !!! </p>
+			<br>
+			<form class="form-signin" name="myForgotForm"  >
+				
+				<div class="form-group">
+					
+					<div class="cols-sm-10">
+						<div >		
+								<input
+								ng-model="ctrl.res.email" email-not-exist ng-model-options="{ debounce: 500 }" type="email" class="form-control"
+								name="emailForgot" id="email" placeholder="Enter your Email" required />										
+						</div>
+						
+						<div align="center" role="alert" style="color:red">					      
+					      <span class="error" ng-show="myForgotForm.emailForgot.$error.email">
+					        Not valid email!</span>
+					    </div>
+					    
+					  	<div align="center" ng-messages="myForgotForm.emailForgot.$error">
+					    	<div ng-message="emailNotExist" style="color:red">User with this email not exists.</div>
+					  	</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit"
+						class="btn btn-lg btn-primary btn-block btn-signin " ng-disabled="myForgotForm.$invalid" > Send Request</button>
+				</div>
+					
+			</form>
+			<div align="center">
+				<a href="/EInvoice" style="color: green"> Back Homepage </a>
+			</div>
+			
+			<!-- /form -->
+		</div>
+		<!-- /card-container -->
+	</div>
