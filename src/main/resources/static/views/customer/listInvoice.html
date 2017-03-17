@@ -1,10 +1,11 @@
 <form class="form-inline" style="margin-top: 20px">
-    <div class="form-group">
-        <label >Search</label>
-        <input type="text" ng-model="search" class="form-control" placeholder="Filter text...">
-    </div>
-    
-<!--     <div class="form-group" style="margin-left: 30px">
+
+	<div class="form-group">
+		<label>Search</label> <input type="text" ng-model="search"
+			class="form-control" placeholder="Filter text...">
+	</div>
+
+	<!--     <div class="form-group" style="margin-left: 30px">
         <label >Status</label>
         <select ng-model="status" class="form-control">
         	<option value="all">All</option>
@@ -18,160 +19,144 @@
 </form>
 
 <table class="table table-hover" id="table-no-resize">
-	<thead  >
-		<tr >
-		    <th>Type Invoice </th>
+
+	<thead>
+		<tr>
+			<th>Type Invoice</th>
 			<th>Invoice Number</th>
 			<th>Index Consumed</th>
 			<th>Date</th>
 			<th>Grand Total</th>
-			<th >Action</th>				
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="u in ctrl.invoices|filter:search"> <!-- |startFrom:currentPage*pageSize | limitTo:pageSize -->
+		<tr ng-repeat="u in ctrl.invoices|filter:search">
+			<!-- |startFrom:currentPage*pageSize | limitTo:pageSize -->
 			<td><span ng-bind="u.idType.nameInvoice"></span></td>
 			<td><span ng-bind="u.contractNumber"></span></td>
-			<td><span ng-bind="u.indexConsumed"></span></td>
-			<td>
-			<span ng-bind="u.date | date"></span>
-				<!--<label style="display: flex" for="id{{u.id}}"><input type="checkbox" value="" name="checked"  ng-model="u.active" id="id{{u.id}}"
+			<td><span ng-bind="u.indexConsumed | number""></span></td>
+			<td><span ng-bind="u.date | date:'dd/MM/yyyy'"></span> <!--<label style="display: flex" for="id{{u.id}}"><input type="checkbox" value="" name="checked"  ng-model="u.active" id="id{{u.id}}"
 					class="form-control ng-dirty ng-valid-parse" ng-checked="u.active==1 ? 1 : 0" 
 					ng-click="u.active=!u.active" ng-change="u.active=!u.active"
 					/>
 					<span ng-show="u.active==true" >Active</span><span ng-show="u.active==false" >Deactive</span>
-				</label>-->
-			</td>
-			
-			<td>
-			<span ng-bind="u.grandTotal"></span>
-<!-- 				<button type="button" ng-click="ctrl.edit(u.id)" -->
-<!-- 					class="btn btn-success custom-width" >Edit</button>
+				</label>--></td>
+
+			<td><span ng-bind="u.grandTotal | number"></span> VND <!-- 				<button type="button" ng-click="ctrl.edit(u.id)" -->
+				<!-- 					class="btn btn-success custom-width" >Edit</button>
 					<button type="button" ng-click="ctrl.update(u,u.id)"
-					class="btn btn-success custom-width" >Update</button> -->
-				
-			</td>		
+					class="btn btn-success custom-width" >Update</button> --></td>
 			<td>
-			<button type="button" class="btn btn-success btn-xs" title="View" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#btnModal" ng-click="ctrl.showDetail(u.idType.code,u.id) "><span class="glyphicon glyphicon-eye-open " style="color:white"></span></button>
-		     <div id="btnModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-             
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" style="font-weight:bold">Information: {{u.idType.nameInvoice}}</h4>
-      </div>
-      <div class="modal-body">      <form  name="btnForm" 
-								role="form"  >
-								<fieldset id="btnset" name="btnset" disabled>
-								<br> <input type="hidden" ng-model="ctrl.invoice.id" /> 
-								<div class="form-group">
-									<label style="font-weight: bold">Contract Number</label> <input
-										ng-model="ctrl.invoice.contractNumber" type="text"
-										name="contract" class="form-control"
-										placeholder="Your Contract Number" /> 
-
-								</div>
-
-								<div class="form-group">
-									<label style="font-weight: bold">Date</label> <input
-										ng-model="ctrl.invoice.date " type="date" name="date"
-										class="form-control" placeholder="Date" />
-
-
-								</div>
-
+				<button type="button" class="btn btn-success btn-xs" title="View"
+					data-toggle="modal" data-backdrop="static" data-keyboard="false"
+					data-target="#btnModal"
+					ng-click="ctrl.showDetail(u.idType.code,u.id) ">
+					<span class="glyphicon glyphicon-eye-open " style="color: white"></span>
+				</button>
+				<div id="btnModal" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<h3 class="modal-title" id="title" align="center"
+									style="font-weight: bold">Information:
+									{{u.idType.nameInvoice}}</h3>
+							</div>
+							<div class="modal-body">
+								<form name="btnForm" role="form">
+									<fieldset id="btnset" name="btnset" disabled>
+										<br> <input type="hidden" ng-model="ctrl.invoice.id" />
+										<div class="form-group">
+											<label style="font-weight: bold">Contract Number</label> <input
+												ng-model="ctrl.invoice.contractNumber" type="text"
+												name="contract" class="form-control"
+												placeholder="Your Contract Number" />
+										</div>
+										<div class="form-group">
+											<label style="font-weight: bold">Date</label> <input
+												ng-model="ctrl.invoice.date " type="date" name="date"
+												class="form-control" placeholder="Date" />
+										</div>
 								<div class="form-group" id="service2">
-									<label style="font-weight: bold">Name Service</label> <input
-										ng-model="ctrl.invoice.nameService" type="text" name="service"
-										class="form-control" placeholder="Your Service" hidden />
+									<label style="font-weight: bold">Name Service</label> 
+									
+									<select ng-model="ctrl.invoice.nameService"  class="form-control" id="sel1" ng-change="ctrl.getService()">
+									    <option ng-repeat="s in ctrl.services" >{{s.nameService}}</option>									    
+									</select>
+										</div>
+										<div class="form-group" id="index2">
+											<label style="font-weight: bold">Index Consumed</label> <input
+												ng-model="ctrl.invoice.indexConsumed" type="number"
+												name="index" class="form-control"
+												placeholder="Your Index Consumed"
+												ng-change="ctrl.changeTotal()" />
+										</div>
+										<div class="form-group">
+											<label style="font-weight: bold">Total</label> <label
+												style="color: red">{{ctrl.invoice.total | number }}
+											</label>
+										</div>
 
+										<div class="form-group">
+											<label style="font-weight: bold">VAT</label> <label
+												style="color: red">{{ ctrl.invoice.vat }}%</label>
+										</div>
+										<div class="form-group" id="ptef2">
+											<label style="font-weight: bold">PTEF</label> <label
+												style="color: red">{{ ctrl.invoice.ptef }}%</label>
+										</div>
 
-								</div>
-
-								<div class="form-group" id="index2">
-									<label style="font-weight: bold">Index Consumed</label> <input
-										ng-model="ctrl.invoice.indexConsumed" type="number"
-										name="index" class="form-control"
-										placeholder="Your Index Consumed"
-										ng-change="ctrl.changeTotal()"  />
-										
-
-								</div>
-
-								<div class="form-group">
-									<label style="font-weight: bold">Total</label> <input
-										ng-model="ctrl.invoice.total | currency:'':0" type="text" name="total"
-										class="form-control" placeholder="Total" disabled/>
-
-								</div>
-
-								<div class="form-group">
-									<label style="font-weight: bold">VAT</label> <input
-										ng-model="ctrl.invoice.vat" type="text" name="vat"
-										class="form-control" placeholder="VAT" disabled/>
-
-
-								</div>
-
-								<div class="form-group" id="ptef2">
-									<label style="font-weight: bold">PTEF</label> <input
-										ng-model="ctrl.invoice.ptef" type="number" name="ptef"
-										class="form-control" placeholder="PTEF" disabled/>
-
-
-								</div>
-
-								<div class="form-group">
-									<label style="font-weight: bold">Grand Total</label> <input
-										ng-model="ctrl.invoice.grandTotal | currency:'':0" type="text" name="grandtotal"
-										class="form-control" placeholder="Grand Total" disabled/>
-
-								</div>
-								<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
-									type="hidden" ng-model="ctrl.invoice.idCpn" /> <input
-									type="hidden" ng-model="ctrl.invoice.idCustomer" />
-</fieldset>
-								<div align="center">
-									<input type="button" id="btn" name="btn" class="btn btn-primary" value="Edit" ng-click="myEnable(ctrl.invoice.id)" 
-									>
-									</input>
-								</div>
-
-							</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="closemodal" class="btn btn-default" data-dismiss="modal" ng-click="clear()">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-			<button type="button" class="btn btn-danger btn-xs" title="Delete" ng-click="deleteinvoice(u.id)"><span class="glyphicon glyphicon-trash" style="color:white"></span></button>
+										<div class="form-group">
+											<label style="font-weight: bold">Grand Total</label> <label
+												style="color: red"> {{ ctrl.invoice.grandTotal |
+												number }} </label>
+										</div>
+										<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
+											type="hidden" ng-model="ctrl.invoice.idCpn" /> <input
+											type="hidden" ng-model="ctrl.invoice.idCustomer" />
+									</fieldset>
+									<div align="center">
+										<input type="button" id="btn" name="btn"
+											class="btn btn-primary" value="Edit"
+											ng-click="myEnable(ctrl.invoice.id)"> </input>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" id="closemodal" class="btn btn-default"
+									data-dismiss="modal" ng-click="clear()">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button type="button" class="btn btn-danger btn-xs" title="Delete"
+					ng-click="deleteinvoice(u.id)">
+					<span class="glyphicon glyphicon-trash" style="color: white"></span>
+				</button>
 			</td>
 		</tr>
 	</tbody>
 </table>
+<form class="form-inline" style="margin-top: 20px" align="right">
+	<div class="form-group">
+		<label>Page size</label> <select ng-model="pageSize" id="pageSize"
+			name="pageSize" ng-init="pageSize = '5'" class="form-control"
+			ng-change="onEventPaging(pageSize)">
+			<option value="5">Show 5 per page</option>
+			<option value="10">Show 10 per page</option>
+			<option value="15">Show 15 per page</option>
+			<option value="20">Show 20 per page</option>
+		</select>
+	</div>
 
-<form class="form-inline" style="margin-top: 20px" align="right"> 
-    <div class="form-group">
-    	<label >Page size</label>
-        <select ng-model="pageSize" id="pageSize" name="pageSize" ng-init="pageSize = '5'" class="form-control" ng-change="onEventPaging(pageSize)">
-		    <option value="5" >Show 5 per page</option>
-		    <option value="10" >Show 10 per page</option>
-		    <option value="15" >Show 15 per page</option>
-		    <option value="20" >Show 20 per page</option>
-		 </select>
-    </div>
-    
-    <div class="form-group" style="margin-left: 30px">
-        <button class="btn btn-success custom-width" ng-disabled="currentPage == 0" ng-click="onEventPreCurrentPage()">Previous</button>
-    	{{currentPage+1}}/{{numberOfPages()}}
-    	<button class="btn btn-success custom-width" ng-disabled="currentPage >= totalElements/pageSize - 1" ng-click="onEventNextCurrentPage()">Next</button>
-    </div>
-       
+	<div class="form-group" style="margin-left: 30px">
+		<button class="btn btn-success custom-width"
+			ng-disabled="currentPage == 0" ng-click="onEventPreCurrentPage()">Previous</button>
+		{{currentPage+1}}/{{numberOfPages()}}
+		<button class="btn btn-success custom-width"
+			ng-disabled="currentPage >= totalElements/pageSize - 1"
+			ng-click="onEventNextCurrentPage()">Next</button>
+	</div>
+
 </form>
-
-
- 
- 

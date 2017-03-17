@@ -1,40 +1,39 @@
 <div>
-	<div id="page-wrapper" ng-controller="InvoiceController as ctrl">
+	<div id="page-wrapper">
 
 		<div class="container-fluid">
 
 			<!-- Page Heading -->
 			<div class="row">
 				<div class="col-lg-12 page-header">
-					<span><h1 class="">Invoice's Information</h1></span><span class="dropdown">
+					<span><h1 class="">Invoice's Information</h1></span><span
+						class="dropdown">
 						<button class="dropdown-toggle btn btn-primary"
-
 							data-toggle="dropdown">Create Invoice</button>
 						<ul class="dropdown-menu">
-							
 
-							<li ng-repeat="u in ctrl.typeInvoices"  data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" ng-click="showForm(u.code, u)">
-								<span>{{u.nameInvoice}}</span>
+
+							<li ng-repeat="u in ctrl.typeInvoices" data-toggle="modal"
+								data-target="#myModal" data-backdrop="static"
+								data-keyboard="false" ng-click="showForm(u.code, u)"><span>{{u.nameInvoice}}</span>
 							</li>
 						</ul>
 					</span>
 				</div>
 			</div>
-				
-
-					<div id="myModal" class="modal fade" role="dialog">
-						<div class="modal-dialog">
-						 <div class="modal-content">
-
-     
-
-      <div class="modal-header"> <div id="title" align="center" style="font-weight:bold">{{name_type}}</div></div>
-       <div class="modal-body">
 
 
-      
+			<div id="myModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title" id="title" align="center" style="font-weight: bold">Create
+									{{name_type}}
+							</h3>
+						</div>
+						<div class="modal-body">
 							<form id="myForm" name="myForm" ng-submit="ctrl.submit()"
-								role="form"  hidden>
+								role="form">
 								<br> <input type="hidden" ng-model="ctrl.invoice.id" />
 								<div class="form-group">
 									<label style="font-weight: bold">Contract Number</label> <input
@@ -53,10 +52,10 @@
 								</div>
 
 								<div class="form-group" id="service">
-									<label style="font-weight: bold">Name Service</label> <input
-										ng-model="ctrl.invoice.nameService" type="text" name="service"
-										class="form-control" placeholder="Your Service" hidden />
-
+									<label style="font-weight: bold">Name Service</label> 
+									<select ng-model="ctrl.invoice.nameService"  class="form-control" id="sel1" ng-change="ctrl.getService()">
+									    <option ng-repeat="s in ctrl.services" ng-selected="$first">{{s.nameService}}</option>									    
+									</select>
 
 								</div>
 
@@ -71,36 +70,25 @@
 								</div>
 
 								<div class="form-group">
-									<label style="font-weight: bold">Total</label> <input
-										ng-model="ctrl.invoice.total | currency:'':0" type="text" name="total"
-
-										class="form-control" placeholder="Total" disabled/>
+									<label style="font-weight: bold">Total</label> <label
+										style="color: red">{{ctrl.invoice.total | number }} </label>
 
 								</div>
 
 								<div class="form-group">
-									<label style="font-weight: bold">VAT</label> <input
-										ng-model="ctrl.invoice.vat" type="text" name="vat"
-
-										class="form-control" placeholder="VAT" disabled/>
-
-
+									<label style="font-weight: bold">VAT</label> <label
+										style="color: red">{{ ctrl.invoice.vat }}%</label>
 								</div>
 
 								<div class="form-group" id="ptef">
-									<label style="font-weight: bold">PTEF</label> <input
-										ng-model="ctrl.invoice.ptef" type="number" name="ptef"
-
-										class="form-control" placeholder="PTEF" disabled/>
-
-
+									<label style="font-weight: bold">PTEF</label> <label
+										style="color: red">{{ ctrl.invoice.ptef }}%</label>
 								</div>
 
 								<div class="form-group">
-									<label style="font-weight: bold">Grand Total</label> <input
-										ng-model="ctrl.invoice.grandTotal | currency:'':0" type="text" name="grandTotal"
-
-										class="form-control" placeholder="Grand Total" disabled/>
+									<label style="font-weight: bold">Grand Total</label> <label
+										style="color: red"> {{ ctrl.invoice.grandTotal |
+										number }} </label>
 
 								</div>
 								<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
@@ -114,18 +102,20 @@
 
 
 
-							</form></div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-   </div>
-    </div>
+							</form>
 						</div>
-					
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal" ng-click="clear()">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="row">
-				<div class="col-lg-8">
-					<div class="agile-grids" >
-						<div class="agile-tables">
+				<!-- <div class="col-lg-8"> -->
+					<!-- <div class="agile-grids">
+						<div class="agile-tables"> -->
 							<div class="page-title">
 								<div class="title_left">
 									<h3>Invoice List</h3>
@@ -141,10 +131,10 @@
 
 							<div id="list">
 								<list-invoice></list-invoice>
-							</div>
+		<!-- 					</div>
 						</div>
-					</div>
-				
+					</div> -->
+
 
 				</div>
 				<!-- /.row -->
