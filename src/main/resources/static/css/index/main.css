@@ -1438,8 +1438,8 @@ a.menu-toggle {
 }
 .process-content .image-part {
 	margin: 0 auto;
-	height: 600px;
-	background-image: url("../images/Process-Icon.png");
+	height: 660px;
+	background-image: url("../images/appdesign.jpg");
 	background-repeat: no-repeat;
 	background-position: center;
 	-webkit-background-size: contain;
