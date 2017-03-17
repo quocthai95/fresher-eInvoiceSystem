@@ -76,4 +76,22 @@ app.controller('RegisterController', function($scope, RegisterService, $location
 	      };
 	    }
 	  };
+})
+
+.directive('emailNotExist', function($http, $q) {
+	  return {
+	    require: 'ngModel',
+	    link: function(scope, element, attrs, ngModel) {
+	      ngModel.$asyncValidators.emailNotExist = function(modelValue, viewValue) {
+	        return $http.post('http://localhost:8080/EInvoice/user/getEmail/', viewValue).then(function(response) {
+	        	if (response.data) {
+	        		return true;
+	        	} else {	        		
+	        		return $q.reject('Email is already used.');
+	        	}
+	          //return response.data == true ? $q.reject('Email is already used.') : true;
+	        });
+	      };
+	    }
+	  };
 });
