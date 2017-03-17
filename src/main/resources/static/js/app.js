@@ -29,6 +29,10 @@ app.config(function($routeProvider) {
 	// }).when("/config-email", {
 	// templateUrl : "/EInvoice/views/admin/config-email.html",
 	// controller : 'UserController',
+	}).when("/forgotpw", {
+		templateUrl : "/EInvoice/views/forgotpw.html",
+		controller : "RegisterController as ctrl",
+		isAuthenticated : false
 	}).otherwise({
 		redirectTo : '/'
 	});
