@@ -71,7 +71,7 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">Total</label> <label
-										style="color: red">{{ctrl.invoice.total | number }} </label>
+										style="color: red">{{ctrl.invoice.total | number }} {{ ctrl.currencyUnit }}</label>
 
 								</div>
 
@@ -88,7 +88,7 @@
 								<div class="form-group">
 									<label style="font-weight: bold">Grand Total</label> <label
 										style="color: red"> {{ ctrl.invoice.grandTotal |
-										number }} </label>
+										number }} {{ ctrl.currencyUnit }}</label>
 
 								</div>
 								<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
