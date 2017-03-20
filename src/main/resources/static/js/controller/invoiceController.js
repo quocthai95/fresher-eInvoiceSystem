@@ -2,8 +2,8 @@
 
 var app = angular.module('dbApp');
 
-app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 
-                                     function($scope, $filter, InvoiceService) {
+app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'SweetAlert',
+                                     function($scope, $filter, InvoiceService, SweetAlert) {
     var self = this;
     
     self.invoice={
@@ -50,7 +50,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
         $scope.search = '';
        
         $scope.size = 5;
-        //$scope.page = 1;
+        // $scope.page = 1;
         $scope.totalElements = 0;
                      
         self.invoice.ptef = 10;        
@@ -118,7 +118,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	
     	// $scope.totalElements / pageSize
     	return Math.ceil($scope.totalElements/$scope.pageSize);
-        //return Math.ceil($scope.getData().length/$scope.pageSize);                
+        // return Math.ceil($scope.getData().length/$scope.pageSize);
     }
 
     function fetchAllInvoice(){
@@ -128,7 +128,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
 
             	self.invoices = d.content; 
             	$scope.totalElements = d.totalElements;
-            	//console.log("d.totalElements" + d.totalElements);
+            	// console.log("d.totalElements" + d.totalElements);
             },
             function(errResponse){
                 console.error('Error while fetching Invoice');
@@ -180,35 +180,56 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
 
     function createInvoice(invoice){
     	console.log("create Invoice: " + invoice);
-        InvoiceService.createInvoice(invoice)
-            .then(
-            fetchAllInvoice,
-            function(errResponse){
-                console.error('Error while creating Invoice');
-            }
+        InvoiceService.createInvoice(invoice).then(function(success){
+        	SweetAlert.swal("Create!", "Your invoice has been created.", "success");
+        	fetchAllInvoice();
+        },
+        function(errResponse){
+            SweetAlert.swal("Error!", "Error while creating Invoice", "error");
+        	}
         );
     }
 
     function updateInvoice(invoice, id){    	
-    	console.log(invoice);            
-        InvoiceService.updateInvoice(invoice, id)
-            .then(
-            fetchAllInvoice, 
-            function(errResponse){
-                console.error('Error while updating Invoice');
-            }
-        );
-    	
-    }
+    	console.log(invoice);       
+		InvoiceService.updateInvoice(invoice, id).then(function(succes) {
+        	//alert
+			SweetAlert.swal("Update!", "Your invoice has been updated.", "success");
+			
+			fetchAllInvoice();
+			reset();
+
+			}, function(errResponse){
+				SweetAlert.swal("Error!", "Error while updating invoice", "error");
+			});
+	}
 
     function deleteInvoice(id){
-        InvoiceService.deleteInvoice(id)
-            .then(
-    		fetchAllInvoice,
-            function(errResponse){
-                console.error('Error while deleting Invoice');
-            }
-        );
+        SweetAlert.swal({
+        	title: "Are you sure?",
+        	text: "You will remove your invoice.",
+        	type: "warning",
+        	showCancelButton: true,
+        	confirmButtonColor: "#DD6B55",
+        	confirmButtonText: "Yes, remove it!",
+        	cancelButtonText: "No, cancel plx!",
+        	closeOnConfirm: false,
+        	closeOnCancel: true
+        }, 
+        function(isConfirm){ // Function that triggers on user action.
+    		// var r = confirm("Are you sure!");
+    		// console.log(self.cus);
+			  if (isConfirm) {
+                InvoiceService.deleteInvoice(id).then(function(succes){
+                	SweetAlert.swal("Remove!", "Your invoice has been removed.", "success");
+                	fetchAllInvoice();
+                }),function(errResponse){
+                	SweetAlert.swal("Error!", "Error while deleting invoice", "error");
+                }
+			  } else {
+				    // Do nothing.
+			  }
+        }); 
     }
 
     function submit() {
@@ -233,9 +254,9 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             }
         }
     }
-    function showDetail(type,id){    
-    	self.invoice.idType = type; 
-    	fetchAllService(type.id)
+    function showDetail(type, id){    
+    	self.invoice.idType = type;
+    	fetchAllService(type)
     	if(type.code == 'EB')
     	{
     		document.myForm.hidden = false;
@@ -260,6 +281,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     		document.getElementById('ptef2').hidden = true;
     		document.getElementById('service2').hidden = false;
     		document.getElementById('index2').hidden = true;
+    		self.invoice.indexConsumed = 1;
     	} 
 
     	if(type.code == 'PB')
@@ -268,6 +290,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     		document.getElementById('ptef2').hidden = true;
     		document.getElementById('service2').hidden = false;
     		document.getElementById('index2').hidden = true;
+    		self.invoice.indexConsumed = 1;
     	} 
     	InvoiceService.getID(id)
         .then(
@@ -276,7 +299,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
                 	self.invoice = d; 
                 	self.invoice.date = new Date(self.invoice.date);
                 	
-                	//console.log("d.totalElements" + d.totalElements);
+                	// console.log("d.totalElements" + d.totalElements);
                 },
         function(errResponse){
         	
@@ -287,27 +310,29 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     
     function remove(id){
         console.log('id to be deleted', id);
-        if(self.invoice.id === id) {//clean form if the user to be deleted is shown there.
+        if(self.invoice.id === id) {// clean form if the user to be deleted is
+									// shown there.
             reset();
         }
         deleteInvoice(id);
     }
 
     function reset(){
-    	self.invoice={
-    	    	id:null,
-
-    	    	date:new Date(),
-    	    	contractNumber:'',
-    	    	nameService:'',
-    	    	indexConsumed:'',
-    	    	total:'',    	    	
-    	    	grandTotal:'',
-    	    	idType:'',
-    	    	idCpn:'',
-    	    	idCustomer:'',
-    	    };
-        $scope.myForm.$setPristine(); //reset Form
+        self.invoice={
+            	id:null,
+            	date: new Date(),
+            	contractNumber:'',
+            	nameService:'',
+            	indexConsumed:'',
+            	total:0,
+            	vat:'',
+            	ptef:10,
+            	grandTotal:0,
+            	idType:'',
+            	idCpn:'',
+            	idCustomer:'',
+            }; 
+        $scope.myForm.$setPristine(); // reset Form
     }
   
     
@@ -383,7 +408,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
 
 app.filter('startFrom', function() {
     return function(input, start) {
-        start = +start; //parse to int
+        start = +start; // parse to int
         return input.slice(start);
     }
+
 });

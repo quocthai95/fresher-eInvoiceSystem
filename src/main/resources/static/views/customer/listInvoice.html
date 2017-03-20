@@ -51,7 +51,7 @@
 				<button type="button" class="btn btn-success btn-xs" title="View"
 					data-toggle="modal" data-backdrop="static" data-keyboard="false"
 					data-target="#btnModal"
-					ng-click="ctrl.showDetail(u.idType.code,u.id) ">
+					ng-click="ctrl.showDetail(u.idType.id ,u.id) ">
 					<span class="glyphicon glyphicon-eye-open " style="color: white"></span>
 				</button>
 				<div id="btnModal" class="modal fade" role="dialog">
@@ -61,7 +61,7 @@
 							<div class="modal-header">
 								<h3 class="modal-title" id="title" align="center"
 									style="font-weight: bold">Information:
-									{{u.idType.nameInvoice}}</h3>
+									{{ ctrl.invoice.idType.nameInvoice }}</h3>
 							</div>
 							<div class="modal-body">
 								<form name="btnForm" role="form">

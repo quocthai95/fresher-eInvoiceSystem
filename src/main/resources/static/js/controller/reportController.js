@@ -6,17 +6,18 @@ app.controller('ReportController', [ '$scope', '$filter', 'ReportService', funct
     
     function defaultValue() {
         $scope.currentPage = 0;
-        $scope.pageSize = 5;    
+        $scope.pageSize = '5';    
         $scope.search = '';
-       
+        $scope.dateStart = new Date();
+        $scope.dateEnd = new Date();
         $scope.size = 5;
         //$scope.page = 1;
-        $scope.totalElements = 0;
+        $scope.totalElements = 0;;
     }
 
 
     defaultValue();
-    fetchAllReport();
+    //fetchAllReport();
     
     
     $scope.onEventPaging = function(value) {
@@ -51,24 +52,28 @@ app.controller('ReportController', [ '$scope', '$filter', 'ReportService', funct
     }
 
     function fetchAllReport(){
-    	$scope.dateStart = new Date('2016-01-10');
-    	$scope.dateEnd = new Date('2016-04-10');
-        //ReportService.fetchAllReport($scope.dateStart, $scope.dateEnd, $scope.size, $scope.currentPage)
-//            .then(
-//            function(d) {
-//            	self.reports = d.content;	
-//            	$scope.totalElements = d.totalElements;
-//            	//console.log("d.totalElements" + d.totalElements);
-//            },
-//            function(errResponse){
-//                console.error('Error while fetching Invoice');
-//            }
-//        );
+    	var dateStart = new Date($scope.dateStart).toISOString().slice(0, 10);
+    	var dateEnd = new Date($scope.dateEnd).toISOString().slice(0, 10);
+        ReportService.fetchAllReport(dateStart, dateEnd, $scope.currentPage, $scope.size)
+            .then(
+            function(d) {
+            	self.reports = d.content;	
+            	$scope.totalElements = d.totalElements;
+            	//console.log("d.totalElements" + d.totalElements);
+            },
+            function(errResponse){
+                console.error('Error while fetching Invoice');
+            }
+        );
     }
     
     $scope.btnReport = function() {
-    	console.log($scope.dateStart);
-    	console.log($scope.dateEnd);
+        $scope.currentPage = 0;
+        $scope.pageSize = '5';    
+        $scope.size = 5;
+        $scope.totalElements = 0;
+    	
+    	fetchAllReport();
     }
     
 }]);
