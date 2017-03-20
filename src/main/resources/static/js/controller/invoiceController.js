@@ -12,7 +12,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     	indexConsumed:'',
     	total:0,
     	vat:'',
-    	ptef:10,
+//    	ptef:'10',
     	grandTotal:0,
     	idType:'',
     	idCpn:'',
@@ -88,7 +88,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     	var temp;
 		temp = self.invoice.indexConsumed;
     	self.invoice.total = temp * self.service.unit;
-    	self.invoice.grandTotal = self.invoice.total + ((self.invoice.total * self.invoice.vat)/100);
+    	self.invoice.grandTotal = self.invoice.total + ((self.invoice.total * self.invoice.vat)/100) + ((self.invoice.ptef * self.invoice.total)/100);
     }
     
     
@@ -295,21 +295,26 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
 	            console.error('Error while updating Invoice');
 	        }
         );
-    	
+    	code = type.code;
     	// Trigger hidden input indexConsumed when serivce is Internet Bill
-    	if (type.code == 'IB' || type.code == 'PB') {
+    	if(code == 'EB')
+    	{
+    		document.myForm.hidden = false;
+    		if (code == 'WB') {
+    			document.getElementById('ptef2').hidden = false;
+    		} else {
+        		document.getElementById('ptef2').hidden = true;
+    		}
+    		document.getElementById('service2').hidden = true;
+    		document.getElementById('index2').hidden = false;
+    	}
+    	if(code == 'IB' || code == 'PB')
+    	{
     		document.myForm.hidden = false;
     		document.getElementById('ptef2').hidden = true;
     		document.getElementById('service2').hidden = false;
     		document.getElementById('index2').hidden = true;
-    	} else {
-    		document.myForm.hidden = false;
-
-    		document.getElementById('ptef2').hidden = true;
-    		document.getElementById('service2').hidden = false;
-    		document.getElementById('index2').hidden = false;
-
-    	}
+    	} 
 
     }
     
