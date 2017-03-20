@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.terracotta.statistics.jsr166e.ThreadLocalRandom;
 
 import csc.models.Company;
 import csc.models.Customer;
@@ -263,7 +264,6 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 				invoice = new Invoice();
 				Float vat;
 				Float indexConsumed = 100F;
-				BigDecimal total = new BigDecimal(indexConsumed * (index + 1));
 				BigDecimal ptef = new BigDecimal(index);
 				BigDecimal grandTotal;
 				invoice.setContractNumber(contractNumber + index);
@@ -275,7 +275,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					invoice.setIndexConsumed(indexConsumed);
 					
 					invoice.setPtef(ptef);
-					invoice.setTotal(total);
+
+
 
 					// set Type Invoice
 					TypeInvoice typeInvoice = new TypeInvoice();
@@ -287,14 +288,13 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					//get name service
 					s = new ArrayList<Service>();
 					s = serviceRepository.findByIdType(typeInvoice);
-					System.out.println("s.size() " + s.size());
-					if (totalRecord > s.size() ) {
-						invoice.setNameService(s.get(index).getNameService());
-					} else {
-						invoice.setNameService(s.get(totalRecord).getNameService());
-					}
-
 					
+					System.out.println("s.size() " + s.size());
+					int randomNum = ThreadLocalRandom.current().nextInt(0, s.size());
+					invoice.setNameService(s.get(randomNum).getNameService());
+
+					BigDecimal total = s.get(randomNum).getUnit().multiply(BigDecimal.valueOf(indexConsumed));
+					invoice.setTotal(total);
 					
 					
 					invoice.setVat(vat);

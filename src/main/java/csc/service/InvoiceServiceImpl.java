@@ -47,17 +47,20 @@ public class InvoiceServiceImpl implements InvoiceService {
 		invoiceRepository.delete(id);
 	}
 	
-	@Override
+
 	public Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return invoiceRepository.findByIdCustomer(idcustomer, pageable);
 	}
 
 	@Override
-	public Page<Invoice> getListReport(String idCus, Date dateStart, Date dateEnd, int page, int pageSize) {
+
+	public Page<Invoice> getListReport(Customer idCus, Date dateStart, Date dateEnd, int page, int pageSize) {
 		PageRequest pageable = new PageRequest(page, pageSize);
-		return invoiceRepository.findDateByIdCus(idCus, dateStart, dateEnd, pageable);
+
+		return invoiceRepository.findByIdCustomerAndDateBetween(idCus, dateStart, dateEnd, pageable);
 	}
+
 
 	@Override
 	public Page<Invoice> findAllInvoice(Customer idcustomer, String contractnumber, Pageable pageable) {

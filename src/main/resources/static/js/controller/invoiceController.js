@@ -1,7 +1,4 @@
 'use strict';
-
-var app = angular.module('dbApp');
-
     var self = this;
     
     self.invoice={
@@ -42,6 +39,8 @@ var app = angular.module('dbApp');
     
     self.services=[];
     
+    self.currencyUnit = 'VND';
+    
     function defaultValue() {
         $scope.currentPage = 0;
         $scope.pageSize = 5;    
@@ -78,7 +77,8 @@ var app = angular.module('dbApp');
     }
     
     function getService(){    	 	
-    	getServiceByName(self.invoice.nameService, self.invoice.idType.id)  
+
+    	getServiceByName(self.invoice.nameService, self.invoice.idType.id);  
     }
     
     function calculate(){
@@ -120,6 +120,7 @@ var app = angular.module('dbApp');
 
     function fetchAllInvoice(){
 
+
         InvoiceService.fetchAllInvoice($scope.search, $scope.size, $scope.currentPage)
             .then(
             function(d) {
@@ -149,9 +150,15 @@ var app = angular.module('dbApp');
     function fetchAllService(id){
     	InvoiceService.fetchAllService(id)
             .then(
-            function(d) {
-            	console.log(d);
-            	self.services = d;            	
+            function(rs) {
+            	console.log(rs);
+            	self.services = rs;
+            	//compare to get unit
+            	for (var index in rs) {
+                	if (self.invoice.nameService === rs[index].nameService) {
+                		self.service.unit = rs[index].unit;
+                	}
+            	}
             },
             function(errResponse){
                 console.error('Error while fetching Invoice');
@@ -173,22 +180,73 @@ var app = angular.module('dbApp');
         );
     }
      
-
+    // Trigger create invoice
     function createInvoice(invoice){
     	console.log("create Invoice: " + invoice);
-        );
-    }
-
-    function updateInvoice(invoice, id){    	
-
-    function deleteInvoice(id){
-        InvoiceService.deleteInvoice(id)
-            .then(
-    		fetchAllInvoice,
+        InvoiceService.createInvoice(invoice)
+            .then(function(success){
+            	//call service
+            	fetchAllInvoice();
+            	//alert success
+            	SweetAlert.swal("Updated!", "Your invoice " + invoice.contractNumber + " has been created.", "success");
+            },
             function(errResponse){
-                console.error('Error while deleting Invoice');
+                console.error('Error while creating Invoice');
+                SweetAlert.swal("Error!", "Error while creating invoice", "error");
             }
         );
+    }
+    
+    //trigger update invoice
+    function updateInvoice(invoice, id){    	
+    	console.log(invoice);            
+        InvoiceService.updateInvoice(invoice, id)
+            .then(function(success) {
+                fetchAllInvoice();
+                SweetAlert.swal("Updated!", "Your invoice " + invoice.contractNumber + " has been updated.", "success");
+            }, 
+            function(errResponse){
+                console.error('Error while updating Invoice');
+                SweetAlert.swal("Error!", "Error while updating invoice", "error");
+            }
+        );
+    	
+    }
+    
+    //trigger remove invoice
+    function deleteInvoice(id){
+    	SweetAlert.swal({
+        	title: "Are you sure?",
+        	text: "You will remove invoice.",
+        	type: "warning",
+        	showCancelButton: true,
+        	confirmButtonColor: "#DD6B55",
+        	confirmButtonText: "Yes, remove it!",
+        	cancelButtonText: "No, cancel plx!",
+        	closeOnConfirm: false,
+        	closeOnCancel: true
+        }, 
+        function(isConfirm){ // Function that triggers on user action.
+    		// var r = confirm("Are you sure!");
+    		// console.log(self.cus);
+			  if (isConfirm) {
+				  InvoiceService.deleteInvoice(id)
+	                .then(
+		                function(success){
+		                	SweetAlert.swal("Remove!", "Invoice has been removed.", "success");
+		                	//document.myForm.set.disabled = true;
+		                	$scope.isUpdate = false;
+		                	fetchAllInvoice();
+		                }),
+	                	// document.myForm.set.disabled = true;
+		                function(errResponse){
+		                    console.error('Error while removing invoice');
+		                    SweetAlert.swal("Error!", "Error while removing invoice", "error");
+		                }
+			  } else {
+				    //Do nothing.
+			  }
+        });
     }
 
     function submit() {
@@ -214,62 +272,45 @@ var app = angular.module('dbApp');
         }
     }
 
-    function showDetail(type,id){    
-    	self.invoice.idType = type; 
-    	fetchAllService(type.id)
-    	if(type.code == 'EB')
-    	{
-    		document.myForm.hidden = false;
-    		document.getElementById('ptef2').hidden = true;
-
-    		document.getElementById('service2').hidden = false;
-    		document.getElementById('index2').hidden = false;
-    	}	
-
-    	if(type.code == 'WB')
-    	{
-    		document.myForm.hidden = false;
-    		document.getElementById('ptef2').hidden = false;
-
-    		document.getElementById('service2').hidden = false;
-    		document.getElementById('index2').hidden = false;
-    	}   
-
-    	if(type.code == 'IB')
-    	{
-    		document.myForm.hidden = false;
-    		document.getElementById('ptef2').hidden = true;
-    		document.getElementById('service2').hidden = false;
-    		document.getElementById('index2').hidden = true;
-    	} 
-
-    	if(type.code == 'PB')
-    	{
+    //Trigger when click show detail
+    function showDetail(type, invoice){    
+    	//set IdType
+    	self.invoice.idType = type.id; 
+    	//set name service
+    	$scope.nameInvoice = type.nameInvoice;
+    	
+    	//call service to load object invoice
+    	InvoiceService.getID(invoice.id).then(
+			function(d) {
+	        	self.invoice = d; 
+	        	self.invoice.date = new Date(self.invoice.date);
+	        	//call service to load list service
+	        	fetchAllService(type.id);
+        	},
+	        function(errResponse) {        	
+	            console.error('Error while updating Invoice');
+	        }
+        );
+    	
+    	//Trigger hidden input indexConsumed when serivce is Internet Bill
+    	if (type.code == 'IB' || type.code == 'PB') {
     		document.myForm.hidden = false;
     		document.getElementById('ptef2').hidden = true;
     		document.getElementById('service2').hidden = false;
     		document.getElementById('index2').hidden = true;
-    	} 
-    	InvoiceService.getID(id)
-        .then(
-        		function(d) {
-        			
-                	self.invoice = d; 
-                	self.invoice.date = new Date(self.invoice.date);
-                	
+    	} else {
+    		document.myForm.hidden = false;
 
-                	//console.log("d.totalElements" + d.totalElements);
-                },
-        function(errResponse){
-        	
-            console.error('Error while updating Invoice');
-        }
-    );
+    		document.getElementById('ptef2').hidden = true;
+    		document.getElementById('service2').hidden = false;
+    		document.getElementById('index2').hidden = false;
+
+    	}
+
     }
     
     function remove(id){
         console.log('id to be deleted', id);
-
         if(self.invoice.id === id) {//clean form if the user to be deleted is shown there.
             reset();
         }
@@ -277,10 +318,8 @@ var app = angular.module('dbApp');
     }
 
     function reset(){
-
     	self.invoice={
     	    	id:null,
-
     	    	date:new Date(),
     	    	contractNumber:'',
     	    	nameService:'',
@@ -294,11 +333,15 @@ var app = angular.module('dbApp');
         $scope.myForm.$setPristine(); //reset Form
     }
   
-    
+
+    //Trigger when click show form
     $scope.showForm = function(code, id){
+    	//set idType
     	self.invoice.idType = id; 
+    	//set VAT
     	self.invoice.vat = id.vat;
- 			
+
+ 		//set nameType	
     	$scope.name_type = id.nameInvoice;    
     	fetchAllService(id.id)
     	if(code == 'EB')
@@ -369,7 +412,6 @@ var app = angular.module('dbApp');
 
 app.filter('startFrom', function() {
     return function(input, start) {
-
         start = +start; //parse to int
         return input.slice(start);
     }

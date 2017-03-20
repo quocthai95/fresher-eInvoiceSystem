@@ -11,24 +11,28 @@ import csc.models.Customer;
 import csc.models.Invoice;
 
 public interface InvoiceService {
-	
-	Invoice findById(long id);
 
+
+	Invoice findById(long id);
 	@CacheEvict(value="report", allEntries=true)
 	void saveInvoice(Invoice invoice);
-	
-	@CacheEvict(value="report", allEntries=true)
+
+	@CacheEvict(value = "report", allEntries = true)
 	void updateInvoice(Invoice invoice);
-	
-	@CacheEvict(value="report", allEntries=true)
+
+	@CacheEvict(value = "report", allEntries = true)
 	void deleteInvoiceById(long id);
 
 	@Cacheable("report")
+
 	Page<Invoice> findAllInvoice(Customer idcustomer, String contractnumber, Pageable pageable);	
-	
+
+
 	@Cacheable("report")
 	Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable);
-	
+
+
 	@Cacheable("report")
-	Page<Invoice> getListReport(String idCus, Date dateStart, Date dateEnd, int page, int pageSize);
+
+	Page<Invoice> getListReport(Customer idCus, Date dateStart, Date dateEnd, int page, int pageSize);
 }

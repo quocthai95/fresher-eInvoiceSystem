@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $q){
 
+app.factory('UserService', ['$http', '$q', function($http, $q){
+	//Base URI
     var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
     
     var factory = {
@@ -11,13 +12,13 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
         deleteUser:deleteUser,
         getUsersByActive:getUsersByActive,
     };
-
     return factory;
     
-
+    //Service call api get list user with pagable
 
     function fetchAllUsers(active, search, size, page) {
         var deferred = $q.defer();
+
         $http.get(REST_SERVICE_URI + "getAll/active=" + active + "&search=" + search + "?size="+ size + "&page=" + page)
             .then(
             function (response) {
@@ -30,7 +31,8 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
         );
         return deferred.promise;
     }
-    
+
+    //Service call api get list user with active and pagable
     function getUsersByActive(active, size, page) {
         var deferred = $q.defer();
         $http.get(REST_SERVICE_URI + "getByActive/" +active + "?size="+ size + "&page=" + page)
@@ -46,7 +48,7 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
         );
         return deferred.promise;
     }
-
+    //Service all api create user 
     function createUser(user) {
         var deferred = $q.defer();
         $http.post(REST_SERVICE_URI + "create", user)
@@ -61,8 +63,7 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
         );
         return deferred.promise;
     }
-
-
+    //Service call api update user
     function updateUser(user, id) {
     	console.log(user);
         var deferred = $q.defer();
@@ -84,7 +85,7 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
         );
         return deferred.promise;
     }
-
+    //Service call api remove user === NOT USING
     function deleteUser(id) {
         var deferred = $q.defer();
         $http.get(REST_SERVICE_URI + "delete/" +id)
@@ -99,33 +100,4 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
         );
         return deferred.promise;
     }
-
 }]);
-
-//angular.module('myApp').factory('sessionInjector', ['SessionService', function(SessionService) {  
-//    var sessionInjector = {
-//        request: function(config) {
-//            if (!SessionService.isAnonymus) {
-//                config.headers['x-session-token'] = SessionService.token;
-//            }
-//            return config;
-//        }
-//    };
-//    return sessionInjector;
-//}]);
-//module.config(['$httpProvider', function($httpProvider) {  
-//    $httpProvider.interceptors.push('sessionInjector');
-//}]);
-
-//angular.module('myApp', ['spring-security-csrf-token-interceptor']);
-//.config(function(csrfProvider) {
-//    // optional configurations
-//    csrfProvider.config({
-//        url: 'user/login',
-//        maxRetries: 3,
-//        csrfHttpType: 'post',
-//        csrfTokenHeader: 'X-CSRF-XXX-TOKEN',
-//        httpTypes: ['PUT', 'POST', 'DELETE'] //CSRF token will be added only to these method types 
-//    });
-//}).run(function() {
-//});
