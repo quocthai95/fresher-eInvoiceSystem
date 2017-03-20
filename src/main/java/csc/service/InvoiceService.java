@@ -31,5 +31,11 @@ public interface InvoiceService {
 
 	@Cacheable("report")
 	Page<Invoice> getListReport(Customer idCus, Date dateStart, Date dateEnd, int page, int pageSize);
+	
+	@Cacheable("invoice")
+	Invoice getInvoice(String contractNum);
+	
+	@Cacheable("invoice")
+	Invoice findByContractNumberAndIdCustomer(String contractNum, Customer customer);
 
 }

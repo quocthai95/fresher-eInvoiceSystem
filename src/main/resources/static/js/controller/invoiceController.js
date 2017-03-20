@@ -1,4 +1,8 @@
 'use strict';
+
+var tmpContractNum;
+var tmpInvoice;
+
 app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'SweetAlert', 
                                      function($scope, $filter, InvoiceService, SweetAlert) {
     var self = this;
@@ -6,7 +10,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     self.invoice={
     	id:null,
     	date: new Date(),
-    	contractNumber:'',
+//    	contractNumber: '',
     	nameService:'',
     	indexConsumed:'',
     	total:0,
@@ -320,7 +324,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     	self.invoice={
     	    	id:null,
     	    	date:new Date(),
-    	    	contractNumber:'',
+//    	    	contractNumber:'',
     	    	nameService:'',
     	    	indexConsumed:'',
     	    	total:'',    	    	
@@ -331,9 +335,26 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     	    };
         $scope.myForm.$setPristine(); //reset Form
     }
+    
+    //trigger when input contract number changed
+    $scope.contractChanged = function() {
+    	//console.log('contractChanged= ' + self.invoice.contractNumber);
+    	if (self.invoice.contractNumber == undefined) {
+    		console.log('tmpContractNum= ' + tmpContractNum);
+    		
+    		self.invoice.date = tmpContractNumdate;
+    		//fncshowForm(tmpInvoice.idType.id, tmpInvoice);
+    	} 
+    	
+    }
   
     //Trigger when click show form
     $scope.showForm = function(code, id){
+    	fncshowForm(code, id);
+    	console.log('open create modal');
+    };
+    
+    function fncshowForm(code, id) {
     	//set idType
     	self.invoice.idType = id; 
     	//set VAT
@@ -374,8 +395,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     		document.getElementById('index').hidden = true;
     		
     		self.invoice.indexConsumed = 1;
-    	} 		
-    };
+    	} 	
+    }
    
    
 
@@ -404,9 +425,25 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
         		console.log('update success!!');
     	    }
         };
-    }]);
-
-
+    }])
+.directive('invoiceExist', function($http, $q, SweetAlert) {
+	  return {
+	    require: 'ngModel',
+	    link: function(scope, element, attrs, ngModel) {
+	    		ngModel.$asyncValidators.invoiceExist = function(modelValue, viewValue) {
+	    		  return $http.get(REST_SERVICE_URI + "getName/"+ viewValue).then(
+	    	        		function(response) {
+	    	        			if (response.data.id != null) {
+	    	        				tmpContractNum = viewValue;
+	    	        				tmpInvoice = response.data;
+		    	        			return $q.reject('Invoice can use.');
+	    	        			}
+	    	        			return true;
+	    			        });
+	    		      };
+	    		    }
+	  };
+} );
 app.filter('startFrom', function() {
     return function(input, start) {
         start = +start; //parse to int

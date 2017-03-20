@@ -1,4 +1,4 @@
-var app = angular.module('dbApp', [ 'ngRoute','zingchart-angularjs', 'oitozero.ngSweetAlert' ]);
+var app = angular.module('dbApp', [ 'ngRoute','zingchart-angularjs', 'oitozero.ngSweetAlert', 'ngMessages' ]);
 app.config(function($routeProvider) {
 
 	$routeProvider.when("/", {

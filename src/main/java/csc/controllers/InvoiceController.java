@@ -101,11 +101,18 @@ public class InvoiceController {
 
 	@RequestMapping(value = "/invoice/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Invoice> getInvoice(@PathVariable("id") long id) {
-		System.out.println("Fetching invoice with id " + id);
 		Invoice invoice = invoiceService.findById(id);
 		if (invoice == null) {
-			System.out.println("Invoice with id " + id + " not found");
 			return new ResponseEntity<Invoice>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/invoice/getName/{contractNum}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Invoice> getInvoiceByContract(@PathVariable("contractNum") String contractNum) {
+		Invoice invoice = invoiceService.findByContractNumberAndIdCustomer(contractNum, this.getIdCustomer());
+		if (invoice == null) {
+			invoice =  new Invoice();
 		}
 		return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
 	}

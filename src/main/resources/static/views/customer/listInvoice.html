@@ -43,99 +43,101 @@
 					<span ng-show="u.active==true" >Active</span><span ng-show="u.active==false" >Deactive</span>
 				</label>--></td>
 
-			<td><span ng-bind="u.grandTotal | number"></span> {{ ctrl.currencyUnit }} <!-- 				<button type="button" ng-click="ctrl.edit(u.id)" -->
+			<td><span ng-bind="u.grandTotal | number"></span> {{
+				ctrl.currencyUnit }} <!-- 				<button type="button" ng-click="ctrl.edit(u.id)" -->
 				<!-- 					class="btn btn-success custom-width" >Edit</button>
 					<button type="button" ng-click="ctrl.update(u,u.id)"
 					class="btn btn-success custom-width" >Update</button> --></td>
 			<td>
 				<button type="button" class="btn btn-success btn-xs" title="View"
 					data-toggle="modal" data-backdrop="static" data-keyboard="false"
-					data-target="#btnModal"
-					ng-click="ctrl.showDetail(u.idType, u) ">
+					data-target="#btnModal" ng-click="ctrl.showDetail(u.idType, u)">
 					<span class="glyphicon glyphicon-eye-open " style="color: white"></span>
 				</button>
-				<div id="btnModal" class="modal fade" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header">
-								<h3 class="modal-title" id="title" align="center"
-									style="font-weight: bold">Information:
-									{{ nameInvoice }}</h3>
-							</div>
-							<div class="modal-body">
-								<form name="btnForm" role="form">
-									<fieldset id="btnset" name="btnset" disabled>
-										<br> <input type="hidden" ng-model="ctrl.invoice.id" />
-										<div class="form-group">
-											<label style="font-weight: bold">Contract Number</label> <input
-												ng-model="ctrl.invoice.contractNumber" type="text"
-												name="contract" class="form-control"
-												placeholder="Your Contract Number" />
-										</div>
-										<div class="form-group">
-											<label style="font-weight: bold">Date</label> <input
-												ng-model="ctrl.invoice.date " type="date" name="date"
-												class="form-control" placeholder="Date" />
-										</div>
-								<div class="form-group" id="service2">
-									<label style="font-weight: bold">Name Service</label> 
-									
-									<select ng-model="ctrl.invoice.nameService"  class="form-control" id="sel1" ng-change="ctrl.getService()">
-									    <option ng-repeat="s in ctrl.services" >{{s.nameService}}</option>									    
-									</select>
-										</div>
-										<div class="form-group" id="index2">
-											<label style="font-weight: bold">Index Consumed</label> <input
-												ng-model="ctrl.invoice.indexConsumed" type="number"
-												name="index" class="form-control"
-												placeholder="Your Index Consumed"
-												ng-change="ctrl.changeTotal()" />
-										</div>
-										<div class="form-group">
-											<label style="font-weight: bold">Total</label> <label
-												style="color: red">{{ctrl.invoice.total | number }} {{ ctrl.currencyUnit }}
-											</label>
-										</div>
-
-										<div class="form-group">
-											<label style="font-weight: bold">VAT</label> <label
-												style="color: red">{{ ctrl.invoice.vat }}%</label>
-										</div>
-										<div class="form-group" id="ptef2">
-											<label style="font-weight: bold">PTEF</label> <label
-												style="color: red">{{ ctrl.invoice.ptef }}%</label>
-										</div>
-
-										<div class="form-group">
-											<label style="font-weight: bold">Grand Total</label> <label
-												style="color: red"> {{ ctrl.invoice.grandTotal |
-												number }} {{ ctrl.currencyUnit }}</label>
-										</div>
-										<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
-											type="hidden" ng-model="ctrl.invoice.idCpn" /> <input
-											type="hidden" ng-model="ctrl.invoice.idCustomer" />
-									</fieldset>
-									<div align="center">
-										<input type="button" id="btn" name="btn"
-											class="btn btn-primary" value="Edit"
-											ng-click="myEnable(ctrl.invoice.id)"> </input>
-									</div>
-								</form>
-							</div>
-							<div class="modal-footer">
-								<button type="button" id="closemodal" class="btn btn-default"
-									data-dismiss="modal" ng-click="clear()">Close</button>
-							</div>
-						</div>
-					</div>
-				</div>
 				<button type="button" class="btn btn-danger btn-xs" title="Delete"
 					ng-click="deleteinvoice(u.id)">
 					<span class="glyphicon glyphicon-trash" style="color: white"></span>
 				</button>
 			</td>
 		</tr>
+
+
+		<!-- Modal -->
+		<div id="btnModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="title" align="center"
+							style="font-weight: bold">Information: {{ nameInvoice }}</h3>
+					</div>
+					<div class="modal-body">
+						<form name="btnForm" role="form">
+							<fieldset id="btnset" name="btnset" disabled>
+								<br> <input type="hidden" ng-model="ctrl.invoice.id" />
+								<div class="form-group">
+									<label style="font-weight: bold">Contract Number</label> <input
+										ng-model="ctrl.invoice.contractNumber" type="text"
+										name="contract" class="form-control"
+										placeholder="Your Contract Number" invoice-exist
+										ng-model-options="{ debounce: 500 }" />
+								</div>
+								<div class="form-group">
+									<label style="font-weight: bold">Date</label> <input
+										ng-model="ctrl.invoice.date " type="date" name="date"
+										class="form-control" placeholder="Date" />
+								</div>
+								<div class="form-group" id="service2">
+									<label style="font-weight: bold">Name Service</label> <select
+										ng-model="ctrl.invoice.nameService" class="form-control"
+										id="sel1" ng-change="ctrl.getService()">
+										<option ng-repeat="s in ctrl.services">{{s.nameService}}</option>
+									</select>
+								</div>
+								<div class="form-group" id="index2">
+									<label style="font-weight: bold">Index Consumed</label> <input
+										ng-model="ctrl.invoice.indexConsumed" type="number"
+										name="index" class="form-control"
+										placeholder="Your Index Consumed"
+										ng-change="ctrl.changeTotal()" />
+								</div>
+								<div class="form-group">
+									<label style="font-weight: bold">Total</label> <label
+										style="color: red">{{ctrl.invoice.total | number }} {{
+										ctrl.currencyUnit }} </label>
+								</div>
+
+								<div class="form-group">
+									<label style="font-weight: bold">VAT</label> <label
+										style="color: red">{{ ctrl.invoice.vat }}%</label>
+								</div>
+								<div class="form-group" id="ptef2">
+									<label style="font-weight: bold">PTEF</label> <label
+										style="color: red">{{ ctrl.invoice.ptef }}%</label>
+								</div>
+
+								<div class="form-group">
+									<label style="font-weight: bold">Grand Total</label> <label
+										style="color: red"> {{ ctrl.invoice.grandTotal |
+										number }} {{ ctrl.currencyUnit }}</label>
+								</div>
+								<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
+									type="hidden" ng-model="ctrl.invoice.idCpn" /> <input
+									type="hidden" ng-model="ctrl.invoice.idCustomer" />
+							</fieldset>
+							<div align="center">
+								<input type="button" id="btn" name="btn" class="btn btn-primary"
+									value="Edit" ng-click="myEnable(ctrl.invoice.id)"> </input>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="closemodal" class="btn btn-default"
+							data-dismiss="modal" ng-click="clear()">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</tbody>
 </table>
 <form class="form-inline" style="margin-top: 20px" align="right">

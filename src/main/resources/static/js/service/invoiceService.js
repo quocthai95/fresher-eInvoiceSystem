@@ -1,9 +1,7 @@
 'use strict';
+var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/invoice/';
 
-angular.module('dbApp').factory('InvoiceService', ['$http', '$q', 'TypeInvoiceService', function($http, $q, TypeInvoiceService){
-
-    var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/invoice/';
-    
+app.factory('InvoiceService', ['$http', '$q', 'TypeInvoiceService', function($http, $q, TypeInvoiceService){   
     var factory = {
     	fetchAllInvoice : fetchAllInvoice,
         createInvoice : createInvoice,
