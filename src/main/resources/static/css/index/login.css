@@ -5,12 +5,13 @@
  * General styles
  */
 body, html {
-    height: 100%;
+   /* height: 100%;
     background-repeat: no-repeat;
     background-image: url("/EInvoice/images/white.jpg");
     background-position: center center;
     background-attachment: fixed;
- 	background-size: cover;
+ 	background-size: cover;	
+ 	font-family: 'Oxygen', sans-serif; */
 }
 
 .card-container.card {
