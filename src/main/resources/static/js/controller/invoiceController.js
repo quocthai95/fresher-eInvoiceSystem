@@ -1,8 +1,5 @@
 'use strict';
 
-var tmpContractNum;
-var tmpInvoice;
-
 app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'SweetAlert', 
                                      function($scope, $filter, InvoiceService, SweetAlert) {
     var self = this;
@@ -204,7 +201,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
         );
     }
     
-    //trigger update invoice
+    // Trigger update invoice
     function updateInvoice(invoice, id){    	
     	console.log(invoice);            
         InvoiceService.updateInvoice(invoice, id)
@@ -220,7 +217,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     	
     }
     
-    //trigger remove invoice
+    // Trigger remove invoice
     function deleteInvoice(id){
     	SweetAlert.swal({
         	title: "Are you sure?",
@@ -279,19 +276,19 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
         }
     }
 
-    //Trigger when click show detail
+    // Trigger when click show detail
     function showDetail(type, invoice){    
     	//set IdType
     	self.invoice.idType = type.id; 
     	//set name service
     	$scope.nameInvoice = type.nameInvoice;
     	
-    	//call service to load object invoice
+    	// Call service to load object invoice
     	InvoiceService.getID(invoice.id).then(
 			function(d) {
 	        	self.invoice = d; 
 	        	self.invoice.date = new Date(self.invoice.date);
-	        	//call service to load list service
+	        	// Call service to load list service
 	        	fetchAllService(type.id);
         	},
 	        function(errResponse) {        	
@@ -299,7 +296,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
 	        }
         );
     	
-    	//Trigger hidden input indexConsumed when serivce is Internet Bill
+    	// Trigger hidden input indexConsumed when serivce is Internet Bill
     	if (type.code == 'IB' || type.code == 'PB') {
     		document.myForm.hidden = false;
     		document.getElementById('ptef2').hidden = true;
@@ -340,20 +337,29 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
         $scope.myForm.$setPristine(); //reset Form
     }
     
-    //trigger when input contract number changed
+    // Trigger when input contract number changed
     $scope.contractChanged = function() {
-    	//console.log('contractChanged= ' + self.invoice.contractNumber);
-    	if (self.invoice.contractNumber == undefined) {
-    		console.log('tmpContractNum= ' + tmpContractNum);
-    		
-    		self.invoice.date = tmpContractNumdate;
-    		//fncshowForm(tmpInvoice.idType.id, tmpInvoice);
-    	} 
-    	
+    	console.log('contractChanged= ' + self.invoice.contractNumber);
+    	InvoiceService.checkContract(self.invoice.contractNumber).then(
+    			function(d) {
+    				// When contract number already exits
+    				if (d.contractNumber != null) {
+    					self.invoice = d;
+    		        	self.invoice.date = new Date(self.invoice.date);
+    		        	fetchAllService(self.invoice.idType.id);
+    		        	$scope.name_type = "Update " + self.invoice.idType.nameInvoice;
+    		        	self.btn = 'Update';
+    				}
+    				
+            	},
+    	        function(errResponse) {        	
+    	            console.error('Error while checking contract number');
+    	        }
+            );
     }
   
 
-    //Trigger when click show form
+    // Trigger when click show form
     $scope.showForm = function(code, id){
     	fncshowForm(code, id);
     	console.log('open create modal');
@@ -366,7 +372,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     	self.invoice.vat = id.vat;
 
  		//set nameType	
-    	$scope.name_type = id.nameInvoice;    
+    	$scope.name_type = "Create "+ id.nameInvoice;
+    	self.btn = 'Create';
     	fetchAllService(id.id)
     	if(code == 'EB')
     	{
@@ -431,25 +438,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
         		console.log('update success!!');
     	    }
         };
-    }])
-.directive('invoiceExist', function($http, $q, SweetAlert) {
-	  return {
-	    require: 'ngModel',
-	    link: function(scope, element, attrs, ngModel) {
-	    		ngModel.$asyncValidators.invoiceExist = function(modelValue, viewValue) {
-	    		  return $http.get(REST_SERVICE_URI + "getName/"+ viewValue).then(
-	    	        		function(response) {
-	    	        			if (response.data.id != null) {
-	    	        				tmpContractNum = viewValue;
-	    	        				tmpInvoice = response.data;
-		    	        			return $q.reject('Invoice can use.');
-	    	        			}
-	    	        			return true;
-	    			        });
-	    		      };
-	    		    }
-	  };
-} );
+    }]);
 app.filter('startFrom', function() {
     return function(input, start) {
         start = +start; //parse to int
