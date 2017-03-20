@@ -46,13 +46,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		// TODO Auto-generated method stub
 		invoiceRepository.delete(id);
 	}
-
-	@Override
-	public Page<Invoice> findAllInvoice(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return invoiceRepository.findAll(pageable);
-	}
-
+	
 	@Override
 	public Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable) {
 		// TODO Auto-generated method stub
@@ -63,5 +57,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 	public Page<Invoice> getListReport(Customer idCus, Date dateStart, Date dateEnd, int page, int pageSize) {
 		PageRequest pageable = new PageRequest(page, pageSize);
 		return invoiceRepository.findByIdCustomerAndDateBetween(idCus, dateStart, dateEnd, pageable);
+	}
+
+	@Override
+	public Page<Invoice> findAllInvoice(Customer idcustomer, String contractnumber, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return invoiceRepository.findByIdCustomerAndContractNumberContaining(idcustomer, contractnumber, pageable);
 	}
 }

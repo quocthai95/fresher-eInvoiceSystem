@@ -16,9 +16,9 @@ angular.module('dbApp').factory('UserService', ['$http', '$q', function($http, $
     
 
 
-    function fetchAllUsers(size, page) {
+    function fetchAllUsers(active, search, size, page) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getAll?" + "size="+ size + "&page=" + page)
+        $http.get(REST_SERVICE_URI + "getAll/active=" + active + "&search=" + search + "?size="+ size + "&page=" + page)
             .then(
             function (response) {
                 deferred.resolve(response.data);                

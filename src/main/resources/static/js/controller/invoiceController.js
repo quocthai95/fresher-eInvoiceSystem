@@ -67,6 +67,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     self.changeTotal = changeTotal;
     self.getService = getService;
 	self.deleteInvoice = deleteInvoice;
+	self.searchInvoice = searchInvoice;
 
     defaultValue();
     fetchAllInvoice();
@@ -107,28 +108,23 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     	fetchAllInvoice();
     }
     
-    
-    $scope.getData = function () {
-        
-        return $filter('filter')( self.invoices, $scope.search)
-       
-      }
-    
-    $scope.numberOfPages=function(){
-    	
-    	// $scope.totalElements / pageSize
-    	return Math.ceil($scope.totalElements/$scope.pageSize);
-        // return Math.ceil($scope.getData().length/$scope.pageSize);
+    function searchInvoice(){
+    	$scope.currentPage = 0;
+    	$scope.search = $scope.search;
+    	fetchAllInvoice();
+    }
+           
+    $scope.numberOfPages=function(){   	   	
+    	return Math.ceil($scope.totalElements/$scope.pageSize);       
     }
 
     function fetchAllInvoice(){
-        InvoiceService.fetchAllInvoice($scope.size, $scope.currentPage)
+        InvoiceService.fetchAllInvoice($scope.search, $scope.size, $scope.currentPage)
             .then(
             function(d) {
 
             	self.invoices = d.content; 
-            	$scope.totalElements = d.totalElements;
-            	// console.log("d.totalElements" + d.totalElements);
+            	$scope.totalElements = d.totalElements;            	
             },
             function(errResponse){
                 console.error('Error while fetching Invoice');

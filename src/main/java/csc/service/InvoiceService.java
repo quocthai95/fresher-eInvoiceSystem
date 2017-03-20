@@ -24,8 +24,8 @@ public interface InvoiceService {
 	void deleteInvoiceById(long id);
 
 	@Cacheable("report")
-	Page<Invoice> findAllInvoice(Pageable pageable);
-
+	Page<Invoice> findAllInvoice(Customer idcustomer, String contractnumber, Pageable pageable);
+		
 	@Cacheable("report")
 	Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable);
 
