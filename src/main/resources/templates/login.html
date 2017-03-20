@@ -2,12 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org" >
 <head>
 <meta charset="utf-8" />
-<title>E-Invoice</title>
-<meta name="description" content="" />
-<meta name="author" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <!-- Online  -->
 
-   <meta charset="utf-8" />
 	<title>E-Invoice</title>
 	<meta name="description" content="" />  
 	<meta name="author" content="" />
@@ -18,9 +16,6 @@
 	<link href="../static/css/signup/css1.css" th:href="@{/css/signup/css1.css}" rel="stylesheet" />
 	<link href="../static/css/signup/font-awesome.min.css" th:href="@{/css/signup/font-awesome.min.css}" rel="stylesheet" />
 
-   <!-- mobile specific metas
-   ================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
  	<!-- CSS
    ================================================== -->
@@ -29,17 +24,10 @@
    <link href="../static/css/index/main.css" th:href="@{/css/index/main.css}" rel="stylesheet" />
    <link href="../static/css/index/vendor.css" th:href="@{/css/index/vendor.css}" rel="stylesheet" />
    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
-   
    <link href="../static/css/index/login.css" th:href="@{/css/index/login.css}" rel="stylesheet" />
   
-
    <!-- script
    ================================================== -->
-
- <!-- Morris Charts JavaScript -->
-   <!--  <script src="js/customer/morris/raphael.min.js"></script>
-    <script src="js/customer/morris/morris.min.js"></script>
-    <script src="js/customer/morris/morris-data.js"></script> -->
 
 <script src="../static/js/lib/bootstrap.min.js"
 	th:src="@{/js/lib/bootstrap.min.js}"></script>
@@ -108,6 +96,9 @@
 			<div>
 				<a href="/EInvoice/#/signup" style="color: green"> You don't have an
 					account? Sign Up Now! </a>
+			</div>
+			<div align="center">
+				<a href="/EInvoice/#/forgotpw" > Forgot Password? Click here </a>
 			</div>
 			<!-- /form -->
 		</div>

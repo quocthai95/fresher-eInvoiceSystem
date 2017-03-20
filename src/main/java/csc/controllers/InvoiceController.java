@@ -1,5 +1,9 @@
 package csc.controllers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,9 +61,16 @@ public class InvoiceController {
 			@PathVariable("pageSize") int pageSize) {
 		System.out.println("getListReport");
 		System.out.println("start= " + dateStart + " -end= " +dateEnd + " -page "+page + " -pageSize " +pageSize );
-		String idCus = this.getIdCustomer();
-
-		Page<Invoice> invoices = invoiceService.getListReport(idCus, dateStart, dateEnd, page, pageSize);
+		Customer idCus = this.getIdCustomer();
+		
+		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Page<Invoice> invoices = null;
+		try {
+			invoices = invoiceService.getListReport(idCus, myFormat.parse(dateStart), myFormat.parse(dateEnd), page, pageSize);
+		} catch (Exception ex) {
+			System.out.println("Exception=" + ex.getMessage());
+		}
+		
 		System.out.println("invoices count= " + invoices.getContent().size());
 		if (invoices.getContent() == null) {
 			return new ResponseEntity<Page<Invoice>>(HttpStatus.NO_CONTENT);
@@ -173,20 +184,20 @@ public class InvoiceController {
 		return new ResponseEntity<Invoice>(HttpStatus.NO_CONTENT);
 	}
 
-	private String getIdCustomer() {
+	private Customer getIdCustomer() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Users user = new Users();
 		Customer cus = new Customer();
-		String idCus = null;
+//		String idCus = null;
 		
 		user = userService.findByName(username);
 
 		cus = customerService.findByUser(user);
 
-		idCus = cus.getIdCustomer();
+//		idCus = cus.getIdCustomer();
 		
-		return idCus;
+		return cus;
 	}
 
 } // class UserController

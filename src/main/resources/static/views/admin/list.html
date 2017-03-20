@@ -1,4 +1,6 @@
+
 <form class="form-inline" style="margin-top: 20px">
+
     <div class="form-group">
         <label >Search</label>
         <input type="text" ng-model="search" class="form-control" placeholder="Filter text...">
@@ -33,12 +35,15 @@
 			<td><span ng-bind="u.id"></span></td>
 			<td><span ng-bind="u.username"></span></td>
 			<td>
-				<label style="display: flex" for="id{{u.id}}"><input type="checkbox" value="" name="checked"  ng-model="u.active" id="id{{u.id}}"
+			<label class="checkbox-inline">
+  <input type="checkbox" checked data-toggle="toggle">
+</label>
+				<!-- <label style="display: flex" for="id{{u.id}}"><input type="checkbox" value="" name="checked"  ng-model="u.active" id="id{{u.id}}"
 					class="form-control ng-dirty ng-valid-parse" ng-checked="u.active==1 ? 1 : 0" 
 					ng-click="u.active=!u.active" ng-change="u.active=!u.active"
 					/>
 					<span ng-show="u.active==true" >Active</span><span ng-show="u.active==false" >Deactive</span>
-				</label>
+				</label> -->
 			</td>
 			
 			<td>

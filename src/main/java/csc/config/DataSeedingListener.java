@@ -1,5 +1,6 @@
 package csc.config;
 import java.math.BigDecimal;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -174,11 +175,9 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 	private void createService(String name, int idType, int count, int unit) {
 		Service s;
-		TypeInvoice ti;
+		TypeInvoice ti = typeInvoiceRepository.findById(idType);
 		for (int index = 1; index <= count; index++) {
 			System.out.println("name + index" + (name + index));
-			ti = new TypeInvoice();
-			ti = typeInvoiceRepository.findById(idType);
 			if (serviceRepository.findByNameServiceAndIdType(name + index, ti) == null) {
 				s = new Service();
 				s.setIdType(ti);
@@ -263,7 +262,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 				invoice = new Invoice();
 				Float vat;
 				Float indexConsumed = 100F;
-				BigDecimal total = new BigDecimal(indexConsumed * (index + 1));
+				BigDecimal total;
 				BigDecimal ptef = new BigDecimal(index);
 				BigDecimal grandTotal;
 				invoice.setContractNumber(contractNumber + index);
@@ -275,7 +274,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					invoice.setIndexConsumed(indexConsumed);
 					
 					invoice.setPtef(ptef);
-					invoice.setTotal(total);
+					
 
 					// set Type Invoice
 					TypeInvoice typeInvoice = new TypeInvoice();
@@ -284,18 +283,18 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					invoice.setIdType(typeInvoice);
 					
 					
-					//get name service
-					s = new ArrayList<Service>();
-					s = serviceRepository.findByIdType(typeInvoice);
-					System.out.println("s.size() " + s.size());
-					if (totalRecord > s.size() ) {
-						invoice.setNameService(s.get(index).getNameService());
-					} else {
-						invoice.setNameService(s.get(totalRecord).getNameService());
-					}
+					//get service of idType
+					List<Service> service = new ArrayList<Service>();
+					service = serviceRepository.findByIdType(typeInvoice);
 
 					
+					int randomNum = ThreadLocalRandom.current().nextInt(0, service.size());					
+					total = service.get(randomNum).getUnit().multiply(BigDecimal.valueOf(indexConsumed * (index + 1)));
+					invoice.setTotal(total);
 					
+					//get name service
+					System.out.println("s.size() " + service.size());
+					invoice.setNameService(service.get(randomNum).getNameService());				
 					
 					invoice.setVat(vat);
 					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)).divide(BigDecimal.valueOf(100)));
