@@ -1,6 +1,5 @@
 package csc.config;
 import java.math.BigDecimal;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,6 +11,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.terracotta.statistics.jsr166e.ThreadLocalRandom;
 
 import csc.models.Company;
 import csc.models.Customer;
@@ -111,21 +111,21 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			createCustomer(tmp, "member@gmail.com");
 		}
 		// Test create 100 record for function paging with role admin
-		// for (int index = 0; index < 20; index++) {
-		// if (userRepository.findByUsername("member" + index + "@gmail.com") ==
-		// null) {
-		// Users user = new Users();
-		// user.setUsername("member" + index + "@gmail.com");
-		// user.setPassword(passwordEncoder.encode("123456"));
-		// user.setActive("1");
-		// HashSet<Role> roles = new HashSet<>();
-		// roles.add(roleRepository.findByName("ROLE_MEMBER"));
-		// user.setRoles(roles);
-		// tmp = new Users();
-		// tmp = userRepository.save(user);
-		// createCustomer(tmp);
-		// }
-		// }
+		 for (int index = 0; index < 20; index++) {
+		 if (userRepository.findByUsername("member" + index + "@gmail.com") ==
+		 null) {
+		 Users user = new Users();
+		 user.setUsername("member" + index + "@gmail.com");
+		 user.setPassword(passwordEncoder.encode("123456"));
+		 user.setActive("1");
+		 HashSet<Role> roles = new HashSet<>();
+		 roles.add(roleRepository.findByName("ROLE_MEMBER"));
+		 user.setRoles(roles);
+		 tmp = new Users();
+		 tmp = userRepository.save(user);
+		 createCustomer(tmp, tmp.getUsername());
+		 }
+		 }
 		// End Test
 
 
@@ -150,7 +150,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		// name - idType - count - unit
 		createService("G", 1, 2, 1000);
 		createService("G", 2, 2, 1000);
-		createService("G", 3, 5, 5000);
+		createService("G", 3, 5, 50000);
 		createService("G", 4, 5, 1000);
 
 		// Create Invoice record
@@ -175,9 +175,11 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 	private void createService(String name, int idType, int count, int unit) {
 		Service s;
-		TypeInvoice ti = typeInvoiceRepository.findById(idType);
+		TypeInvoice ti;
 		for (int index = 1; index <= count; index++) {
 			System.out.println("name + index" + (name + index));
+			ti = new TypeInvoice();
+			ti = typeInvoiceRepository.findById(idType);
 			if (serviceRepository.findByNameServiceAndIdType(name + index, ti) == null) {
 				s = new Service();
 				s.setIdType(ti);
@@ -262,7 +264,6 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 				invoice = new Invoice();
 				Float vat;
 				Float indexConsumed = 100F;
-				BigDecimal total;
 				BigDecimal ptef = new BigDecimal(index);
 				BigDecimal grandTotal;
 				invoice.setContractNumber(contractNumber + index);
@@ -274,7 +275,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					invoice.setIndexConsumed(indexConsumed);
 					
 					invoice.setPtef(ptef);
-					
+
+
 
 					// set Type Invoice
 					TypeInvoice typeInvoice = new TypeInvoice();
@@ -283,18 +285,17 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					invoice.setIdType(typeInvoice);
 					
 					
-					//get service of idType
-					List<Service> service = new ArrayList<Service>();
-					service = serviceRepository.findByIdType(typeInvoice);
-
+					//get name service
+					s = new ArrayList<Service>();
+					s = serviceRepository.findByIdType(typeInvoice);
 					
-					int randomNum = ThreadLocalRandom.current().nextInt(0, service.size());					
-					total = service.get(randomNum).getUnit().multiply(BigDecimal.valueOf(indexConsumed * (index + 1)));
+					System.out.println("s.size() " + s.size());
+					int randomNum = ThreadLocalRandom.current().nextInt(0, s.size());
+					invoice.setNameService(s.get(randomNum).getNameService());
+
+					BigDecimal total = s.get(randomNum).getUnit().multiply(BigDecimal.valueOf(indexConsumed));
 					invoice.setTotal(total);
 					
-					//get name service
-					System.out.println("s.size() " + service.size());
-					invoice.setNameService(service.get(randomNum).getNameService());				
 					
 					invoice.setVat(vat);
 					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)).divide(BigDecimal.valueOf(100)));

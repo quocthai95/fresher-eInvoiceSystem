@@ -36,10 +36,18 @@
 								role="form">
 								<br> <input type="hidden" ng-model="ctrl.invoice.id" />
 								<div class="form-group">
-									<label style="font-weight: bold">Contract Number</label> <input
-										ng-model="ctrl.invoice.contractNumber" type="text"
-										name="contract" class="form-control"
+									<label style="font-weight: bold">Contract Number</label> <input type="text"
+										ng-change="contractChanged()" ng-model="ctrl.invoice.contractNumber" 
+										invoice-exist ng-model-options="{ debounce: 500 }"
+										name="contract" class="form-control" 
 										placeholder="Your Contract Number" />
+		    							<div align="center" role="alert" style="color:red">					      
+									      <span class="error" ng-show="myForm.contract.$error.required">
+									        Required Contract Number!</span>
+									    </div>
+								    	<div align="center" ng-messages="myForm.contract.$error">
+								    		<div ng-message="invoiceExist" style="color:green">Contract number already exists.</div>
+										</div>
 
 								</div>
 
@@ -71,7 +79,7 @@
 
 								<div class="form-group">
 									<label style="font-weight: bold">Total</label> <label
-										style="color: red">{{ctrl.invoice.total | number }} </label>
+										style="color: red">{{ctrl.invoice.total | number }} {{ ctrl.currencyUnit }}</label>
 
 								</div>
 
@@ -88,7 +96,7 @@
 								<div class="form-group">
 									<label style="font-weight: bold">Grand Total</label> <label
 										style="color: red"> {{ ctrl.invoice.grandTotal |
-										number }} </label>
+										number }} {{ ctrl.currencyUnit }}</label>
 
 								</div>
 								<input type="hidden" ng-model="ctrl.invoice.idType" /> <input

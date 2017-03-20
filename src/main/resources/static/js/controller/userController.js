@@ -1,10 +1,15 @@
 'use strict';
 
-var app = angular.module('dbApp');
+//var app = angular.module('dbApp');
 
 app.controller('UserController', ['$scope','$filter', 'UserService', function($scope, $filter, UserService) {
     var self = this;
-    self.user={id:null,username:'',password:'',active:''};    
+    self.user={id:null,
+    		username:'',
+    		password:'',
+    		active: ''
+    };    
+        
     self.users=[];
     
     
@@ -14,8 +19,7 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
         $scope.search = '';
         $scope.status = 'all';
        
-        $scope.size = 1;
-        //$scope.page = 1;
+        $scope.size = 1;       
         $scope.totalElements = 0;
     }
 
@@ -23,10 +27,10 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     self.submit = submit;
     self.edit = edit;
     self.remove = remove;
-    self.reset = reset;
-    self.isActive = isActive;
+    self.reset = reset;    
     self.update = updateUser;
     self.filterActive = filterActive;
+    self.searchUser = searchUser;
     
 
     defaultValue();
@@ -34,6 +38,7 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     
     
     $scope.onEventPaging = function(value) {
+    	$scope.currentPage = 0;
     	$scope.pageSize = value;
     	console.log('value ' + $scope.pageSize + "-" + $scope.currentPage);
     	fetchAllUsers();
@@ -51,71 +56,54 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     	fetchAllUsers();
     }
     
-    
-    $scope.getData = function () {
-        
-        return $filter('filter')( self.users, $scope.search)
-       
-      }
-    
-    $scope.numberOfPages=function(){
-    	//console.log('$scope.totalElements ' + $scope.totalElements);
-    	
-    	// $scope.totalElements / pageSize
-    	return Math.ceil($scope.totalElements/$scope.pageSize);
-        //return Math.ceil($scope.getData().length/$scope.pageSize);                
-    }
-
-    function fetchAllUsers(){
-    	if($scope.status == 'all')
-    	{
-    		UserService.fetchAllUsers($scope.pageSize, $scope.currentPage)
-	            .then(
-	            function(d) {
-	            	self.users = d.content;
-	            	$scope.totalElements = d.totalElements;
-	            	//console.log("d.totalElements" + d.totalElements);
-	            },
-	            function(errResponse){
-	                console.error('Error while fetching Users');
-	            }
-	        );
-    		
-    	}
-    	else{
-    		$scope.currentPage = $scope.currentPage;
-    		getUsersByActive($scope.status, $scope.pageSize, $scope.currentPage)
-    	}
-        
+    function searchUser(){
+    	$scope.currentPage = 0;
+    	$scope.search = $scope.search;
+    	fetchAllUsers();
     }
     
     function filterActive(status){
     	$scope.currentPage = 0;
-    	console.log(status);
-    	if(status == 'all')
-    	{
-    		fetchAllUsers();
-    	}
-    	else{    		
-    		console.log("Filter by status");
-    		getUsersByActive(status, $scope.pageSize, $scope.currentPage);
-    	}
+    	$scope.status = status;    	
+    	fetchAllUsers();    	
     }
     
-    function getUsersByActive(status, pageSize, currentPage){
-    	UserService.getUsersByActive(status, pageSize, currentPage)
-		.then(
-            function(d) {
-            	self.users = d.content;
-            	$scope.totalElements = d.totalElements;
-            	//console.log("d.totalElements" + d.totalElements);
-            },
-            function(errResponse){
-                console.error('Error while fetching Users');
-            }
-        );
+    $scope.DoCtrlPagingAct = function(text, page, pageSize, total) {
+    	
+    	$scope.currentPage = page - 1;   	
+    	fetchAllUsers();
+        console.log({
+            text: text,
+            page: page,
+            pageSize: pageSize,
+            total: total
+        });
+    };
+          
+    
+    $scope.numberOfPages=function(){    	
+    	return Math.ceil($scope.totalElements/$scope.pageSize);                       
     }
+
+    function fetchAllUsers(){
+    	UserService.fetchAllUsers($scope.status, $scope.search, $scope.pageSize, $scope.currentPage)
+        .then(
+	        function(d) {
+	        	self.users = d.content;
+	        	for(var u in self.users){
+	        		var bool = self.users[u].active === '1' ? true : false;
+	        		self.users[u].active = bool;
+	        	}
+	        	$scope.totalElements = d.totalElements;	        	
+	        },
+	        function(errResponse){
+	            console.error('Error while fetching Users');
+	        }
+	    );
         
+    }
+    
+   
     function createUser(user){
         UserService.createUser(user)
             .then(
@@ -127,20 +115,13 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     }
 
     function updateUser(user, id){    	
-    	var r = confirm("Are you sure!");
-    	if (r == true) {
-    		console.log(user);
-            UserService.updateUser(user, id)
-                .then(
-                fetchAllUsers,
-                function(errResponse){
-                    console.error('Error while updating User');
-                }
-            );
-    	} else {
-    		fetchAllUsers();
-    	}
-    	
+    	UserService.updateUser(user, id)
+        .then(
+	        fetchAllUsers,
+	        function(errResponse){
+	            console.error('Error while updating User');
+	        }
+        );
     }
 
     function deleteUser(id){
@@ -175,11 +156,6 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
         }
     }
     
-    function isActive(user){
-        console.log('id to be edited', user.id);
-        self.user = user;
-        updateUser(self.user, self.user.id);
-    }
 
     function remove(id){
         console.log('id to be deleted', id);
@@ -197,10 +173,3 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
    
 }]);
 
-
-app.filter('startFrom', function() {
-    return function(input, start) {
-        start = +start; //parse to int
-        return input.slice(start);
-    }
-});

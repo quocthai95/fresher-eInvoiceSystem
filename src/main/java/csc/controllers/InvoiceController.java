@@ -80,8 +80,8 @@ public class InvoiceController {
 
 	// -------------------Retrieve All Users--------------------------------------------------------
 
-	@RequestMapping(value = "/invoice/getAll", method = RequestMethod.GET)
-	public ResponseEntity<Page<Invoice>> listAllInvoice(Pageable pageable) {
+	@RequestMapping(value = "/invoice/getAll/search={search}", method = RequestMethod.GET)
+	public ResponseEntity<Page<Invoice>> listAllInvoice(@PathVariable("search") String search, Pageable pageable) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Users user = new Users();
@@ -90,7 +90,7 @@ public class InvoiceController {
 		Customer cus = new Customer();
 		cus = customerService.findByUser(user);
 
-		Page<Invoice> invoice = invoiceService.findByIdCustomer(cus, pageable);
+		Page<Invoice> invoice = invoiceService.findAllInvoice(cus, search, pageable);
 		if (invoice.getSize() == 0) {
 			return new ResponseEntity<Page<Invoice>>(HttpStatus.NO_CONTENT);
 		}
@@ -101,11 +101,18 @@ public class InvoiceController {
 
 	@RequestMapping(value = "/invoice/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Invoice> getInvoice(@PathVariable("id") long id) {
-		System.out.println("Fetching invoice with id " + id);
 		Invoice invoice = invoiceService.findById(id);
 		if (invoice == null) {
-			System.out.println("Invoice with id " + id + " not found");
 			return new ResponseEntity<Invoice>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/invoice/getName/{contractNum}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Invoice> getInvoiceByContract(@PathVariable("contractNum") String contractNum) {
+		Invoice invoice = invoiceService.findByContractNumberAndIdCustomer(contractNum, this.getIdCustomer());
+		if (invoice == null) {
+			invoice =  new Invoice();
 		}
 		return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
 	}

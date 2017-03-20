@@ -1,9 +1,7 @@
 'use strict';
+var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/invoice/';
 
-angular.module('dbApp').factory('InvoiceService', ['$http', '$q', 'TypeInvoiceService', function($http, $q, TypeInvoiceService){
-
-    var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/invoice/';
-    
+app.factory('InvoiceService', ['$http', '$q', 'TypeInvoiceService', function($http, $q, TypeInvoiceService){   
     var factory = {
     	fetchAllInvoice : fetchAllInvoice,
         createInvoice : createInvoice,
@@ -19,9 +17,9 @@ angular.module('dbApp').factory('InvoiceService', ['$http', '$q', 'TypeInvoiceSe
     
 
 
-    function fetchAllInvoice(size, page) {
+    function fetchAllInvoice(search, size, page) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getAll?size="+ size + "&page=" + page)
+        $http.get(REST_SERVICE_URI + "getAll/search=" + search + "?size="+ size + "&page=" + page)
             .then(
             function (response) {
                 deferred.resolve(response.data);                
