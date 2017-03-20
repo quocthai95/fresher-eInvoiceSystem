@@ -1,4 +1,4 @@
-var app = angular.module('myApp', [ 'ngRoute', 'ngMessages', 'oitozero.ngSweetAlert','ec.stateloader',]);
+var app = angular.module('myApp', [ 'ngRoute', 'ngMessages', 'oitozero.ngSweetAlert']);
 app.config(function($routeProvider) {
 	
 	$routeProvider.when("/", {

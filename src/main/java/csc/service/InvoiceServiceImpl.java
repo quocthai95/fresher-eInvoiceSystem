@@ -41,10 +41,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 	public void deleteInvoiceById(long id) {
 		invoiceRepository.delete(id);
 	}
-	@Override
-	public Page<Invoice> findAllInvoice(Pageable pageable) {
-		return invoiceRepository.findAll(pageable);
-	}
 
 	@Override
 	public Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable) {
@@ -66,5 +62,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public Invoice findByContractNumberAndIdCustomer(String contractNum, Customer customer) {
 		return invoiceRepository.findByContractNumberAndIdCustomer(contractNum, customer);
+	}
+
+	@Override
+	public Page<Invoice> findAllInvoice(Customer idcustomer, String contractnumber, Pageable pageable) {
+		return invoiceRepository.findByIdCustomerAndContractNumberContaining(idcustomer, contractnumber, pageable);
+
 	}
 }
