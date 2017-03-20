@@ -2,7 +2,7 @@
 
 	<div class="form-group">
 		<label>Search</label> <input type="text" ng-model="search"
-			class="form-control" placeholder="Filter text...">
+			ng-model-options="{ debounce: 1000 }" ng-change="ctrl.searchInvoice()" class="form-control" placeholder="Filter text...">
 	</div>
 
 	<!--     <div class="form-group" style="margin-left: 30px">
@@ -42,7 +42,6 @@
 					/>
 					<span ng-show="u.active==true" >Active</span><span ng-show="u.active==false" >Deactive</span>
 				</label>--></td>
-
 			<td><span ng-bind="u.grandTotal | number"></span> {{ ctrl.currencyUnit }} <!-- 				<button type="button" ng-click="ctrl.edit(u.id)" -->
 				<!-- 					class="btn btn-success custom-width" >Edit</button>
 					<button type="button" ng-click="ctrl.update(u,u.id)"
@@ -97,7 +96,6 @@
 												style="color: red">{{ctrl.invoice.total | number }} {{ ctrl.currencyUnit }}
 											</label>
 										</div>
-
 										<div class="form-group">
 											<label style="font-weight: bold">VAT</label> <label
 												style="color: red">{{ ctrl.invoice.vat }}%</label>
@@ -106,7 +104,6 @@
 											<label style="font-weight: bold">PTEF</label> <label
 												style="color: red">{{ ctrl.invoice.ptef }}%</label>
 										</div>
-
 										<div class="form-group">
 											<label style="font-weight: bold">Grand Total</label> <label
 												style="color: red"> {{ ctrl.invoice.grandTotal |
@@ -149,7 +146,6 @@
 			<option value="20">Show 20 per page</option>
 		</select>
 	</div>
-
 	<div class="form-group" style="margin-left: 30px">
 		<button class="btn btn-success custom-width"
 			ng-disabled="currentPage == 0" ng-click="onEventPreCurrentPage()">Previous</button>
@@ -158,5 +154,4 @@
 			ng-disabled="currentPage >= totalElements/pageSize - 1"
 			ng-click="onEventNextCurrentPage()">Next</button>
 	</div>
-
 </form>

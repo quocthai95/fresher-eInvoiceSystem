@@ -69,11 +69,18 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public Page<Users> findByActive(String active, Pageable pageable) {
+	public Page<Users> findByActiveAndUsernameContaining(String active, String username, Pageable pageable) {
 		// TODO Auto-generated method stub
-		return userRepository.findByActive(active, pageable);
+		return userRepository.findByActiveAndUsernameContaining(active, username, pageable);
+	}
+
+	@Override
+	public Page<Users> findByUsernameContaining(String username, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return userRepository.findByUsernameContaining(username, pageable);
 	}
 
 	
-		
+	
+			
 }

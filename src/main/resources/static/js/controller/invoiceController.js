@@ -49,6 +49,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
         $scope.search = '';
        
         $scope.size = 5;
+
         //$scope.page = 1;
         $scope.totalElements = 0;
                      
@@ -66,6 +67,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     self.changeTotal = changeTotal;
     self.getService = getService;
 	self.deleteInvoice = deleteInvoice;
+	self.searchInvoice = searchInvoice;
 
     defaultValue();
     fetchAllInvoice();
@@ -77,6 +79,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     }
     
     function getService(){    	 	
+
     	getServiceByName(self.invoice.nameService, self.invoice.idType.id);  
     }
     
@@ -106,28 +109,26 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     	fetchAllInvoice();
     }
     
-    
-    $scope.getData = function () {
-        
-        return $filter('filter')( self.invoices, $scope.search)
-       
-      }
-    
-    $scope.numberOfPages=function(){
-    	
-    	// $scope.totalElements / pageSize
-    	return Math.ceil($scope.totalElements/$scope.pageSize);
-        //return Math.ceil($scope.getData().length/$scope.pageSize);                
+
+    function searchInvoice(){
+    	$scope.currentPage = 0;
+    	$scope.search = $scope.search;
+    	fetchAllInvoice();
+    }
+           
+    $scope.numberOfPages=function(){   	   	
+    	return Math.ceil($scope.totalElements/$scope.pageSize);       
     }
 
     function fetchAllInvoice(){
-        InvoiceService.fetchAllInvoice($scope.size, $scope.currentPage)
+
+
+        InvoiceService.fetchAllInvoice($scope.search, $scope.size, $scope.currentPage)
             .then(
             function(d) {
 
             	self.invoices = d.content; 
             	$scope.totalElements = d.totalElements;
-            	//console.log("d.totalElements" + d.totalElements);
             },
             function(errResponse){
                 console.error('Error while fetching Invoice');
@@ -273,6 +274,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
             }
         }
     }
+
     //Trigger when click show detail
     function showDetail(type, invoice){    
     	//set IdType
@@ -301,9 +303,11 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     		document.getElementById('index2').hidden = true;
     	} else {
     		document.myForm.hidden = false;
+
     		document.getElementById('ptef2').hidden = true;
     		document.getElementById('service2').hidden = false;
     		document.getElementById('index2').hidden = false;
+
     	}
 
     }
@@ -332,12 +336,14 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
         $scope.myForm.$setPristine(); //reset Form
     }
   
+
     //Trigger when click show form
     $scope.showForm = function(code, id){
     	//set idType
     	self.invoice.idType = id; 
     	//set VAT
     	self.invoice.vat = id.vat;
+
  		//set nameType	
     	$scope.name_type = id.nameInvoice;    
     	fetchAllService(id.id)
@@ -413,4 +419,3 @@ app.filter('startFrom', function() {
         return input.slice(start);
     }
 });
-
