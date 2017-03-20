@@ -1,4 +1,6 @@
 'use strict';
+app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'SweetAlert', 
+                                     function($scope, $filter, InvoiceService, SweetAlert) {
     var self = this;
     
     self.invoice={
@@ -126,6 +128,7 @@
             function(d) {
 
             	self.invoices = d.content; 
+            	$scope.totalElements = d.totalElements;
             },
             function(errResponse){
                 console.error('Error while fetching Invoice');
