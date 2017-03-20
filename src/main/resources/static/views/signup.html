@@ -1,5 +1,6 @@
+ <!-- <link href="css/index/signup.css"  rel="stylesheet" /> -->
 
-<div class="container" ng-controller="RegisterController as ctrl">
+<div class="container " ng-controller="RegisterController as ctrl" >
 	<div class="row main">		
 		<div class="main-login main-center">
 		<img id="profile-img" class="profile-img-card"
@@ -51,11 +52,8 @@
 							<span class="input-group-addon"><i class="fa fa-users fa"
 								aria-hidden="true"></i></span> <input ng-model="ctrl.res.username"
 								type="text" class="form-control" name="username" id="username"
-								placeholder="Enter your Username" ng-maxlength="20" required/>
-								
-						</div>
-						<div align="center"><p style="color:red" ng-if="myForm.username.$error.maxlength">Username can be a maximum of 20 characters</p></div>
-					</div>
+								placeholder="Enter your Username"  required/>						
+						</div>				
 				</div>
 
 				<div class="form-group">
@@ -90,15 +88,26 @@
 
 				<div class="form-group " >
 					<button type="submit"
-						class="btn btn-lg btn-primary btn-block btn-signin " ng-disabled="myForm.$invalid" > Sign Up</button>
-				</div>
-				
-				<div class="" align="center">
-					<a href="#/login" style="font-weight:bold">You have an account? Login Now!</a>
-				</div>
-				
+						class="btn btn-lg btn-primary btn-block btn-signin " > Sign Up</button>
+				</div>		
 			</form>
-		</div>
+			<div class="" align="center">
+					<a href="#/login" class="btn btn-lg btn-success glyphicon glyphicon-log-in" title="Have an account? Login"></a>				
+					<a href="#/forgotpw" class="btn btn-lg btn-warning glyphicon glyphicon-question-sign" title="Forgot Password?"></a>
+					<a href="/EInvoice/#/" class="btn btn-lg btn-info glyphicon glyphicon-home" title="Back to homepage"></a>
+				</div>
+				
+					
+				
+				
+					
+				
 	</div>
+	
+	
+				
+				
+			
 </div>
-
+<style>body {
+	background-image: url("/EInvoice/images/white.jpg");}</style>

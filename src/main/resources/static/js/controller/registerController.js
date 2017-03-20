@@ -1,4 +1,5 @@
 app.controller('RegisterController', function($scope, RegisterService, $location, SweetAlert) {
+
     var self = this;
     self.res={id:null,username:'',password:'',name:'', email:'', phone:''};
     self.users=[];
@@ -85,8 +86,10 @@ app.controller('RegisterController', function($scope, RegisterService, $location
 	      ngModel.$asyncValidators.emailNotExist = function(modelValue, viewValue) {
 	        return $http.post('http://localhost:8080/EInvoice/user/getEmail/', viewValue).then(function(response) {
 	        	if (response.data) {
-	        		return true;
+	        		document.getElementById('btnfg').disabled= false;
+	        		return true;	        		
 	        	} else {	        		
+	        		document.getElementById('btnfg').disabled= true;
 	        		return $q.reject('Email is already used.');
 	        	}
 	          //return response.data == true ? $q.reject('Email is already used.') : true;
@@ -95,3 +98,4 @@ app.controller('RegisterController', function($scope, RegisterService, $location
 	    }
 	  };
 });
+

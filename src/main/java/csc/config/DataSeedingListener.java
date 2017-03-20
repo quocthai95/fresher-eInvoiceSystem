@@ -111,21 +111,21 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			createCustomer(tmp, "member@gmail.com");
 		}
 		// Test create 100 record for function paging with role admin
-		// for (int index = 0; index < 20; index++) {
-		// if (userRepository.findByUsername("member" + index + "@gmail.com") ==
-		// null) {
-		// Users user = new Users();
-		// user.setUsername("member" + index + "@gmail.com");
-		// user.setPassword(passwordEncoder.encode("123456"));
-		// user.setActive("1");
-		// HashSet<Role> roles = new HashSet<>();
-		// roles.add(roleRepository.findByName("ROLE_MEMBER"));
-		// user.setRoles(roles);
-		// tmp = new Users();
-		// tmp = userRepository.save(user);
-		// createCustomer(tmp);
-		// }
-		// }
+		 for (int index = 0; index < 20; index++) {
+		 if (userRepository.findByUsername("member" + index + "@gmail.com") ==
+		 null) {
+		 Users user = new Users();
+		 user.setUsername("member" + index + "@gmail.com");
+		 user.setPassword(passwordEncoder.encode("123456"));
+		 user.setActive("1");
+		 HashSet<Role> roles = new HashSet<>();
+		 roles.add(roleRepository.findByName("ROLE_MEMBER"));
+		 user.setRoles(roles);
+		 tmp = new Users();
+		 tmp = userRepository.save(user);
+		 createCustomer(tmp, tmp.getUsername());
+		 }
+		 }
 		// End Test
 
 

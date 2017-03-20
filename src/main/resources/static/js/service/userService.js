@@ -1,5 +1,6 @@
 'use strict';
 
+
 app.factory('UserService', ['$http', '$q', function($http, $q){
 	//Base URI
     var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
@@ -14,9 +15,11 @@ app.factory('UserService', ['$http', '$q', function($http, $q){
     return factory;
     
     //Service call api get list user with pagable
-    function fetchAllUsers(size, page) {
+
+    function fetchAllUsers(active, search, size, page) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getAll?" + "size="+ size + "&page=" + page)
+
+        $http.get(REST_SERVICE_URI + "getAll/active=" + active + "&search=" + search + "?size="+ size + "&page=" + page)
             .then(
             function (response) {
                 deferred.resolve(response.data);                
@@ -28,6 +31,7 @@ app.factory('UserService', ['$http', '$q', function($http, $q){
         );
         return deferred.promise;
     }
+
     //Service call api get list user with active and pagable
     function getUsersByActive(active, size, page) {
         var deferred = $q.defer();

@@ -27,6 +27,8 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Long>, JpaRep
 	List<Invoice> findByIdCustomer(Customer idcustomer);
 
 	Page<Invoice> findAll(Pageable pageable);
+	
+	Page<Invoice> findByIdCustomerAndContractNumberContaining(Customer idcustomer, String contractnumber, Pageable pageable);
 
 	Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable);
 	

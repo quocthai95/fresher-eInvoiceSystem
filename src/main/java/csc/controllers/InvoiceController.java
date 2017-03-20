@@ -80,8 +80,8 @@ public class InvoiceController {
 
 	// -------------------Retrieve All Users--------------------------------------------------------
 
-	@RequestMapping(value = "/invoice/getAll", method = RequestMethod.GET)
-	public ResponseEntity<Page<Invoice>> listAllInvoice(Pageable pageable) {
+	@RequestMapping(value = "/invoice/getAll/search={search}", method = RequestMethod.GET)
+	public ResponseEntity<Page<Invoice>> listAllInvoice(@PathVariable("search") String search, Pageable pageable) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Users user = new Users();
@@ -90,7 +90,7 @@ public class InvoiceController {
 		Customer cus = new Customer();
 		cus = customerService.findByUser(user);
 
-		Page<Invoice> invoice = invoiceService.findByIdCustomer(cus, pageable);
+		Page<Invoice> invoice = invoiceService.findAllInvoice(cus, search, pageable);
 		if (invoice.getSize() == 0) {
 			return new ResponseEntity<Page<Invoice>>(HttpStatus.NO_CONTENT);
 		}
