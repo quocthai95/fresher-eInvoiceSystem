@@ -2,7 +2,7 @@
 
 	<div class="form-group">
 		<label>Search</label> <input type="text" ng-model="search"
-			class="form-control" placeholder="Filter text...">
+			ng-model-options="{ debounce: 1000 }" ng-change="ctrl.searchInvoice()" class="form-control" placeholder="Filter text...">
 	</div>
 
 	<!--     <div class="form-group" style="margin-left: 30px">
@@ -42,8 +42,7 @@
 					/>
 					<span ng-show="u.active==true" >Active</span><span ng-show="u.active==false" >Deactive</span>
 				</label>--></td>
-
-			<td><span ng-bind="u.grandTotal | number"></span> VND <!-- 				<button type="button" ng-click="ctrl.edit(u.id)" -->
+			<td><span ng-bind="u.grandTotal | number"></span> {{ ctrl.currencyUnit }} <!-- 				<button type="button" ng-click="ctrl.edit(u.id)" -->
 				<!-- 					class="btn btn-success custom-width" >Edit</button>
 					<button type="button" ng-click="ctrl.update(u,u.id)"
 					class="btn btn-success custom-width" >Update</button> --></td>
@@ -51,7 +50,7 @@
 				<button type="button" class="btn btn-success btn-xs" title="View"
 					data-toggle="modal" data-backdrop="static" data-keyboard="false"
 					data-target="#btnModal"
-					ng-click="ctrl.showDetail(u.idType.id ,u.id) ">
+					ng-click="ctrl.showDetail(u.idType, u) ">
 					<span class="glyphicon glyphicon-eye-open " style="color: white"></span>
 				</button>
 				<div id="btnModal" class="modal fade" role="dialog">
@@ -61,7 +60,7 @@
 							<div class="modal-header">
 								<h3 class="modal-title" id="title" align="center"
 									style="font-weight: bold">Information:
-									{{ ctrl.invoice.idType.nameInvoice }}</h3>
+									{{ nameInvoice }}</h3>
 							</div>
 							<div class="modal-body">
 								<form name="btnForm" role="form">
@@ -94,10 +93,9 @@
 										</div>
 										<div class="form-group">
 											<label style="font-weight: bold">Total</label> <label
-												style="color: red">{{ctrl.invoice.total | number }}
+												style="color: red">{{ctrl.invoice.total | number }} {{ ctrl.currencyUnit }}
 											</label>
 										</div>
-
 										<div class="form-group">
 											<label style="font-weight: bold">VAT</label> <label
 												style="color: red">{{ ctrl.invoice.vat }}%</label>
@@ -106,11 +104,10 @@
 											<label style="font-weight: bold">PTEF</label> <label
 												style="color: red">{{ ctrl.invoice.ptef }}%</label>
 										</div>
-
 										<div class="form-group">
 											<label style="font-weight: bold">Grand Total</label> <label
 												style="color: red"> {{ ctrl.invoice.grandTotal |
-												number }} </label>
+												number }} {{ ctrl.currencyUnit }}</label>
 										</div>
 										<input type="hidden" ng-model="ctrl.invoice.idType" /> <input
 											type="hidden" ng-model="ctrl.invoice.idCpn" /> <input
@@ -149,7 +146,6 @@
 			<option value="20">Show 20 per page</option>
 		</select>
 	</div>
-
 	<div class="form-group" style="margin-left: 30px">
 		<button class="btn btn-success custom-width"
 			ng-disabled="currentPage == 0" ng-click="onEventPreCurrentPage()">Previous</button>
@@ -158,5 +154,4 @@
 			ng-disabled="currentPage >= totalElements/pageSize - 1"
 			ng-click="onEventNextCurrentPage()">Next</button>
 	</div>
-
 </form>

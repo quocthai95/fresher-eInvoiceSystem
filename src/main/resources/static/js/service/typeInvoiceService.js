@@ -35,7 +35,7 @@ angular.module('dbApp').factory('TypeInvoiceService', ['$http', '$q', function($
         $http.get(REST_SERVICE_URI + "getAllService/" + id)
             .then(
             function (response) {
-            	console.log("Servcie" + response.data);
+            	console.log("Service" + response.data);
                 deferred.resolve(response.data);                
             },
             function(errResponse){

@@ -7,18 +7,33 @@
 
    <!--- basic page needs
    ================================================== -->
-   <meta charset="utf-8"/>
+   <meta charset="utf-8" />
 	<title>E-Invoice</title>
+
+	<meta name="description" content="" />  
+	<meta name="author" content="" />
+   <!-- Online  --> 
+   
+	<!-- Website Font style -->
+	<link href="../static/css/signup/css.css" th:href="@{/css/signup/css.css}" rel="stylesheet" />
+	<link href="../static/css/signup/css1.css" th:href="@{/css/signup/css1.css}" rel="stylesheet" />
+	<link href="../static/css/signup/font-awesome.min.css" th:href="@{/css/signup/font-awesome.min.css}" rel="stylesheet" />
+	<link href="../static/css/sweet-alert.css" th:href="@{/css/sweet-alert.css}" rel="stylesheet" />
+
+   <!-- mobile specific metas
+   ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+ 	<!-- CSS
+
 	<meta name="description" content=""/>  
 	<meta name="author" content=""/>
 
    <!-- mobile specific metas
    ================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-		<style>[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-    display: none !important;
-}</style>
+	
    <!-- CSS
+
    ================================================== -->
    
   <link href="../static/css/index/angular-state-loader.css" th:href="@{/css/index/angular-state-loader.css}" rel="stylesheet" />
@@ -71,11 +86,13 @@
 
 </head>
 
-<body id="top" ng-cloak="">
+
+<body id="top" >
 
 	<!-- header 
    ================================================== -->
  <div align="center" ng-view=""  ></div> 
+
 
  
 
