@@ -1,4 +1,4 @@
-angular.module('myApp').factory('LoginService', function($http, $q){
+app.factory('LoginService', function($http, $q){
     var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
     
     var factory = {

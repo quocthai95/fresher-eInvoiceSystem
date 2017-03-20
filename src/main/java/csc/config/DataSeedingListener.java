@@ -264,7 +264,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 				invoice = new Invoice();
 				Float vat;
 				Float indexConsumed = 100F;
-				BigDecimal ptef = new BigDecimal(index);
+				BigDecimal ptef = null;
 				BigDecimal grandTotal;
 				invoice.setContractNumber(contractNumber + index);
 
@@ -273,34 +273,37 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					Date date = calendar.getTime();
 					invoice.setDate(date);
 					invoice.setIndexConsumed(indexConsumed);
-					
-					invoice.setPtef(ptef);
-
-
 
 					// set Type Invoice
 					TypeInvoice typeInvoice = new TypeInvoice();
 					typeInvoice = typeInvoiceRepository.findById(idType);
 					vat = typeInvoice.getVat();
 					invoice.setIdType(typeInvoice);
-					
-					
+
 					//get name service
 					s = new ArrayList<Service>();
 					s = serviceRepository.findByIdType(typeInvoice);
 					
-					System.out.println("s.size() " + s.size());
 					int randomNum = ThreadLocalRandom.current().nextInt(0, s.size());
 					invoice.setNameService(s.get(randomNum).getNameService());
 
 					BigDecimal total = s.get(randomNum).getUnit().multiply(BigDecimal.valueOf(indexConsumed));
 					invoice.setTotal(total);
 					
+					//set ptef
+					if (typeInvoice.getCode().equals("WB")) {
+						ptef = new BigDecimal(randomNum);
+					}else {
+						ptef = new BigDecimal(0);
+					}
+					invoice.setPtef(ptef);
 					
 					invoice.setVat(vat);
-					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)).divide(BigDecimal.valueOf(100)));
+					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)).divide(BigDecimal.valueOf(100))).add((total.multiply(ptef).divide(BigDecimal.valueOf(100))));
 					invoice.setGrandTotal(grandTotal);
 
+
+					
 					// set Id Customer
 					Customer tmpCus = new Customer();
 					tmpCus = customerRepository.findById(idCustomer);

@@ -1,5 +1,6 @@
 var app = angular.module('myApp', [ 'ngRoute', 'ngMessages', 'oitozero.ngSweetAlert']);
 app.config(function($routeProvider) {
+	
 	$routeProvider.when("/", {
 		templateUrl : "/EInvoice/views/home.html",
 		controller : 'mainController',
@@ -12,23 +13,6 @@ app.config(function($routeProvider) {
 		templateUrl : "/EInvoice/views/login.html",
 		controller : 'usersController',
 		isAuthenticated : false
-	// }).when("/dashboard", {
-	// templateUrl : "/EInvoice/views/dashboard.html",
-	// controller : 'dashboardController',
-	// isAuthenticated : false
-	// }).when("/admin", {
-	// templateUrl : "/EInvoice/views/login.html",
-	// controller : 'usersController',
-	// isAuthenticated : false
-	// }).when("/admin", {
-	// templateUrl : "/EInvoice/views/admin/userManagement.html",
-	// controller : 'UserController',
-	// }).when("/user-manage", {
-	// templateUrl : "/EInvoice/views/admin/userManagement.html",
-	// controller : 'UserController',
-	// }).when("/config-email", {
-	// templateUrl : "/EInvoice/views/admin/config-email.html",
-	// controller : 'UserController',
 	}).when("/forgotpw", {
 		templateUrl : "/EInvoice/views/forgotpw.html",
 		controller : "RegisterController as ctrl",
@@ -36,6 +20,7 @@ app.config(function($routeProvider) {
 	}).otherwise({
 		redirectTo : '/'
 	});
+	
 });
 
 app.run(function($rootScope, $location, AuthenticationService) {
