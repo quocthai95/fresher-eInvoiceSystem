@@ -211,7 +211,7 @@ public class UserController {
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
         
-  //------------------- Get Customer  --------------------------------------------------------
+  /*//------------------- Get Customer  --------------------------------------------------------
     @RequestMapping(value = "/customer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> getCurrentCus() {
        Customer cus = this.getCustomer();

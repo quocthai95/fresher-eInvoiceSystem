@@ -1,5 +1,6 @@
 package csc.service;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,11 +11,12 @@ public interface UserService {
 	
 	Users findById(long id);
 	
-	@Cacheable("users")
+	/*@Cacheable("users")*/
 	Users findByName(String name);
 	
 	void saveUser(Users user);
 	
+	@CacheEvict(value = "users", allEntries = true)
 	void updateUser(Users user);
 	
 	void deleteUserById(long id);

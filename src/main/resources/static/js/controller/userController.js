@@ -2,12 +2,20 @@
 
 //var app = angular.module('dbApp');
 
-app.controller('UserController', ['$scope','$filter', 'UserService', function($scope, $filter, UserService) {
+app.controller('UserController', ['$scope','$filter', 'UserService', 'SweetAlert', 'ParameterService', 
+                                  function($scope, $filter, UserService, SweetAlert, ParameterService) {
     var self = this;
     self.user={id:null,
     		username:'',
     		password:'',
     		active: ''
+    };  
+    
+    self.parameter={
+    		id:null,
+    		paraKey:'',
+    		paraValue:'',
+    		description: ''
     };    
         
     self.users=[];
@@ -31,6 +39,8 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     self.update = updateUser;
     self.filterActive = filterActive;
     self.searchUser = searchUser;
+    self.myEnable = myEnable;
+    self.emailConfig = emailConfig;
     
 
     defaultValue();
@@ -67,20 +77,7 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
     	$scope.status = status;    	
     	fetchAllUsers();    	
     }
-    
-    $scope.DoCtrlPagingAct = function(text, page, pageSize, total) {
-    	
-    	$scope.currentPage = page - 1;   	
-    	fetchAllUsers();
-        console.log({
-            text: text,
-            page: page,
-            pageSize: pageSize,
-            total: total
-        });
-    };
-          
-    
+               
     $scope.numberOfPages=function(){    	
     	return Math.ceil($scope.totalElements/$scope.pageSize);                       
     }
@@ -170,6 +167,83 @@ app.controller('UserController', ['$scope','$filter', 'UserService', function($s
         $scope.myForm.$setPristine(); //reset Form
     }
     
+//    Email Configuration
+    getParameterByKey('timeEmail');
+    
+    function myEnable(){
+    	document.myForm.time.disabled = false;
+		console.log('enabled form');
+		
+		$scope.isUpdate = true;
+    }
+    
+    function getParameterByKey(key){
+    	ParameterService.getParameterByKey(key)
+        .then(
+	        function(d) {	
+	        	if(d.paraKey=='timeEmail')
+	        	{
+	        		d.paraValue = new Date(d.paraValue);
+	        	}
+	        	self.parameter = d;	        	 	
+	        },
+	        function(errResponse){
+	            console.error('Error while fetching parameter');
+	        }
+	    );
+    }
+    
+    function emailConfig(){
+       	// alert
+        SweetAlert.swal({
+        	title: "Are you sure?",
+        	text: "You will update time send email.",
+        	type: "warning",
+        	showCancelButton: true,
+        	confirmButtonColor: "#DD6B55",
+        	confirmButtonText: "Yes, update it!",
+        	cancelButtonText: "No, cancel plx!",
+        	closeOnConfirm: false,
+        	closeOnCancel: true
+        }, 
+        function(isConfirm){ // Function that triggers on user action.
+    		// var r = confirm("Are you sure!");
+    		// console.log(self.cus);
+			  if (isConfirm) {
+				  ParameterService.updateParameter('timeEmail',self.parameter)
+	                .then(
+		                function(succes){
+		                	SweetAlert.swal("Updated!", "Your time has been updated.", "success");
+		                	document.myForm.time.disabled = true;
+		                	$scope.isUpdate = false;
+		                }),
+	                	// console.log("Update success")
+	                	// document.myForm.set.disabled = true;
+		                function(errResponse){
+		                    console.error('Error while updating Customer');
+		                    SweetAlert.swal("Error!", "Error while updating Customer", "error");
+		                }
+			  } else {
+				    //Do nothing.
+			  }
+            
+        });
+    }
+    
    
 }]);
+app.directive('pwCheck', [function () {
+    return {
+      require: 'ngModel',
+      link: function (scope, elem, attrs, ctrl) {
+        var firstPassword = '#' + attrs.pwCheck;
+        elem.add(firstPassword).on('keyup', function () {
+          scope.$apply(function () {
+            var v = elem.val()===$(firstPassword).val();
+            ctrl.$setValidity('pwmatch', v);
+          });
+        });
+      }
+    }
+}])
 
