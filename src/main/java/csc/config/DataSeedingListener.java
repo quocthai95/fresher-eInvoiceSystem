@@ -258,6 +258,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			int year = 2016;
 			System.out.println("contractNumber:" + contractNumber);
 			Invoice invoice;
+			List<Company> cpn;
 			List<Service> s;
 			// TypeInvoice ti;
 			// DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -311,7 +312,15 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)).divide(BigDecimal.valueOf(100))).add((total.multiply(ptef).divide(BigDecimal.valueOf(100))));
 					invoice.setGrandTotal(grandTotal);
 
-
+					//set id_cpn
+					cpn = new ArrayList<Company>();
+					cpn = companyRepository.findByIdType(typeInvoice);
+					if (cpn.size() <= randomNum) {
+						invoice.setIdCpn(cpn.get(0).getIdCpn());
+					} else {
+						invoice.setIdCpn(cpn.get(randomNum).getIdCpn());
+					}
+					
 					
 					// set Id Customer
 					Customer tmpCus = new Customer();
