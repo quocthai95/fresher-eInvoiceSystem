@@ -22,10 +22,14 @@ app.config(function($routeProvider) {
 	}).when("/chart-manage", {
 		templateUrl : "/EInvoice/views/customer/chartManagement.html",
 		controller: 'ReportController as ctrl',
+	}).when("/password-manage", {
+		templateUrl : "/EInvoice/views/customer/changePassword.html",
+		controller: 'UserController as ctrl',
 
 
 
 	})
+	
 	.otherwise({
 		redirectTo : '/'
 	});
