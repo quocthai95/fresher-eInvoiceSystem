@@ -1440,8 +1440,8 @@ a.menu-toggle {
 }
 .process-content .image-part {
 	margin: 0 auto;
-	height: 660px;
-	background-image: url("../images/appdesign.jpg");
+	height: 400px;
+	background-image: url("../images/process.png");
 	background-repeat: no-repeat;
 	background-position: center;
 	-webkit-background-size: contain;

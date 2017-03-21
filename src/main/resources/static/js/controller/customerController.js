@@ -27,12 +27,11 @@ angular.module('dbApp').controller('CustomerController', function($scope, Custom
     		limitConsume:''
     		}; 
     
-   
     self.users=[];
        
     self.edit = edit;
     self.updateCustomer = updateCustomer;
-    // seft.getCustomer = getCustomer;
+  
     
     
     getCustomer();
@@ -44,7 +43,6 @@ angular.module('dbApp').controller('CustomerController', function($scope, Custom
 
             	self.cus = d; 
             	
-            	// console.log("d.totalElements" + d.totalElements);
             },
             function(errResponse){
                 console.error('Error while fetching Customer');
