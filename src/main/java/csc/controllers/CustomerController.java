@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -139,5 +140,11 @@ public class CustomerController {
 			return false;
 		}
 		
-	}
+@Scheduled(fixedRate = 5000)
+    public void scheduleFixedRateWithInitialDelayTask() {
+      
+        long now = System.currentTimeMillis() / 1000;
+        System.out.println(
+          "Fixed rate task with one second initial delay - " + now);
+    }
 }

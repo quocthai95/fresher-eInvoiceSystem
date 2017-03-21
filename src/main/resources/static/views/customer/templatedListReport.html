@@ -1,9 +1,5 @@
 <div class="container" style="margin-top: 20px">
 	<div class="row">
-		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-			<label>Search</label> <input type="text" ng-model="search"
-				class="form-control" placeholder="Filter text...">
-		</div>
 		<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
 			<div class="form-group">
 				<label>Start Date</label> <input type="date" ng-model="dateStart"
@@ -16,8 +12,8 @@
 			<div class="row-fluid">
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<button class="btn btn-info" ng-click="btnReport()">Report</button>
-					<p>Total: {{ totalElements }} invoices	</p>
+					<button class="btn btn-primary" ng-click="btnReport()">Report</button>
+					<p>Total: {{ totalElements }} invoices</p>
 				</div>
 			</div>
 		</div>
@@ -64,3 +60,6 @@
 	</div>
 
 </form>
+<div ng-if="isReport">
+	<chart-template></chart-template>
+</div>

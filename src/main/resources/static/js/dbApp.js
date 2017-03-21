@@ -21,7 +21,7 @@ app.config(function($routeProvider) {
 		controller: 'ReportController as ctrl',
 	}).when("/chart-manage", {
 		templateUrl : "/EInvoice/views/customer/chartManagement.html",
-		controller: 'ChartController',
+		controller: 'ReportController as ctrl',
 	}).when("/password-manage", {
 		templateUrl : "/EInvoice/views/customer/changePassword.html",
 		controller: 'UserController as ctrl',
