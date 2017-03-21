@@ -1,5 +1,9 @@
 package csc.controllers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,9 +61,16 @@ public class InvoiceController {
 			@PathVariable("pageSize") int pageSize) {
 		System.out.println("getListReport");
 		System.out.println("start= " + dateStart + " -end= " +dateEnd + " -page "+page + " -pageSize " +pageSize );
-		String idCus = this.getIdCustomer();
-
-		Page<Invoice> invoices = invoiceService.getListReport(idCus, dateStart, dateEnd, page, pageSize);
+		Customer idCus = this.getIdCustomer();
+		
+		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Page<Invoice> invoices = null;
+		try {
+			invoices = invoiceService.getListReport(idCus, myFormat.parse(dateStart), myFormat.parse(dateEnd), page, pageSize);
+		} catch (Exception ex) {
+			System.out.println("Exception=" + ex.getMessage());
+		}
+		
 		System.out.println("invoices count= " + invoices.getContent().size());
 		if (invoices.getContent() == null) {
 			return new ResponseEntity<Page<Invoice>>(HttpStatus.NO_CONTENT);
@@ -69,8 +80,8 @@ public class InvoiceController {
 
 	// -------------------Retrieve All Users--------------------------------------------------------
 
-	@RequestMapping(value = "/invoice/getAll", method = RequestMethod.GET)
-	public ResponseEntity<Page<Invoice>> listAllInvoice(Pageable pageable) {
+	@RequestMapping(value = "/invoice/getAll/search={search}", method = RequestMethod.GET)
+	public ResponseEntity<Page<Invoice>> listAllInvoice(@PathVariable("search") String search, Pageable pageable) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Users user = new Users();
@@ -79,7 +90,7 @@ public class InvoiceController {
 		Customer cus = new Customer();
 		cus = customerService.findByUser(user);
 
-		Page<Invoice> invoice = invoiceService.findByIdCustomer(cus, pageable);
+		Page<Invoice> invoice = invoiceService.findAllInvoice(cus, search, pageable);
 		if (invoice.getSize() == 0) {
 			return new ResponseEntity<Page<Invoice>>(HttpStatus.NO_CONTENT);
 		}
@@ -90,11 +101,18 @@ public class InvoiceController {
 
 	@RequestMapping(value = "/invoice/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Invoice> getInvoice(@PathVariable("id") long id) {
-		System.out.println("Fetching invoice with id " + id);
 		Invoice invoice = invoiceService.findById(id);
 		if (invoice == null) {
-			System.out.println("Invoice with id " + id + " not found");
 			return new ResponseEntity<Invoice>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/invoice/getName/{contractNum}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Invoice> getInvoiceByContract(@PathVariable("contractNum") String contractNum) {
+		Invoice invoice = invoiceService.findByContractNumberAndIdCustomer(contractNum, this.getIdCustomer());
+		if (invoice == null) {
+			invoice =  new Invoice();
 		}
 		return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
 	}
@@ -173,20 +191,20 @@ public class InvoiceController {
 		return new ResponseEntity<Invoice>(HttpStatus.NO_CONTENT);
 	}
 
-	private String getIdCustomer() {
+	private Customer getIdCustomer() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Users user = new Users();
 		Customer cus = new Customer();
-		String idCus = null;
+//		String idCus = null;
 		
 		user = userService.findByName(username);
 
 		cus = customerService.findByUser(user);
 
-		idCus = cus.getIdCustomer();
+//		idCus = cus.getIdCustomer();
 		
-		return idCus;
+		return cus;
 	}
 
 } // class UserController

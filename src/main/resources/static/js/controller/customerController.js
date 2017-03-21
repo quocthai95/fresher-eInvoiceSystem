@@ -80,7 +80,7 @@ angular.module('dbApp').controller('CustomerController', function($scope, Custom
 	                	// document.myForm.set.disabled = true;
 		                function(errResponse){
 		                    console.error('Error while updating Customer');
-		                    swal("Error!", "Error while updating Customer", "error");
+		                    SweetAlert.swal("Error!", "Error while updating Customer", "error");
 		                }
 			  } else {
 				    //Do nothing.

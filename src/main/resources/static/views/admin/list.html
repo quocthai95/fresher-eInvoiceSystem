@@ -3,7 +3,7 @@
 
     <div class="form-group">
         <label >Search</label>
-        <input type="text" ng-model="search" class="form-control" placeholder="Filter text...">
+        <input type="text" ng-model="search" class="form-control" ng-model-options="{ debounce: 1000 }" ng-change="ctrl.searchUser()" placeholder="Filter text...">
     </div>
     
 	<div class="form-group" style="margin-left: 30px">
@@ -23,36 +23,18 @@
 	<thead>
 		<tr>
 			<th>ID.</th>
-			<th>Name</th>
-			<th>Status</th>
-			<th>Change</th>
-			
-			<th ></th>
+			<th>User Name</th>
+			<th>Status</th>									
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="u in ctrl.users|filter:search"> <!-- |startFrom:currentPage*pageSize | limitTo:pageSize -->
+		<tr ng-repeat="u in ctrl.users">
 			<td><span ng-bind="u.id"></span></td>
 			<td><span ng-bind="u.username"></span></td>
 			<td>
-			<label class="checkbox-inline">
-  <input type="checkbox" checked data-toggle="toggle">
-</label>
-				<!-- <label style="display: flex" for="id{{u.id}}"><input type="checkbox" value="" name="checked"  ng-model="u.active" id="id{{u.id}}"
-					class="form-control ng-dirty ng-valid-parse" ng-checked="u.active==1 ? 1 : 0" 
-					ng-click="u.active=!u.active" ng-change="u.active=!u.active"
-					/>
-					<span ng-show="u.active==true" >Active</span><span ng-show="u.active==false" >Deactive</span>
-				</label> -->
+				<switch id="enabled" name="enabled" ng-model="u.active" on="Active" off="Deactive" class="green wide" ng-change="ctrl.update(u,u.id)"></switch>
 			</td>
 			
-			<td>
-<!-- 				<button type="button" ng-click="ctrl.edit(u.id)" -->
-<!-- 					class="btn btn-success custom-width" >Edit</button> -->
-					<button type="button" ng-click="ctrl.update(u,u.id)"
-					class="btn btn-success custom-width" >Update</button>
-				
-			</td>
 		</tr>
 	</tbody>
 </table>
@@ -73,6 +55,22 @@
     	{{currentPage+1}}/{{numberOfPages()}}
     	<button class="btn btn-success custom-width" ng-disabled="currentPage >= totalElements/pageSize - 1" ng-click="onEventNextCurrentPage()">Next</button>
     </div>
+    
+<!--     <div class="well"> -->
+<!--             <paging -->
+<!--                 class="small" -->
+<!--                 page="'{{currentPage}}'"  -->
+<!--                 page-size="pageSize"  -->
+<!--                 total="totalElements" -->
+<!--                 pg-href="{{pgHref}}" -->
+<!--                 adjacent="{{adjacent}}" -->
+<!--                 dots="{{dots}}" -->
+<!--                 hide-if-empty="true" -->
+<!--                 show-prev-next="true" -->
+<!--                 show-first-last="true" -->
+<!--                 paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize, total)"> -->
+<!--             </paging>    -->
+<!--         </div> -->
        
 </form>
 

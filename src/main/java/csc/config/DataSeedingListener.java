@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.terracotta.statistics.jsr166e.ThreadLocalRandom;
 
 import csc.models.Company;
 import csc.models.Customer;
@@ -110,21 +111,21 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			createCustomer(tmp, "member@gmail.com");
 		}
 		// Test create 100 record for function paging with role admin
-		// for (int index = 0; index < 20; index++) {
-		// if (userRepository.findByUsername("member" + index + "@gmail.com") ==
-		// null) {
-		// Users user = new Users();
-		// user.setUsername("member" + index + "@gmail.com");
-		// user.setPassword(passwordEncoder.encode("123456"));
-		// user.setActive("1");
-		// HashSet<Role> roles = new HashSet<>();
-		// roles.add(roleRepository.findByName("ROLE_MEMBER"));
-		// user.setRoles(roles);
-		// tmp = new Users();
-		// tmp = userRepository.save(user);
-		// createCustomer(tmp);
-		// }
-		// }
+		 for (int index = 0; index < 20; index++) {
+		 if (userRepository.findByUsername("member" + index + "@gmail.com") ==
+		 null) {
+		 Users user = new Users();
+		 user.setUsername("member" + index + "@gmail.com");
+		 user.setPassword(passwordEncoder.encode("123456"));
+		 user.setActive("1");
+		 HashSet<Role> roles = new HashSet<>();
+		 roles.add(roleRepository.findByName("ROLE_MEMBER"));
+		 user.setRoles(roles);
+		 tmp = new Users();
+		 tmp = userRepository.save(user);
+		 createCustomer(tmp, tmp.getUsername());
+		 }
+		 }
 		// End Test
 
 
@@ -263,8 +264,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 				invoice = new Invoice();
 				Float vat;
 				Float indexConsumed = 100F;
-				BigDecimal total = new BigDecimal(indexConsumed * (index + 1));
-				BigDecimal ptef = new BigDecimal(index);
+				BigDecimal ptef = null;
 				BigDecimal grandTotal;
 				invoice.setContractNumber(contractNumber + index);
 
@@ -273,34 +273,37 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					Date date = calendar.getTime();
 					invoice.setDate(date);
 					invoice.setIndexConsumed(indexConsumed);
-					
-					invoice.setPtef(ptef);
-					invoice.setTotal(total);
 
 					// set Type Invoice
 					TypeInvoice typeInvoice = new TypeInvoice();
 					typeInvoice = typeInvoiceRepository.findById(idType);
 					vat = typeInvoice.getVat();
 					invoice.setIdType(typeInvoice);
-					
-					
+
 					//get name service
 					s = new ArrayList<Service>();
 					s = serviceRepository.findByIdType(typeInvoice);
-					System.out.println("s.size() " + s.size());
-					if (totalRecord > s.size() ) {
-						invoice.setNameService(s.get(index).getNameService());
-					} else {
-						invoice.setNameService(s.get(totalRecord).getNameService());
-					}
+					
+					int randomNum = ThreadLocalRandom.current().nextInt(0, s.size());
+					invoice.setNameService(s.get(randomNum).getNameService());
 
+					BigDecimal total = s.get(randomNum).getUnit().multiply(BigDecimal.valueOf(indexConsumed));
+					invoice.setTotal(total);
 					
-					
+					//set ptef
+					if (typeInvoice.getCode().equals("WB")) {
+						ptef = new BigDecimal(randomNum);
+					}else {
+						ptef = new BigDecimal(0);
+					}
+					invoice.setPtef(ptef);
 					
 					invoice.setVat(vat);
-					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)).divide(BigDecimal.valueOf(100)));
+					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)).divide(BigDecimal.valueOf(100))).add((total.multiply(ptef).divide(BigDecimal.valueOf(100))));
 					invoice.setGrandTotal(grandTotal);
 
+
+					
 					// set Id Customer
 					Customer tmpCus = new Customer();
 					tmpCus = customerRepository.findById(idCustomer);

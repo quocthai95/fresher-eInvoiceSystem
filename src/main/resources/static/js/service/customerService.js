@@ -1,4 +1,4 @@
-angular.module('dbApp').factory('CustomerService', ['$http', '$q', function($http, $q){
+app.factory('CustomerService', ['$http', '$q', function($http, $q){
 	 
 	var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/customer/';
 	

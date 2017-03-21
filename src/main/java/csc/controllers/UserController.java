@@ -70,13 +70,25 @@ public class UserController {
 	
 	//-------------------Retrieve All Users--------------------------------------------------------
     
-    @RequestMapping(value = "/user/getAll", method = RequestMethod.GET)
-    public ResponseEntity<Page<Users>> listAllUsers(Pageable pageable) {
-    	Page<Users> users = userService.findAllUsers(pageable);
-        if(users.getSize() == 0){
-            return new ResponseEntity<Page<Users>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
-        }
-        return new ResponseEntity<Page<Users>>(users, HttpStatus.OK);
+    @RequestMapping(value = "/user/getAll/active={active}&search={username}", method = RequestMethod.GET)
+    public ResponseEntity<Page<Users>> listAllUsers(@PathVariable("active") String active, @PathVariable("username") String username, Pageable pageable) {
+    	
+    	if(active.contains("a"))
+    	{
+    		Page<Users> users = userService.findByUsernameContaining(username, pageable);
+    		if(users.getSize() == 0){
+                return new ResponseEntity<Page<Users>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+            }
+            return new ResponseEntity<Page<Users>>(users, HttpStatus.OK);
+    	}
+    	else{
+    		Page<Users> users = userService.findByActiveAndUsernameContaining(active, username, pageable);
+    		if(users.getSize() == 0){
+                return new ResponseEntity<Page<Users>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+            }
+            return new ResponseEntity<Page<Users>>(users, HttpStatus.OK);
+    	}
+    	   	    	
     }
   
   
@@ -96,16 +108,16 @@ public class UserController {
     
   //-------------------Retrieve Single User--------------------------------------------------------
     
-    @RequestMapping(value = "/user/getByActive/{active}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<Users>> getUserByActive(@PathVariable("active") String active, Pageable pageable) {
-        System.out.println("Fetching User with id " + active);
-        Page<Users> user = userService.findByActive(active, pageable);
-        if (user.getSize() == 0) {
-            System.out.println("User with id " + active + " not found");
-            return new ResponseEntity<Page<Users>>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Page<Users>>(user, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/user/getByActive/{active}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Page<Users>> getUserByActive(@PathVariable("active") String active, Pageable pageable) {
+//        System.out.println("Fetching User with id " + active);
+//        Page<Users> user = userService.findByActive(active, pageable);
+//        if (user.getSize() == 0) {
+//            System.out.println("User with id " + active + " not found");
+//            return new ResponseEntity<Page<Users>>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<Page<Users>>(user, HttpStatus.OK);
+//    }
   
       
       
