@@ -32,6 +32,6 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Long>, JpaRep
 
 	Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable);
 	
-	Page<Invoice> findByIdCustomerAndDateBetween(Customer idCus, Date dateStart, Date dateEnd, Pageable pageable);
+	List<Invoice> findByIdCustomerAndDateBetween(Customer idCus, Date dateStart, Date dateEnd);
 
 }

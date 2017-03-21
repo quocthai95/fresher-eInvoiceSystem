@@ -3,6 +3,7 @@ package csc.controllers;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -55,27 +56,25 @@ public class InvoiceController {
 	@Autowired
 	CompanyService companyService;
 
-	@RequestMapping(value = "/user/getReport/start={start}&end={end}&page={page}&pageSize={pageSize}", method = RequestMethod.GET)
-	public ResponseEntity<Page<Invoice>> getListReport(@PathVariable("start") String dateStart,
-			@PathVariable("end") String dateEnd, @PathVariable("page") int page,
-			@PathVariable("pageSize") int pageSize) {
+	@RequestMapping(value = "/user/getReport/start={start}&end={end}", method = RequestMethod.GET)
+	public ResponseEntity<List<Invoice>> getListReport(@PathVariable("start") String dateStart,
+			@PathVariable("end") String dateEnd) {
 		System.out.println("getListReport");
-		System.out.println("start= " + dateStart + " -end= " +dateEnd + " -page "+page + " -pageSize " +pageSize );
+		System.out.println("start= " + dateStart + " -end= " +dateEnd );
 		Customer idCus = this.getIdCustomer();
 		
 		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Page<Invoice> invoices = null;
+		List<Invoice> invoices = null;
 		try {
-			invoices = invoiceService.getListReport(idCus, myFormat.parse(dateStart), myFormat.parse(dateEnd), page, pageSize);
+			invoices = invoiceService.getListReport(idCus, myFormat.parse(dateStart), myFormat.parse(dateEnd));
 		} catch (Exception ex) {
 			System.out.println("Exception=" + ex.getMessage());
 		}
 		
-		System.out.println("invoices count= " + invoices.getContent().size());
-		if (invoices.getContent() == null) {
-			return new ResponseEntity<Page<Invoice>>(HttpStatus.NO_CONTENT);
+		if (invoices.size() == 0) {
+			return new ResponseEntity<List<Invoice>>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<Page<Invoice>>(invoices, HttpStatus.OK);
+		return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 	}
 
 	// -------------------Retrieve All Users--------------------------------------------------------
