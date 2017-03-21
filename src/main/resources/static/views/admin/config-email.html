@@ -5,7 +5,7 @@
 		    <div class="agile-tables">
 		        <div class="page-title">
 		            <div class="title_left">
-		                <h3>Cấu hình gửi Email</h3>
+		                <h3>Email Configuration</h3>
 		            </div>		            
 		        </div>
 		
@@ -17,7 +17,34 @@
 		        </div>
 		
 		        <div id="list">
-		            <user-form></user-form>
+		            <form ng-submit="ctrl.emailConfig()" name="myForm" class="form-horizontal">
+						
+						<div class="">
+							<div class="col-md-12">
+								<label class="col-md-2 " for="time">Time</label>
+								<div class="col-md-7">
+									<input ng-model="ctrl.parameter.paraValue" type="date" name="date" id="time" required
+										class="form-control input-lg" placeholder="Date" disabled/>
+									
+									<div class="has-error" ng-show="myForm.$dirty">
+										<span ng-show="myForm.time.$error.required">This is a
+											required field</span> <span ng-show="myForm.time.$error.minlength">Minimum
+											length required is 3</span> <span ng-show="myForm.time.$invalid">This
+											field is invalid </span>
+									</div>
+								</div>
+							</div>
+						</div>
+																																
+						<div class="row">
+							<div align="center" class="col-md-12">
+								<input type="button" class="btn btn-primary" ng-click='ctrl.myEnable()' value="Edit" />
+								
+								<input ng-show="isUpdate" type="submit" value="Update"
+									class="btn btn-primary btn-lg" ng-disabled="myForm.$invalid">								
+							</div>
+						</div>
+					</form>
 		        </div>        
 		    </div>
 		</div>
