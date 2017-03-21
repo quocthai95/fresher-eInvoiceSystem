@@ -1,20 +1,18 @@
 'use strict';
 
-var app = angular.module('dbApp');
-
-app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 
-                                     function($scope, $filter, InvoiceService) {
+app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'SweetAlert', 
+                                     function($scope, $filter, InvoiceService, SweetAlert) {
     var self = this;
     
     self.invoice={
     	id:null,
     	date: new Date(),
-    	contractNumber:'',
+//    	contractNumber: '',
     	nameService:'',
     	indexConsumed:'',
     	total:0,
     	vat:'',
-    	ptef:10,
+//    	ptef:'10',
     	grandTotal:0,
     	idType:'',
     	idCpn:'',
@@ -44,12 +42,15 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     
     self.services=[];
     
+    self.currencyUnit = 'VND';
+    
     function defaultValue() {
         $scope.currentPage = 0;
         $scope.pageSize = 5;    
         $scope.search = '';
        
         $scope.size = 5;
+
         //$scope.page = 1;
         $scope.totalElements = 0;
                      
@@ -67,6 +68,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     self.changeTotal = changeTotal;
     self.getService = getService;
 	self.deleteInvoice = deleteInvoice;
+	self.searchInvoice = searchInvoice;
 
     defaultValue();
     fetchAllInvoice();
@@ -78,14 +80,15 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     }
     
     function getService(){    	 	
-    	getServiceByName(self.invoice.nameService, self.invoice.idType.id)  
+
+    	getServiceByName(self.invoice.nameService, self.invoice.idType.id);  
     }
     
     function calculate(){
     	var temp;
 		temp = self.invoice.indexConsumed;
     	self.invoice.total = temp * self.service.unit;
-    	self.invoice.grandTotal = self.invoice.total + ((self.invoice.total * self.invoice.vat)/100);
+    	self.invoice.grandTotal = self.invoice.total + ((self.invoice.total * self.invoice.vat)/100) + ((self.invoice.ptef * self.invoice.total)/100);
     }
     
     
@@ -107,28 +110,26 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	fetchAllInvoice();
     }
     
-    
-    $scope.getData = function () {
-        
-        return $filter('filter')( self.invoices, $scope.search)
-       
-      }
-    
-    $scope.numberOfPages=function(){
-    	
-    	// $scope.totalElements / pageSize
-    	return Math.ceil($scope.totalElements/$scope.pageSize);
-        //return Math.ceil($scope.getData().length/$scope.pageSize);                
+
+    function searchInvoice(){
+    	$scope.currentPage = 0;
+    	$scope.search = $scope.search;
+    	fetchAllInvoice();
+    }
+           
+    $scope.numberOfPages=function(){   	   	
+    	return Math.ceil($scope.totalElements/$scope.pageSize);       
     }
 
     function fetchAllInvoice(){
-        InvoiceService.fetchAllInvoice($scope.size, $scope.currentPage)
+
+
+        InvoiceService.fetchAllInvoice($scope.search, $scope.size, $scope.currentPage)
             .then(
             function(d) {
 
             	self.invoices = d.content; 
             	$scope.totalElements = d.totalElements;
-            	//console.log("d.totalElements" + d.totalElements);
             },
             function(errResponse){
                 console.error('Error while fetching Invoice');
@@ -153,9 +154,15 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     function fetchAllService(id){
     	InvoiceService.fetchAllService(id)
             .then(
-            function(d) {
-            	console.log(d);
-            	self.services = d;            	
+            function(rs) {
+            	console.log(rs);
+            	self.services = rs;
+            	//compare to get unit
+            	for (var index in rs) {
+                	if (self.invoice.nameService === rs[index].nameService) {
+                		self.service.unit = rs[index].unit;
+                	}
+            	}
             },
             function(errResponse){
                 console.error('Error while fetching Invoice');
@@ -177,38 +184,73 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
         );
     }
      
-
+    // Trigger create invoice
     function createInvoice(invoice){
     	console.log("create Invoice: " + invoice);
         InvoiceService.createInvoice(invoice)
-            .then(
-            fetchAllInvoice,
+            .then(function(success){
+            	//call service
+            	fetchAllInvoice();
+            	//alert success
+            	SweetAlert.swal("Updated!", "Your invoice " + invoice.contractNumber + " has been created.", "success");
+            },
             function(errResponse){
                 console.error('Error while creating Invoice');
+                SweetAlert.swal("Error!", "Error while creating invoice", "error");
             }
         );
     }
-
+    
+    // Trigger update invoice
     function updateInvoice(invoice, id){    	
     	console.log(invoice);            
         InvoiceService.updateInvoice(invoice, id)
-            .then(
-            fetchAllInvoice, 
+            .then(function(success) {
+                fetchAllInvoice();
+                SweetAlert.swal("Updated!", "Your invoice " + invoice.contractNumber + " has been updated.", "success");
+            }, 
             function(errResponse){
                 console.error('Error while updating Invoice');
+                SweetAlert.swal("Error!", "Error while updating invoice", "error");
             }
         );
     	
     }
-
+    
+    // Trigger remove invoice
     function deleteInvoice(id){
-        InvoiceService.deleteInvoice(id)
-            .then(
-    		fetchAllInvoice,
-            function(errResponse){
-                console.error('Error while deleting Invoice');
-            }
-        );
+    	SweetAlert.swal({
+        	title: "Are you sure?",
+        	text: "You will remove invoice.",
+        	type: "warning",
+        	showCancelButton: true,
+        	confirmButtonColor: "#DD6B55",
+        	confirmButtonText: "Yes, remove it!",
+        	cancelButtonText: "No, cancel plx!",
+        	closeOnConfirm: false,
+        	closeOnCancel: true
+        }, 
+        function(isConfirm){ // Function that triggers on user action.
+    		// var r = confirm("Are you sure!");
+    		// console.log(self.cus);
+			  if (isConfirm) {
+				  InvoiceService.deleteInvoice(id)
+	                .then(
+		                function(success){
+		                	SweetAlert.swal("Remove!", "Invoice has been removed.", "success");
+		                	//document.myForm.set.disabled = true;
+		                	$scope.isUpdate = false;
+		                	fetchAllInvoice();
+		                }),
+	                	// document.myForm.set.disabled = true;
+		                function(errResponse){
+		                    console.error('Error while removing invoice');
+		                    SweetAlert.swal("Error!", "Error while removing invoice", "error");
+		                }
+			  } else {
+				    //Do nothing.
+			  }
+        });
     }
 
     function submit() {
@@ -233,28 +275,40 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
             }
         }
     }
-    function showDetail(type,id){    
-    	self.invoice.idType = type; 
-    	fetchAllService(type.id)
-    	if(type.code == 'EB')
+
+    // Trigger when click show detail
+    function showDetail(type, invoice){    
+    	//set IdType
+    	self.invoice.idType = type.id; 
+    	//set name service
+    	$scope.nameInvoice = type.nameInvoice;
+    	
+    	// Call service to load object invoice
+    	InvoiceService.getID(invoice.id).then(
+			function(d) {
+	        	self.invoice = d; 
+	        	self.invoice.date = new Date(self.invoice.date);
+	        	// Call service to load list service
+	        	fetchAllService(type.id);
+        	},
+	        function(errResponse) {        	
+	            console.error('Error while updating Invoice');
+	        }
+        );
+    	code = type.code;
+    	// Trigger hidden input indexConsumed when serivce is Internet Bill
+    	if(code == 'EB')
     	{
     		document.myForm.hidden = false;
-    		document.getElementById('ptef2').hidden = true;
-
-    		document.getElementById('service2').hidden = false;
+    		if (code == 'WB') {
+    			document.getElementById('ptef2').hidden = false;
+    		} else {
+        		document.getElementById('ptef2').hidden = true;
+    		}
+    		document.getElementById('service2').hidden = true;
     		document.getElementById('index2').hidden = false;
-    	}	
-
-    	if(type.code == 'WB')
-    	{
-    		document.myForm.hidden = false;
-    		document.getElementById('ptef2').hidden = false;
-
-    		document.getElementById('service2').hidden = false;
-    		document.getElementById('index2').hidden = false;
-    	}   
-
-    	if(type.code == 'IB')
+    	}
+    	if(code == 'IB' || code == 'PB')
     	{
     		document.myForm.hidden = false;
     		document.getElementById('ptef2').hidden = true;
@@ -262,27 +316,6 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     		document.getElementById('index2').hidden = true;
     	} 
 
-    	if(type.code == 'PB')
-    	{
-    		document.myForm.hidden = false;
-    		document.getElementById('ptef2').hidden = true;
-    		document.getElementById('service2').hidden = false;
-    		document.getElementById('index2').hidden = true;
-    	} 
-    	InvoiceService.getID(id)
-        .then(
-        		function(d) {
-        			
-                	self.invoice = d; 
-                	self.invoice.date = new Date(self.invoice.date);
-                	
-                	//console.log("d.totalElements" + d.totalElements);
-                },
-        function(errResponse){
-        	
-            console.error('Error while updating Invoice');
-        }
-    );
     }
     
     function remove(id){
@@ -296,9 +329,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     function reset(){
     	self.invoice={
     	    	id:null,
-
     	    	date:new Date(),
-    	    	contractNumber:'',
+//    	    	contractNumber:'',
     	    	nameService:'',
     	    	indexConsumed:'',
     	    	total:'',    	    	
@@ -309,13 +341,44 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	    };
         $scope.myForm.$setPristine(); //reset Form
     }
-  
     
+    // Trigger when input contract number changed
+    $scope.contractChanged = function() {
+    	console.log('contractChanged= ' + self.invoice.contractNumber);
+    	InvoiceService.checkContract(self.invoice.contractNumber).then(
+    			function(d) {
+    				// When contract number already exits
+    				if (d.contractNumber != null) {
+    					self.invoice = d;
+    		        	self.invoice.date = new Date(self.invoice.date);
+    		        	fetchAllService(self.invoice.idType.id);
+    		        	$scope.name_type = "Update " + self.invoice.idType.nameInvoice;
+    		        	self.btn = 'Update';
+    				}
+    				
+            	},
+    	        function(errResponse) {        	
+    	            console.error('Error while checking contract number');
+    	        }
+            );
+    }
+  
+
+    // Trigger when click show form
     $scope.showForm = function(code, id){
+    	fncshowForm(code, id);
+    	console.log('open create modal');
+    };
+    
+    function fncshowForm(code, id) {
+    	//set idType
     	self.invoice.idType = id; 
+    	//set VAT
     	self.invoice.vat = id.vat;
- 			
-    	$scope.name_type = id.nameInvoice;    
+
+ 		//set nameType	
+    	$scope.name_type = "Create "+ id.nameInvoice;
+    	self.btn = 'Create';
     	fetchAllService(id.id)
     	if(code == 'EB')
     	{
@@ -350,8 +413,8 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     		document.getElementById('index').hidden = true;
     		
     		self.invoice.indexConsumed = 1;
-    	} 		
-    };
+    	} 	
+    }
    
    
 
@@ -381,8 +444,6 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService',
     	    }
         };
     }]);
-
-
 app.filter('startFrom', function() {
     return function(input, start) {
         start = +start; //parse to int
