@@ -25,6 +25,9 @@ public interface UserService {
 	
 	public boolean isUserExist(Users user);
 	
-	Page<Users> findByActive(String active, Pageable pageable);
+	Page<Users> findByActiveAndUsernameContaining(String active, String username, Pageable pageable);
+	
+	Page<Users> findByUsernameContaining(String username, Pageable pageable);
+
 			
 }

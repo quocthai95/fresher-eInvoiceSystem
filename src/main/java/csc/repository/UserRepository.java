@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import csc.models.Users;
+import java.lang.String;
+import java.util.List;
 
 /**
  * A DAO for the entity User is simply created by extending the CrudRepository
@@ -20,9 +22,13 @@ import csc.models.Users;
 public interface UserRepository extends CrudRepository<Users, Long> {
 
 	Page<Users> findAll(Pageable pageable);
+	
+	Page<Users> findByActiveAndUsernameContaining(String active, String username, Pageable pageable);
+	
+	Page<Users> findByUsernameContaining(String username, Pageable pageable);
 
 	Users findByUsername(String username);
 	
-	Page<Users> findByActive(String active, Pageable pageable);
+	//Page<Users> findByActive(String active, Pageable pageable);
 		
 } // class UserDao
