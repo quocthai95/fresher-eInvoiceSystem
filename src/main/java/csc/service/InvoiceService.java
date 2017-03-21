@@ -14,13 +14,13 @@ public interface InvoiceService {
 
 
 	Invoice findById(long id);
-	@CacheEvict(value = "report", allEntries = true)
+	@CacheEvict(value = {"report", "invoice"}, allEntries = true)
 	void saveInvoice(Invoice invoice);
 
-	@CacheEvict(value = "report", allEntries = true)
+	@CacheEvict(value = {"report", "invoice"}, allEntries = true)
 	void updateInvoice(Invoice invoice);
 
-	@CacheEvict(value = "report", allEntries = true)
+	@CacheEvict(value = {"report", "invoice"}, allEntries = true)
 	void deleteInvoiceById(long id);
 
 	@Cacheable("report")

@@ -16,6 +16,7 @@ import org.terracotta.statistics.jsr166e.ThreadLocalRandom;
 import csc.models.Company;
 import csc.models.Customer;
 import csc.models.Invoice;
+import csc.models.Parameter;
 import csc.models.Role;
 import csc.models.Service;
 import csc.models.TypeInvoice;
@@ -23,6 +24,7 @@ import csc.models.Users;
 import csc.repository.CompanyRepository;
 import csc.repository.CustomerRepository;
 import csc.repository.InvoiceRepository;
+import csc.repository.ParameterRepository;
 import csc.repository.RoleRepository;
 import csc.repository.ServiceRepository;
 import csc.repository.TypeInvoiceRepository;
@@ -54,6 +56,9 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 	@Autowired
 	private ServiceRepository serviceRepository;
+	
+	@Autowired
+	private ParameterRepository parameterRepository;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
@@ -169,7 +174,11 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
 		createInvoiceRecord("UC123457", 1, 2L, 1, 10);
 
-
+		// Create parameter
+		Date date = new Date();
+		createParameter("timeEmail",date.toString(),"Config time send email");
+		createParameter("email","einvoicesystem@gmail.com","Email to send");
+		createParameter("passwordEmail","P@ssw0rd","Password email");
 
 	}
 
@@ -249,6 +258,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			int year = 2016;
 			System.out.println("contractNumber:" + contractNumber);
 			Invoice invoice;
+			List<Company> cpn;
 			List<Service> s;
 			// TypeInvoice ti;
 			// DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -302,7 +312,15 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					grandTotal = total.add(total.multiply(BigDecimal.valueOf(vat)).divide(BigDecimal.valueOf(100))).add((total.multiply(ptef).divide(BigDecimal.valueOf(100))));
 					invoice.setGrandTotal(grandTotal);
 
-
+					//set id_cpn
+					cpn = new ArrayList<Company>();
+					cpn = companyRepository.findByIdType(typeInvoice);
+					if (cpn.size() <= randomNum) {
+						invoice.setIdCpn(cpn.get(0).getIdCpn());
+					} else {
+						invoice.setIdCpn(cpn.get(randomNum).getIdCpn());
+					}
+					
 					
 					// set Id Customer
 					Customer tmpCus = new Customer();
@@ -317,6 +335,17 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			}
 		} catch (Exception ex) {
 			System.out.println("Exception:" + ex);
+		}
+	}
+	
+	private void createParameter(String key, String value, String description) {
+		Parameter pa = new Parameter();
+		
+		if (parameterRepository.findByParaKey(key) == null) {
+			pa.setParaKey(key);
+			pa.setParaValue(value);
+			pa.setDescription(description);
+			parameterRepository.save(pa);
 		}
 	}
 }
