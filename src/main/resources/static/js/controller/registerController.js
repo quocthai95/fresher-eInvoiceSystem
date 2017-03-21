@@ -58,7 +58,9 @@ app.controller('RegisterController', function($scope, RegisterService, $location
           });
         });
       }
+    
     }
+    
 }])
 
 .directive('emailNotUsed', function($http, $q) {

@@ -15,7 +15,11 @@ angular.module('dbApp').controller('CustomerController', function($scope, Custom
 		$scope.isUpdate = true;
     };
     
-   
+    self.user={id:null,
+    		username:'',
+    		password:'',
+    		active: ''
+    };   
     self.cus={
     		id:null,
     		idCustomer:'',
@@ -32,6 +36,8 @@ angular.module('dbApp').controller('CustomerController', function($scope, Custom
        
     self.edit = edit;
     self.updateCustomer = updateCustomer;
+    self.changePwd = changePwd;
+    self.getPwd = getPwd;
     // seft.getCustomer = getCustomer;
     
     
@@ -98,5 +104,38 @@ angular.module('dbApp').controller('CustomerController', function($scope, Custom
             }
         }
     }
-	    	    
+    
+    function changePwd(){
+    	console.log('Enter!')
+    	self.user.password = $scope.newpass;
+    	self.user.active = "1";
+    	CustomerService.changePwd(self.user)
+        .then(
+        function(success) {
+
+        	console.log('Success change Password!')
+        	
+        	// console.log("d.totalElements" + d.totalElements);
+        },
+        function(errResponse){
+            console.error('Error while fetching User');
+        }
+    );
+    }
+	    function getPwd(){
+	    	CustomerService.getPwd($scope.oldpass)
+	        .then(
+	        function(success) {
+
+	        	console.log('Valid Password!!')
+	        	
+	        	// console.log("d.totalElements" + d.totalElements);
+	        },
+	        function(errResponse){
+	            console.error('Error while fetching User');
+	        }
+	    );
+	    }	    
 });
+
+

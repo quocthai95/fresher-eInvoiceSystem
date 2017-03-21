@@ -1,5 +1,7 @@
 package csc.controllers;
 
+import java.util.HashSet;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import csc.models.Customer;
+import csc.models.Role;
 import csc.models.Users;
 import csc.service.CustomerService;
 import csc.service.RoleService;
@@ -101,5 +104,40 @@ public class CustomerController {
 		cus = customerService.findByUser(user);
 		
 		return cus;
+	}
+    
+    @RequestMapping(value = "/customer/updatepwd", method = RequestMethod.POST)
+    public ResponseEntity<Users> updatePassword(@RequestBody Users curUser) {
+ 
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Users user = new Users();
+		user = userService.findByName(username);
+		user.setPassword(passwordEncoder.encode(curUser.getPassword()));
+		HashSet<Role> roles = new HashSet<>();
+		roles.add(roleService.findByName("ROLE_MEMBER"));
+		user.setRoles(roles);
+		user.setActive(curUser.getActive());	
+		userService.updateUser(user);
+		return new ResponseEntity<Users>(user, HttpStatus.OK);
+		
+    }
+    
+    @RequestMapping(value = "/customer/getPwd", method = RequestMethod.POST)
+	public boolean getPwd(@RequestBody String Pwd) {
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String username = auth.getName();
+			Users user = new Users();
+			user = userService.findByName(username);
+			if (passwordEncoder.matches(Pwd, user.getPassword()) ){System.out.println("true");
+				return true;}
+			else{System.out.println("false");
+				return false;}
+		} catch (Exception ex) {
+			System.out.println("Pwd does not exist");
+			return false;
+		}
+		
 	}
 }
