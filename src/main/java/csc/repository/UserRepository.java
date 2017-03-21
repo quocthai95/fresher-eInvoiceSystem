@@ -6,8 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import csc.models.Users;
-import java.lang.String;
-import java.util.List;
 
 /**
  * A DAO for the entity User is simply created by extending the CrudRepository
