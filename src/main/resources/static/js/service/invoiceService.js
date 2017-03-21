@@ -12,6 +12,7 @@ app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http,
 				fetchAllService : fetchAllService,
 				getService : getService,
 				checkContract : getContractNum,
+		    	getCompany: getCpn,
 			};
 
 			return factory;
@@ -127,4 +128,19 @@ app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http,
 						});
 				return deferred.promise;
 			}
+		    function getCpn(id) {
+		        var deferred = $q.defer();
+		        $http.get(REST_SERVICE_URI + "getCpn/" + id)
+		            .then(
+		            function (response) {
+		            	console.log("getCpn" + response.data);
+		                deferred.resolve(response.data);                
+		            },
+		            function(errResponse){
+		                console.error('Error while fetching getCpn');
+		                deferred.reject(errResponse);
+		            }
+		        );
+		        return deferred.promise;
+		    }
 		} ]);

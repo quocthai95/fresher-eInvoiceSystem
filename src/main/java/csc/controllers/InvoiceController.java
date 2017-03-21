@@ -170,6 +170,7 @@ public class InvoiceController {
         currentInvoice.setGrandTotal(invoice.getGrandTotal());
         currentInvoice.setIdCustomer(cus);
         currentInvoice.setIdType(invoice.getIdType());
+        currentInvoice.setIdCpn(invoice.getIdCpn());
           
         invoiceService.updateInvoice(currentInvoice);
         return new ResponseEntity<Invoice>(currentInvoice, HttpStatus.OK);
