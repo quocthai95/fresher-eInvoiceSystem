@@ -1,4 +1,4 @@
-app.controller('ChartController',[ '$scope', '$filter', 'ReportService', function($scope, $filter, ReportService){
+app.controller('ReportController',[ '$scope', '$filter', 'ReportService', function($scope, $filter, ReportService){
 	var self = this;
     var reports=[];
     var eb = [];
@@ -27,7 +27,8 @@ app.controller('ChartController',[ '$scope', '$filter', 'ReportService', functio
     	$scope.dateEnd = '2016-04-10';
     	var x = $scope.dateStart;
     	x = new Date(x);
-    	//console.log(x.getMonth());
+    	alert('x= ' + x);
+    	console.log("x.getMonth()= " + x.getMonth());
     	//console.log(x.getFullYear());
     	var y = $scope.dateEnd;
     	y = new Date(y);

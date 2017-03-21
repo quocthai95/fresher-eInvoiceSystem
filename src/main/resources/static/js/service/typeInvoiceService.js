@@ -5,7 +5,7 @@ angular.module('dbApp').factory('TypeInvoiceService', ['$http', '$q', function($
     var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/invoice/';
     
     var factory = {
-    	fetchAll : fetchAll,   
+    	fetchAll : fetchAllType,   
     	fetchAllService: fetchAllService,
     	getService: getService,
     };
@@ -14,20 +14,10 @@ angular.module('dbApp').factory('TypeInvoiceService', ['$http', '$q', function($
     
 
 
-    function fetchAll() {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getTypeAll")
-            .then(
-            function (response) {
-            	console.log("Type servcie" + response.data);
-                deferred.resolve(response.data);                
-            },
-            function(errResponse){
-                console.error('Error while fetching Type Invoice');
-                deferred.reject(errResponse);
-            }
-        );
-        return deferred.promise;
+    function fetchAllType() {
+    	return $http.get(REST_SERVICE_URI + "getTypeAll").then(function (response) {
+                return response.data;                
+        })
     } 
     
     function fetchAllService(id) {
