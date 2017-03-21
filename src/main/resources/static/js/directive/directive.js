@@ -46,3 +46,10 @@ app.directive('cusM', function() {
 		templateUrl : "/EInvoice/views/customer/templatedCustomer.html"
 	}
 });
+
+app.directive('chartTemplate', function() {
+	return {
+		templateUrl : "/EInvoice/views/customer/chartManagement.html"
+	}
+});
+
