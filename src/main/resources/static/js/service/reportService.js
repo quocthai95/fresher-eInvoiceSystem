@@ -9,18 +9,11 @@ angular.module('dbApp').factory('ReportService', ['$http', '$q', function($http,
     return factory;
     
     function fetchAllReport(start, end, size, page) {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "start="+ start + "&end=" + end + "&page="+ size + "&pageSize=" + page)
-            .then(
-            function (response) {
-                deferred.resolve(response.data);                
-            },
-            function(errResponse){
-                console.error('Error while fetching Invoice');
-                deferred.reject(errResponse);
+        return $http.get(REST_SERVICE_URI + "start="+ start + "&end=" + end + "&page="+ size + "&pageSize=" + page)
+            .then(function (response) {
+                return response.data;              
             }
         );
-        return deferred.promise;
     }
        
 }]);
