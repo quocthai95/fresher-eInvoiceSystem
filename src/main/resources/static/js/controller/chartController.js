@@ -40,8 +40,7 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 			var getAllTypeSuccess = function(rs) {
 				$scope.getAllType = rs;
 				// Call service get report
-				ReportService.fetchAllReport(dateStart, dateEnd,
-						$scope.currentPage, $scope.size).then(getReportSuccess,
+				ReportService.fetchAllReport(dateStart, dateEnd).then(getReportSuccess,
 						getReportError);
 			};
 			// Event get All Type Error
@@ -279,10 +278,6 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 			};
 		// Trigger when click button REPORT
 		$scope.btnReport = function() {
-		    $scope.currentPage = 0;
-		    $scope.pageSize = '10';    
-		    $scope.size = 10;
-		    $scope.totalElements = 0;
 
 			fetchAllReport();
 			requestReport();
