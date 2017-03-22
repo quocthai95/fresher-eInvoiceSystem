@@ -1,5 +1,4 @@
 'use strict';
-var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/invoice/';
 
 app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http, $q, TypeInvoiceService) {
 			var factory = {
@@ -20,7 +19,7 @@ app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http,
 			function fetchAllInvoice(search, size, page) {
 				var deferred = $q.defer();
 				$http.get(
-						REST_SERVICE_URI + "getAll/search=" + search + "?size="
+						BASE_URL + "invoice/getAll/search=" + search + "?size="
 								+ size + "&page=" + page).then(
 						function(response) {
 							deferred.resolve(response.data);
@@ -70,7 +69,7 @@ app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http,
 			function createInvoice(invoice) {
 				console.log("Service create: " + invoice);
 				var deferred = $q.defer();
-				$http.post(REST_SERVICE_URI + "create", invoice).then(
+				$http.post(BASE_URL + "invoice/create", invoice).then(
 						function(response) {
 							deferred.resolve(response.data);
 						}, function(errResponse) {
@@ -83,7 +82,7 @@ app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http,
 			function updateInvoice(invoice, id) {
 				console.log(invoice);
 				var deferred = $q.defer();
-				$http.post(REST_SERVICE_URI + "update/" + id, invoice).then(
+				$http.post(BASE_URL + "invoice/update/" + id, invoice).then(
 						function(response) {
 							deferred.resolve(response.data);
 						}, function(errResponse) {
@@ -95,7 +94,7 @@ app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http,
 			// Service call api to remove invoice
 			function deleteInvoice(id) {
 				var deferred = $q.defer();
-				$http.get(REST_SERVICE_URI + "delete/" + id).then(
+				$http.get(BASE_URL + "invoice/delete/" + id).then(
 						function(response) {
 							deferred.resolve(response.data);
 						}, function(errResponse) {
@@ -107,7 +106,7 @@ app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http,
 			// Service call api to get id invoice
 			function getID(id) {
 				var deferred = $q.defer();
-				$http.get(REST_SERVICE_URI + "get/" + id).then(
+				$http.get(BASE_URL + "invoice/get/" + id).then(
 						function(response) {
 							deferred.resolve(response.data);
 						}, function(errResponse) {
@@ -119,7 +118,7 @@ app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http,
 			// Service call api to check contract number is already exists in month.
 			function getContractNum(num) {
 				var deferred = $q.defer();
-				$http.get(REST_SERVICE_URI + "getName/" + num).then(
+				$http.get(BASE_URL + "invoice/getName/" + num).then(
 						function(response) {
 							deferred.resolve(response.data);
 						}, function(errResponse) {
@@ -130,7 +129,7 @@ app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http,
 			}
 		    function getCpn(id) {
 		        var deferred = $q.defer();
-		        $http.get(REST_SERVICE_URI + "getCpn/" + id)
+		        $http.get(BASE_URL + "invoice/getCpn/" + id)
 		            .then(
 		            function (response) {
 		            	console.log("getCpn" + response.data);

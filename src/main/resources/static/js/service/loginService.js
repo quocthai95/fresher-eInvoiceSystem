@@ -1,6 +1,5 @@
 app.factory('LoginService', function($http, $q){
-    var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
-    
+  
     var factory = {
 		login : loginUser,
     }
@@ -25,5 +24,5 @@ app.factory('LoginService', function($http, $q){
         );
         return deferred.promise;
     }
-	
+
 });

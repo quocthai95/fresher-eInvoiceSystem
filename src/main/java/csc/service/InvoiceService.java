@@ -10,11 +10,13 @@ import org.springframework.data.domain.Pageable;
 
 import csc.models.Customer;
 import csc.models.Invoice;
+import csc.models.TypeInvoice;
 
 public interface InvoiceService {
 
-
+	@Cacheable("invoice")
 	Invoice findById(long id);
+	
 	@CacheEvict(value = {"report", "invoice"}, allEntries = true)
 	void saveInvoice(Invoice invoice);
 
@@ -31,6 +33,9 @@ public interface InvoiceService {
 
 	@Cacheable("report")
 	List<Invoice> getListReport(Customer idCus, Date dateStart, Date dateEnd);
+	
+	@Cacheable("report")
+	List<Invoice> getExpensesReport(Customer idCus, Date dateStart, Date dateEnd, TypeInvoice type);
 	
 	@Cacheable("invoice")
 	Invoice getInvoice(String contractNum);
