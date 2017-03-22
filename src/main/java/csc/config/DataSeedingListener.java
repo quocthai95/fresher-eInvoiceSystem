@@ -357,10 +357,11 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 	
 	private void createParameter(Date timeEmail, String email, String pwdEmail) {
 		Parameter pa = new Parameter();
-		
-		pa.setTimeEmail(timeEmail);
-		pa.setEmail(email);
-		pa.setPwdEmail(pwdEmail);
-		parameterRepository.save(pa);
+		if(parameterRepository.findByEmail(email) == null){
+			pa.setTimeEmail(timeEmail);
+			pa.setEmail(email);
+			pa.setPwdEmail(pwdEmail);
+			parameterRepository.save(pa);
+		}
 	}
 }
