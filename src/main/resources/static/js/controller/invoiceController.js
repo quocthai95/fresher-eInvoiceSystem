@@ -82,6 +82,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     function getService(){    	 	
 
     	getServiceByName(self.invoice.nameService, self.invoice.idType.id);  
+    	calculate();
     }
     
     function calculate(){
@@ -168,6 +169,16 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
                 console.error('Error while fetching Invoice');
             }
         );
+    }
+    
+    function fetchAllCpn(id) {
+    	InvoiceService.getCompany(id).then(function(rs) {
+    		self.company = rs;
+
+    	},
+        function(errResponse){
+            console.error('Error while fetching company');
+        })
     }
     
     function getServiceByName(name, id){
@@ -276,12 +287,15 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
         }
     }
 
-    // Trigger when click show detail
-    function showDetail(type, invoice){    
+    // Trigger when click button view
+    function showDetail(type, invoice){  
     	//set IdType
     	self.invoice.idType = type.id; 
     	//set name service
     	$scope.nameInvoice = type.nameInvoice;
+    	
+    	//Call service to load company
+    	fetchAllCpn(type.id);
     	
     	// Call service to load object invoice
     	InvoiceService.getID(invoice.id).then(
@@ -290,32 +304,36 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
 	        	self.invoice.date = new Date(self.invoice.date);
 	        	// Call service to load list service
 	        	fetchAllService(type.id);
+	        	triggerHidden2(type.code);
         	},
 	        function(errResponse) {        	
-	            console.error('Error while updating Invoice');
+	            console.error('Error while getID Invoice');
 	        }
         );
-    	code = type.code;
-    	// Trigger hidden input indexConsumed when serivce is Internet Bill
-    	if(code == 'EB')
+    	
+    }
+
+	// Trigger hidden input indexConsumed when serivce is Internet Bill
+    function triggerHidden2(code) {
+    	document.myForm.hidden = false;
+    	document.getElementById('company2').hidden = false;
+    	document.getElementById('contract2').disabled = true;
+    	if(code == 'EB' || code == 'WB')
     	{
-    		document.myForm.hidden = false;
     		if (code == 'WB') {
     			document.getElementById('ptef2').hidden = false;
     		} else {
         		document.getElementById('ptef2').hidden = true;
     		}
-    		document.getElementById('service2').hidden = true;
+    		document.getElementById('service2').hidden = false;
     		document.getElementById('index2').hidden = false;
     	}
     	if(code == 'IB' || code == 'PB')
     	{
-    		document.myForm.hidden = false;
     		document.getElementById('ptef2').hidden = true;
     		document.getElementById('service2').hidden = false;
     		document.getElementById('index2').hidden = true;
-    	} 
-
+    	}
     }
     
     function remove(id){
@@ -352,8 +370,11 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     					self.invoice = d;
     		        	self.invoice.date = new Date(self.invoice.date);
     		        	fetchAllService(self.invoice.idType.id);
+    		        	fetchAllCpn(self.invoice.idType.id);
     		        	$scope.name_type = "Update " + self.invoice.idType.nameInvoice;
     		        	self.btn = 'Update';
+    		        	// Trigger hidden input indexConsumed when serivce is Internet Bill
+    		        	triggerHidden(self.invoice.idType.code);
     				}
     				
             	},
@@ -379,41 +400,66 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
  		//set nameType	
     	$scope.name_type = "Create "+ id.nameInvoice;
     	self.btn = 'Create';
-    	fetchAllService(id.id)
-    	if(code == 'EB')
+    	fetchAllService(id.id);
+    	fetchAllCpn(id.id);
+    	
+    	triggerHidden(code);
+    }
+    
+    function triggerHidden(code) {
+    	document.getElementById('company').hidden = false;
+		document.myForm.hidden = false;
+    	if(code == 'EB' || code == 'WB')
     	{
-    		document.myForm.hidden = false;
-    		document.getElementById('ptef').hidden = true;
-
+    		if (code == 'WB') {
+    			document.getElementById('ptef').hidden = false;
+    		} else {
+        		document.getElementById('ptef').hidden = true;
+    		}
     		document.getElementById('service').hidden = false;
     		document.getElementById('index').hidden = false;
-    	}	
-    	if(code == 'WB')
+    	}
+    	if(code == 'IB' || code == 'PB')
     	{
-    		document.myForm.hidden = false;
-    		document.getElementById('ptef').hidden = false;
-
-    		document.getElementById('service').hidden = false;
-    		document.getElementById('index').hidden = false;
-    	}   
-    	if(code == 'IB')
-    	{
-    		document.myForm.hidden = false;
     		document.getElementById('ptef').hidden = true;
     		document.getElementById('service').hidden = false;
     		document.getElementById('index').hidden = true;
-    		
-    		self.invoice.indexConsumed = 1;
-    	} 
-    	if(code == 'PB')
-    	{
-    		document.myForm.hidden = false;
-    		document.getElementById('ptef').hidden = true;
-    		document.getElementById('service').hidden = false;
-    		document.getElementById('index').hidden = true;
-    		
-    		self.invoice.indexConsumed = 1;
-    	} 	
+    	}
+//    	if(code == 'EB')
+//    	{
+//    		document.myForm.hidden = false;
+//    		document.getElementById('ptef').hidden = true;
+//
+//    		document.getElementById('service').hidden = false;
+//    		document.getElementById('index').hidden = false;
+//    	}	
+//    	if(code == 'WB')
+//    	{
+//    		document.myForm.hidden = false;
+//    		document.getElementById('ptef').hidden = false;
+//
+//    		document.getElementById('service').hidden = false;
+//    		document.getElementById('index').hidden = false;
+//    	}   
+//    	if(code == 'IB')
+//    	{
+//    		document.myForm.hidden = false;
+//    		document.getElementById('ptef').hidden = true;
+//    		document.getElementById('service').hidden = false;
+//    		document.getElementById('index').hidden = true;
+//    		
+//    		self.invoice.indexConsumed = 1;
+//    	} 
+//    	if(code == 'PB')
+//    	{
+//    		document.myForm.hidden = false;
+//    		document.getElementById('ptef').hidden = true;
+//    		document.getElementById('service').hidden = false;
+//    		document.getElementById('index').hidden = true;
+//    		
+//    		self.invoice.indexConsumed = 1;
+//    	} 	
+    	
     }
    
    
