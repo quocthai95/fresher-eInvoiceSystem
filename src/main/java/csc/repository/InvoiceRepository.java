@@ -6,13 +6,11 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import csc.models.Customer;
 import csc.models.Invoice;
-import java.lang.String;
 
 @Repository
 public interface InvoiceRepository extends CrudRepository<Invoice, Long>, JpaRepository<Invoice, Long> {
@@ -32,6 +30,6 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Long>, JpaRep
 
 	Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable);
 	
-	Page<Invoice> findByIdCustomerAndDateBetween(Customer idCus, Date dateStart, Date dateEnd, Pageable pageable);
+	List<Invoice> findByIdCustomerAndDateBetween(Customer idCus, Date dateStart, Date dateEnd);
 
 }

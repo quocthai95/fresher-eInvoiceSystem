@@ -9,7 +9,7 @@ angular.module('dbApp').factory('ReportService', ['$http', '$q', function($http,
     return factory;
     
     function fetchAllReport(start, end, size, page) {
-        return $http.get(REST_SERVICE_URI + "start="+ start + "&end=" + end + "&page="+ size + "&pageSize=" + page)
+        return $http.get(REST_SERVICE_URI + "start="+ start + "&end=" + end)
             .then(function (response) {
                 return response.data;              
             }

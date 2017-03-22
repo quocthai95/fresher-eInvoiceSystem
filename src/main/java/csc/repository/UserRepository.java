@@ -2,12 +2,12 @@ package csc.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import csc.models.Invoice;
 import csc.models.Users;
-import java.lang.String;
-import java.util.List;
 
 /**
  * A DAO for the entity User is simply created by extending the CrudRepository
@@ -19,7 +19,7 @@ import java.util.List;
  */
 // @Transactional
 @Repository
-public interface UserRepository extends CrudRepository<Users, Long> {
+public interface UserRepository extends CrudRepository<Users, Long>,JpaRepository<Users, Long> {
 
 	Page<Users> findAll(Pageable pageable);
 	

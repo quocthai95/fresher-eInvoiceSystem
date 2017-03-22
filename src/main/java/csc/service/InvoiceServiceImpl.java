@@ -1,6 +1,7 @@
 package csc.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,9 +49,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public Page<Invoice> getListReport(Customer idCus, Date dateStart, Date dateEnd, int page, int pageSize) {
-		PageRequest pageable = new PageRequest(page, pageSize);
-		return invoiceRepository.findByIdCustomerAndDateBetween(idCus, dateStart, dateEnd, pageable);
+	public List<Invoice> getListReport(Customer idCus, Date dateStart, Date dateEnd) {
+//		PageRequest pageable = new PageRequest(page, pageSize);
+		return invoiceRepository.findByIdCustomerAndDateBetween(idCus, dateStart, dateEnd);
 	}
 
 
