@@ -82,7 +82,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     function getService(){    	 	
 
     	getServiceByName(self.invoice.nameService, self.invoice.idType.id);  
-    	calculate();
+    	//calculate();
     }
     
     function calculate(){
@@ -424,6 +424,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     		document.getElementById('ptef').hidden = true;
     		document.getElementById('service').hidden = false;
     		document.getElementById('index').hidden = true;
+    		self.invoice.indexConsumed = 1;
     	}
 //    	if(code == 'EB')
 //    	{

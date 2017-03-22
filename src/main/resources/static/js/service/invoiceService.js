@@ -69,7 +69,7 @@ app.factory('InvoiceService', ['$http','$q','TypeInvoiceService',function($http,
 			function createInvoice(invoice) {
 				console.log("Service create: " + invoice);
 				var deferred = $q.defer();
-				$http.post(BASE_URL + "create", invoice).then(
+				$http.post(BASE_URL + "invoice/create", invoice).then(
 						function(response) {
 							deferred.resolve(response.data);
 						}, function(errResponse) {
