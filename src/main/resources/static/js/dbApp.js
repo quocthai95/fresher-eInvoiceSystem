@@ -1,4 +1,5 @@
 var app = angular.module('dbApp', [ 'ngRoute','zingchart-angularjs', 'oitozero.ngSweetAlert', 'uiSwitch', 'bw.paging', 'ngMessages' ]);
+var BASE_URL = "http://localhost:8080/EInvoice/";
 app.config(function($routeProvider) {
 
 	$routeProvider.when("/", {
@@ -21,7 +22,7 @@ app.config(function($routeProvider) {
 		controller: 'ReportController as ctrl',
 	}).when("/chart-manage", {
 		templateUrl : "/EInvoice/views/customer/chartManagement.html",
-		controller: 'ReportController as ctrl',
+		controller: 'ChartController as ctrl',
 	}).when("/password-manage", {
 		templateUrl : "/EInvoice/views/customer/changePassword.html",
 		controller: 'UserController as ctrl',

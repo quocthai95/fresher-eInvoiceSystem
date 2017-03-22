@@ -1,9 +1,5 @@
 'use strict';
-
-
 app.factory('ParameterService', ['$http', '$q', function($http, $q){
-	//Base URI
-    var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/parameter/';
     
     var factory = {    	
         updateParameter:updateParameter,        
@@ -14,7 +10,7 @@ app.factory('ParameterService', ['$http', '$q', function($http, $q){
     //Service call api get parameter
     function getParameterByKey(key) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getByKey/key=" +key)
+        $http.get(BASE_URL + "parameter/getByKey/key=" +key)
             .then(
             function (response) {            	
                 deferred.resolve(response.data);                
@@ -31,7 +27,7 @@ app.factory('ParameterService', ['$http', '$q', function($http, $q){
     function updateParameter(id, parameter) {
     	console.log(parameter);
     	var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI + "update/key=" +id, parameter)
+        $http.post(BASE_URL + "parameter/update/key=" +id, parameter)
             .then(
             function (response) {
                 deferred.resolve(response.data);

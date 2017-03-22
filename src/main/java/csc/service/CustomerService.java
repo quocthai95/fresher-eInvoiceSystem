@@ -12,8 +12,10 @@ public interface CustomerService {
 	@Cacheable("users")
 	Customer findByUser(Users user);
 	
+	@Cacheable("users")
 	Customer findByEmail(String email);
 	
+	@Cacheable("users")
 	Customer findById(long id);
 	
 	@CacheEvict(value="users", allEntries=true)

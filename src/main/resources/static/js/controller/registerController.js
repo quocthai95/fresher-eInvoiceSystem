@@ -1,3 +1,4 @@
+
 app.controller('RegisterController', function($scope, RegisterService, $location, SweetAlert) {
 
     var self = this;
@@ -27,7 +28,7 @@ app.controller('RegisterController', function($scope, RegisterService, $location
                     confirmButtonText: "Click to login",
                 }, 
                 function(confirmButtonText){ //Function that triggers on user action.
-                	$location.path('/login');
+                	$location.path('/EInvoice/login');
                 });
             },
             function(errResponse){
@@ -68,7 +69,7 @@ app.controller('RegisterController', function($scope, RegisterService, $location
 	    require: 'ngModel',
 	    link: function(scope, element, attrs, ngModel) {
 	      ngModel.$asyncValidators.emailNotUsed = function(modelValue, viewValue) {
-	        return $http.post('http://localhost:8080/EInvoice/user/getEmail/', viewValue).then(function(response) {
+	        return $http.post(BASE_URL+'user/getEmail/', viewValue).then(function(response) {
 	        	if (response.data) {
 	        		return $q.reject('Email is already used.');
 	        	} else {
@@ -86,7 +87,7 @@ app.controller('RegisterController', function($scope, RegisterService, $location
 	    require: 'ngModel',
 	    link: function(scope, element, attrs, ngModel) {
 	      ngModel.$asyncValidators.emailNotExist = function(modelValue, viewValue) {
-	        return $http.post('http://localhost:8080/EInvoice/user/getEmail/', viewValue).then(function(response) {
+	        return $http.post(BASE_URL+'user/getEmail/', viewValue).then(function(response) {
 	        	if (response.data) {
 	        		document.getElementById('btnfg').disabled= false;
 	        		return true;	        		

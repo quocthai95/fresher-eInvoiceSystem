@@ -19,26 +19,8 @@
 		</div>
 	</div>
 </div>
-<table class="table table-hover" id="table-no-resize">
-	<thead>
-		<tr>
-			<th>Contract Number</th>
-			<th>Date</th>
-			<th>Name Invoice</th>
-			<th>Grand Total</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="u in ctrl.reports|filter:search">
-			<td><span ng-bind="u.contractNumber"></span></td>
-			<td><span ng-bind="u.date | date:'dd/MM/yyyy'"></span></td>
-			<td><span ng-bind="u.idType.nameInvoice"></span></td>
-			<td><span ng-bind="u.grandTotal | number"></span></td>
-		</tr>
-	</tbody>
-</table>
 
-<form class="form-inline" style="margin-top: 20px">
+<!-- <form class="form-inline" style="margin-top: 20px">
 	<div class="form-group">
 		<label>Page size</label> <select ng-model="pageSize" id="pageSize"
 			name="pageSize" ng-init="pageSize = '5'" class="form-control"
@@ -59,7 +41,5 @@
 			ng-click="onEventNextCurrentPage()">Next</button>
 	</div>
 
-</form>
-<div ng-if="isReport">
-	<chart-template></chart-template>
-</div>
+</form> -->
+
