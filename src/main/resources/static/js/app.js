@@ -1,4 +1,5 @@
 var app = angular.module('myApp', [ 'ngRoute', 'ngMessages', 'oitozero.ngSweetAlert']);
+var BASE_URL = "http://localhost:8080/EInvoice/";
 app.config(function($routeProvider) {
 	
 	$routeProvider.when("/", {
