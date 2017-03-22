@@ -82,7 +82,7 @@ app.controller('InvoiceController', ['$scope','$filter', 'InvoiceService', 'Swee
     function getService(){    	 	
 
     	getServiceByName(self.invoice.nameService, self.invoice.idType.id);  
-    	//calculate();
+    	calculate();
     }
     
     function calculate(){
