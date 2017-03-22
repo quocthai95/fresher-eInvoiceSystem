@@ -49,7 +49,7 @@ app.directive('cusM', function() {
 
 app.directive('chartTemplate', function() {
 	return {
-		templateUrl : "/EInvoice/views/customer/chartManagement.html"
+		templateUrl : "/EInvoice/views/customer/templatedChart.html"
 	}
 });
 

@@ -1,9 +1,6 @@
 'use strict';
 
 angular.module('dbApp').factory('TypeInvoiceService', ['$http', '$q', function($http, $q){
-
-    var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/invoice/';
-    
     var factory = {
     	fetchAll : fetchAllType,   
     	fetchAllService: fetchAllService,
@@ -15,14 +12,14 @@ angular.module('dbApp').factory('TypeInvoiceService', ['$http', '$q', function($
 
 
     function fetchAllType() {
-    	return $http.get(REST_SERVICE_URI + "getTypeAll").then(function (response) {
+    	return $http.get(BASE_URL + "invoice/getTypeAll").then(function (response) {
                 return response.data;                
         })
     } 
     
     function fetchAllService(id) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getAllService/" + id)
+        $http.get(BASE_URL + "invoice/getAllService/" + id)
             .then(
             function (response) {
             	console.log("fetchAllService" + response.data);
@@ -38,7 +35,7 @@ angular.module('dbApp').factory('TypeInvoiceService', ['$http', '$q', function($
     
     function getService(name, id) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getService/name=" + name + "&id=" + id)
+        $http.get(BASE_URL + "invoice/getService/name=" + name + "&id=" + id)
             .then(
             function (response) {
             	console.log("getService" + response.data);

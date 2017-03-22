@@ -1,10 +1,7 @@
 'use strict';
 
 
-app.factory('UserService', ['$http', '$q', function($http, $q){
-	//Base URI
-    var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
-    
+app.factory('UserService', ['$http', '$q', function($http, $q){    
     var factory = {
     	fetchAllUsers: fetchAllUsers,
         createUser: createUser,
@@ -18,7 +15,8 @@ app.factory('UserService', ['$http', '$q', function($http, $q){
     function fetchAllUsers(active, search, size, page) {
         var deferred = $q.defer();
 
-        $http.get(REST_SERVICE_URI + "getAll/active=" + active + "&search=" + search + "?size="+ size + "&page=" + page)
+
+        $http.get(BASE_URL + "user/getAll/active=" + active + "&search=" + search + "?size="+ size + "&page=" + page)
             .then(
             function (response) {
                 deferred.resolve(response.data);                
@@ -50,7 +48,8 @@ app.factory('UserService', ['$http', '$q', function($http, $q){
     //Service all api create user 
     function createUser(user) {
         var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI + "create", user)
+
+        $http.post(BASE_URL + "user/create", user)
             .then(
             function (response) {
                 deferred.resolve(response.data);
@@ -72,7 +71,8 @@ app.factory('UserService', ['$http', '$q', function($http, $q){
         if (user.active == false) {
         	user.active = '0';
         }
-        $http.post(REST_SERVICE_URI + "update/" +id, user)
+
+        $http.post(BASE_URL + "user/update/" +id, user)
             .then(
             function (response) {
                 deferred.resolve(response.data);
@@ -87,7 +87,8 @@ app.factory('UserService', ['$http', '$q', function($http, $q){
     //Service call api remove user === NOT USING
     function deleteUser(id) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "delete/" +id)
+
+        $http.get(BASE_URL + "user/delete/" +id)
             .then(
             function (response) {
                 deferred.resolve(response.data);

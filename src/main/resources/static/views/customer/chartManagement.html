@@ -1,10 +1,35 @@
-<div id="page-wrapper">
-<h2 style="color:blue;Text-align:center">Bar Chart</h2>
-
 <div>
-<div >
-    <zingchart id="chart-1"  zc-json="barChart" zc-width="1000px" zc-height="568px"></zingchart></div>
-    <h2 style="color:blue;Text-align:center">Pie Chart</h2>
-    <div zingchart id="chart-2" zc-values="myData" zc-json="pieChart" zc-width="100%" zc-height="568px"></div>
+	<div id="page-wrapper">
+		<h2 style="color:blue;">Report: Workload Chart Report</h2>
+		<div class="container" style="margin-top: 20px">
+			<div class="row">
+				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+					<div class="form-group">
+						<label>Start Date</label> <input type="date" ng-model="dateStart"
+							class="form-control" placeholder="Start Date..." /> <label>End
+							Date</label> <input type="date" ng-model="dateEnd" class="form-control"
+							placeholder="End Date..." />
+					</div>
+				</div>
+				<div class="container-fluid">
+					<div class="row-fluid">
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							<button class="btn btn-primary" ng-click="btnReport()">Report</button>
+							<p>Total: {{ totalElements }} invoices</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="isReport">
+			<chart-template></chart-template>
+		</div>
+
+	</div>
+	<!-- /.container-fluid -->
+
 </div>
-</div>
+<!-- /#page-wrapper -->
+

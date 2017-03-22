@@ -1,7 +1,4 @@
 app.factory('CustomerService', ['$http', '$q', function($http, $q){
-	 
-	var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/customer/';
-	
 	var factory = {
 			getCustomer : getCustomer, 
 	        updateCustomer:updateCustomer,
@@ -12,7 +9,7 @@ app.factory('CustomerService', ['$http', '$q', function($http, $q){
 	
 	  function getCustomer() {
 	        var deferred = $q.defer();
-	        $http.get(REST_SERVICE_URI + "get")
+	        $http.get(BASE_URL + "customer/get")
 	            .then(
 	            function (response) {
 	                deferred.resolve(response.data);                
@@ -28,7 +25,7 @@ app.factory('CustomerService', ['$http', '$q', function($http, $q){
 	  function updateCustomer(customer) {
 	    	console.log(customer);
 	        var deferred = $q.defer();
-	        $http.post(REST_SERVICE_URI + "update", customer)
+	        $http.post(BASE_URL + "customer/update", customer)
 	            .then(
 	            function (response) {
 	                deferred.resolve(response.data);
@@ -43,7 +40,7 @@ app.factory('CustomerService', ['$http', '$q', function($http, $q){
 	  function changePwd(user){
 		  console.log(user);
 		  var deferred = $q.defer();
-		  $http.post(REST_SERVICE_URI + "updatepwd", user)
+		  $http.post(BASE_URL + "customer/updatepwd", user)
           .then(
           function (response) {
               deferred.resolve(response.data);
@@ -59,7 +56,7 @@ app.factory('CustomerService', ['$http', '$q', function($http, $q){
 	  function getPwd(pwd){
 		  console.log(pwd);
 		  var deferred = $q.defer();
-		  $http.post(REST_SERVICE_URI + "getPwd", pwd)
+		  $http.post(BASE_URL + "customer/getPwd", pwd)
           .then(
           function (response) {
               deferred.resolve(response.data);
