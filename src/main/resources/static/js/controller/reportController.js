@@ -91,7 +91,7 @@ app.controller('ReportController', [ '$scope', '$filter', 'ReportService', 'Type
 	    // Event get report Success
 	    var getReportSuccess = function(rs) {
 	    	self.reports = rs.content;	
-	    	$scope.totalElements = rs.totalElements;
+	    	$scope.totalElements = rs.length;
 	    	
 	    	// If having report then display chart
 	    	if (rs.length > 0) {

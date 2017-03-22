@@ -1,9 +1,5 @@
 'use strict';
-
 angular.module('myApp').factory('RegisterService', ['$http', '$q', function($http, $q){
-
-    var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/';
-
     var factory = {        
     	register: register        
     };
@@ -13,7 +9,7 @@ angular.module('myApp').factory('RegisterService', ['$http', '$q', function($htt
    
     function register(res) {
         var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI + "register", res)
+        $http.post(BASE_URL + "user/register", res)
             .then(
             function (response) {
                 deferred.resolve(response.data);

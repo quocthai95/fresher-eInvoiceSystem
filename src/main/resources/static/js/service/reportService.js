@@ -1,7 +1,4 @@
-angular.module('dbApp').factory('ReportService', ['$http', '$q', function($http, $q){
-
-    var REST_SERVICE_URI = 'http://localhost:8080/EInvoice/user/getReport/';
-    
+angular.module('dbApp').factory('ReportService', ['$http', '$q', function($http, $q){   
     var factory = {
     	fetchAllReport : fetchAllReport,
     };
@@ -9,7 +6,7 @@ angular.module('dbApp').factory('ReportService', ['$http', '$q', function($http,
     return factory;
     
     function fetchAllReport(start, end, size, page) {
-        return $http.get(REST_SERVICE_URI + "start="+ start + "&end=" + end)
+        return $http.get(BASE_URL + "user/getReport/start="+ start + "&end=" + end)
             .then(function (response) {
                 return response.data;              
             }

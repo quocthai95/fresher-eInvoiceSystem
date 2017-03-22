@@ -30,13 +30,7 @@ import csc.service.InvoiceService;
 import csc.service.UserService;
 
 /**
- * URL test=
- * http://localhost:8080/EInvoice/user/getReport/start=2016-01-10&end=2016-04-10&page=0&pageSize=10
- * Query MySQL test= SELECT * FROM eis.invoice u where u.id_customer =
- * 'CUS2017031' and u.date between '2016-01-10' and '2016-04-10'
- * 
  * @author user
- *
  */
 @RestController
 public class InvoiceController {
