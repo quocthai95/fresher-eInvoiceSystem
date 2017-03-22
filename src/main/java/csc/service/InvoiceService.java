@@ -13,8 +13,9 @@ import csc.models.Invoice;
 
 public interface InvoiceService {
 
-
+	@Cacheable("invoice")
 	Invoice findById(long id);
+	
 	@CacheEvict(value = {"report", "invoice"}, allEntries = true)
 	void saveInvoice(Invoice invoice);
 
