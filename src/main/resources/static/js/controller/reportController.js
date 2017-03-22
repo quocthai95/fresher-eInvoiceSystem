@@ -38,8 +38,7 @@ app.controller('ReportController', [
 				// If having report then display chart
 				if (self.reports.length > 0) {
 					$scope.isReport = true;
-					self.nameInvoice = nameInvoice;
-					self.nameInvoice = self.reports[0].nameInvoice;
+					self.nameInvoice = self.reports[0].idType.nameInvoice;
 					for (index in rs) {
 						self.totalIndex = self.totalIndex + rs[index].indexConsumed;
 						self.totalGrand = self.totalGrand + rs[index].grandTotal;
