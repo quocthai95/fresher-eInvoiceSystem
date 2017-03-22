@@ -1,6 +1,7 @@
 package csc.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,7 +30,7 @@ public interface InvoiceService {
 	Page<Invoice> findByIdCustomer(Customer idcustomer, Pageable pageable);
 
 	@Cacheable("report")
-	Page<Invoice> getListReport(Customer idCus, Date dateStart, Date dateEnd, int page, int pageSize);
+	List<Invoice> getListReport(Customer idCus, Date dateStart, Date dateEnd);
 	
 	@Cacheable("invoice")
 	Invoice getInvoice(String contractNum);

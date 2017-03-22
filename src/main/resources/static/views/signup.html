@@ -1,5 +1,3 @@
- <!-- <link href="css/index/signup.css"  rel="stylesheet" /> -->
-
 <div class="container " ng-controller="RegisterController as ctrl" >
 	<div class="row main">		
 		<div class="main-login main-center">
@@ -55,7 +53,7 @@
 								placeholder="Enter your Username"  required/>						
 						</div>				
 				</div>
-
+				</div>
 				<div class="form-group">
 					<label for="password" class="cols-sm-2 control-label">Password</label>
 					<div class="cols-sm-10">
@@ -81,27 +79,21 @@
 								placeholder="Confirm your Password"  pw-check='password'  required />
 						</div>
 						<div align="center" >
-  <span style="color:red" ng-dirty ng-if='myForm.confirm.$error.pwmatch && myForm.confirm.$dirty'> These passwords don't match. Try again? </span>
+  <span style="color:red" ng-dirty ng-if='myForm.confirm.$error.pwmatch && myForm.confirm.$dirty' > These passwords don't match. Try again? </span>
 </div>
 					</div>
 				</div>
 
 				<div class="form-group " >
-					<button type="submit"
-						class="btn btn-lg btn-primary btn-block btn-signin " > Sign Up</button>
+					<button type="submit"  
+						class="btn btn-lg btn-primary btn-block btn-signin " ng-disabled="myForm.confirm.$error.pwmatch && myForm.confirm.$dirty"> Sign Up</button>
 				</div>		
 			</form>
-			<div class="" align="center">
-					<a href="#/login" class="btn btn-lg btn-success glyphicon glyphicon-log-in" title="Have an account? Login"></a>				
-					<a href="#/forgotpw" class="btn btn-lg btn-warning glyphicon glyphicon-question-sign" title="Forgot Password?"></a>
-					<a href="/EInvoice/#/" class="btn btn-lg btn-info glyphicon glyphicon-home" title="Back to homepage"></a>
-				</div>
-				
-					
-				
-				
-					
-				
+			<div class="form-group" align="center" >
+					<a href="/EInvoice/#/login" style="color:white" class="btn btn-lg btn-success glyphicon glyphicon-log-in" title="Have an account? Login"></a>				
+					<a href="#/forgotpw" style="color:white" class="btn btn-lg btn-warning glyphicon glyphicon-question-sign" title="Forgot Password?"></a>
+					<a href="/EInvoice/#/" style="color:white" class="btn btn-lg btn-info glyphicon glyphicon-home" title="Back to homepage"></a>
+				</div>	
 	</div>
 	
 	
