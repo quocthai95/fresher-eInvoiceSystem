@@ -23,6 +23,7 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 		        $scope.totalElements = 0;
 		    }
 		    defaultValue();
+			
 
 			/* Action when click button */
 			function fetchAllReport() {
@@ -138,20 +139,43 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 				twb.push(totalwb);
 
 				// refresh chart
-				eb = [];
-				pb = [];
-				ib = [];
-				wb = [];
-				dt = [];
+				
+//				eb = [];
+//				pb = [];
+//				ib = [];
+//				wb = [];
+//				dt = [];
+//				totalpb = 0;
+//				totaleb = 0;
+//				totalib = 0;
+//				totalwb = 0;
+//				tpb = [];
+//				teb = [];
+//				tib = [];
+//				twb = [];
+//				reports = [];
+			
+			
+		
+			};
+			// request data from url
+			function requestReport() {
+				pb.splice(0,pb.length);
+				eb.splice(0,eb.length);
+				ib.splice(0,ib.length);
+				wb.splice(0,wb.length);
 				totalpb = 0;
 				totaleb = 0;
 				totalib = 0;
 				totalwb = 0;
-				tpb = [];
-				teb = [];
-				tib = [];
-				twb = [];
+				tpb.splice(0,tpb.length);
+				teb.splice(0,teb.length);
+				tib.splice(0,tib.length);
+				twb.splice(0,twb.length);
+				console.log(pb);
 			};
+		
+			
 			// Event get report Error
 			var getReportError = function(errResponse) {
 				console.error('Error while fetching Invoice');
@@ -159,6 +183,19 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 
 			$scope.barChart = {
 				"type" : "bar",
+				
+				"legend": {
+				    "header": {
+				      "text": "Legend Header"
+				    },
+				    "draggable": true,
+				    "drag-handler": "icon"
+				  },
+				  "plot": {
+				    "value-box": {
+				      "text": "%node-value"
+				    }
+				  },
 				"scale-x" : {
 					"min-value" : dt,
 					"step" : 2629743000,
@@ -170,7 +207,8 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 				"series" : [ {
 					'values' : pb,
 					backgroundColor : "#FAEE00",
-				}, {
+				},
+				{
 					'values' : eb,
 					backgroundColor : "#A0FFEE"
 				},
@@ -247,6 +285,7 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 		    $scope.totalElements = 0;
 
 			fetchAllReport();
+			requestReport();
 		}
 }]);
 
