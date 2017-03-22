@@ -7,14 +7,14 @@ app.factory('ParameterService', ['$http', '$q', function($http, $q){
     
     var factory = {    	
         updateParameter:updateParameter,        
-        getParameterByKey:getParameterByKey,
+        getParameter:getParameter,
     };
     return factory;
     
     //Service call api get parameter
-    function getParameterByKey(key) {
+    function getParameter(id) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI + "getByKey/key=" +key)
+        $http.get(REST_SERVICE_URI + "get/" +id)
             .then(
             function (response) {            	
                 deferred.resolve(response.data);                
@@ -31,7 +31,7 @@ app.factory('ParameterService', ['$http', '$q', function($http, $q){
     function updateParameter(id, parameter) {
     	console.log(parameter);
     	var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI + "update/key=" +id, parameter)
+        $http.post(REST_SERVICE_URI + "update/" +id, parameter)
             .then(
             function (response) {
                 deferred.resolve(response.data);
