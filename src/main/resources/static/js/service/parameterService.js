@@ -14,7 +14,7 @@ app.factory('ParameterService', ['$http', '$q', function($http, $q){
     function getParameter(id) {
         var deferred = $q.defer();
 
-        $http.get(REST_SERVICE_URI + "get/" +id)
+        $http.get(BASE_URL + "parameter/get/" +id)
             .then(
             function (response) {            	
                 deferred.resolve(response.data);                
@@ -32,7 +32,7 @@ app.factory('ParameterService', ['$http', '$q', function($http, $q){
     	console.log(parameter);
     	var deferred = $q.defer();
 
-        $http.post(REST_SERVICE_URI + "update/" +id, parameter)
+        $http.post(BASE_URL + "parameter/update/" +id, parameter)
             .then(
             function (response) {
                 deferred.resolve(response.data);
