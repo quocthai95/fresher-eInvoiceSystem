@@ -1,4 +1,5 @@
-app.controller('ChartController', ['$scope','$filter','ReportService',function($scope, $filter, ReportService) {
+app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInvoiceService',
+	function($scope, $filter, ReportService, TypeInvoiceService) {
 			var self = this;
 			var reports = [];
 			var eb = [];
@@ -22,7 +23,6 @@ app.controller('ChartController', ['$scope','$filter','ReportService',function($
 		        $scope.totalElements = 0;
 		    }
 		    defaultValue();
-			fetchAllReport();
 
 			/* Action when click button */
 			function fetchAllReport() {
@@ -239,4 +239,14 @@ app.controller('ChartController', ['$scope','$filter','ReportService',function($
 					"background-color" : "green"
 				} ]
 			};
-		} ]);
+		// Trigger when click button REPORT
+		$scope.btnReport = function() {
+		    $scope.currentPage = 0;
+		    $scope.pageSize = '10';    
+		    $scope.size = 10;
+		    $scope.totalElements = 0;
+
+			fetchAllReport();
+		}
+}]);
+
