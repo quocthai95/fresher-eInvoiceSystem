@@ -58,16 +58,19 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 					$scope.isReport = true;
 				}
 				reports = rs;
-				var a = new Date(reports[0].date);
+				
 
 				x = new Date(dateStart);
 				y = new Date(dateEnd);
-
+				console.log(x.getMonth());
+console.log(y.getMonth());
 				// add in bar chart
-				dt.push(a.getTime());
-
+				dt.push(x.getTime());
+				var count = 0;
 				if (x.getFullYear() == y.getFullYear()) {
-					for (i = x.getMonth(); i <= y.getMonth(); i++) {
+					
+					for (i = x.getMonth() ; i <=y.getMonth() ; i++) {
+						
 						for ( var temp in reports) {
 							day = new Date(reports[temp].date);
 							if (day.getMonth() == i) {
@@ -88,9 +91,25 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 									console.log("Nothing");
 									break;
 								}
+
+							}																				
 							}
+						if (pb[count] == null) {
+							pb.push(0);
 						}
+						if (eb[count] == null) {
+							eb.push(0);
+						}
+						if (wb[count] == null) {
+							wb.push(0);
+						}
+						if (ib[count] == null) {
+							ib.push(0);
+						}
+					count++;
 					}
+					
+				
 				} else {
 					for (i = x.getMonth(); i <= (y.getMonth() + 12); i++) {
 						for ( var temp in reports) {
@@ -116,9 +135,22 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 								}
 							}
 						}
+						if (pb[count] == null) {
+							pb.push(0);
+						}
+						if (eb[count] == null) {
+							eb.push(0);
+						}
+						if (wb[count] == null) {
+							wb.push(0);
+						}
+						if (ib[count] == null) {
+							ib.push(0);
+						}
+					count++;
 					}
 				}
-
+				
 				// add in pie chart
 				for (i = 0; i < pb.length; i++) {
 					totalpb += pb[i];
