@@ -62,9 +62,14 @@
 								<div class="form-group" id="service">
 									<label style="font-weight: bold">Name Service</label> 
 									<select ng-model="ctrl.invoice.nameService"  class="form-control" id="sel1" ng-change="ctrl.getService()">
-									    <option ng-repeat="s in ctrl.services" ng-selected="$first">{{s.nameService}}</option>									    
+									    <option ng-repeat="s in ctrl.services" value="{{ s.nameService }}" >{{s.nameService}}</option>									    
 									</select>
-
+								</div>
+								<div class="form-group" id="company">
+									<label style="font-weight: bold">Name Company</label> 
+									<select ng-model="ctrl.invoice.idCpn"  class="form-control">
+									    <option ng-repeat="s in ctrl.company" value="{{s.idCpn}}" >{{s.nameCpn}}</option>									    
+									</select>
 								</div>
 
 								<div class="form-group" id="index">
@@ -105,7 +110,7 @@
 
 								<div align="center">
 
-									<button type="submit" name="btn" class="btn btn-primary">{{ ctrl.btn }}</button>
+									<button type="submit" name="btn" class="btn btn-primary" >{{ ctrl.btn }}</button>
 								</div>
 
 

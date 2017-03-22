@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void updateUser(Users user) {
 		// TODO Auto-generated method stub
-		userRepository.save(user);
+		userRepository.saveAndFlush(user);
 	}
 
 	@Override

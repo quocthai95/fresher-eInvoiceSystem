@@ -25,11 +25,11 @@ angular.module('dbApp').factory('TypeInvoiceService', ['$http', '$q', function($
         $http.get(REST_SERVICE_URI + "getAllService/" + id)
             .then(
             function (response) {
-            	console.log("Service" + response.data);
+            	console.log("fetchAllService" + response.data);
                 deferred.resolve(response.data);                
             },
             function(errResponse){
-                console.error('Error while fetching Type Invoice');
+                console.error('Error while fetching fetchAllService');
                 deferred.reject(errResponse);
             }
         );
@@ -41,17 +41,16 @@ angular.module('dbApp').factory('TypeInvoiceService', ['$http', '$q', function($
         $http.get(REST_SERVICE_URI + "getService/name=" + name + "&id=" + id)
             .then(
             function (response) {
-            	console.log("Servcie" + response.data);
+            	console.log("getService" + response.data);
                 deferred.resolve(response.data);                
             },
             function(errResponse){
-                console.error('Error while fetching Type Invoice');
+                console.error('Error while fetching getService');
                 deferred.reject(errResponse);
             }
         );
         return deferred.promise;
     }          
-
 }]);
 
 

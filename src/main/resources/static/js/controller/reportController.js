@@ -94,10 +94,10 @@ app.controller('ReportController', [ '$scope', '$filter', 'ReportService', 'Type
 	    	$scope.totalElements = rs.totalElements;
 	    	
 	    	// If having report then display chart
-	    	if (rs.content.length > 0) {
+	    	if (rs.length > 0) {
 	    		$scope.isReport = true;
 	    	}
-	    	reports = rs.content;
+	    	reports = rs;
 			var a = new Date(reports[0].date);
 			
 	    	x = new Date(dateStart);
