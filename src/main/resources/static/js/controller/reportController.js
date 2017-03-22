@@ -36,11 +36,13 @@ app.controller('ReportController', [
 				self.reports = rs;
 
 				// If having report then display chart
-				if (rs.length > 0) {
+				if (self.reports.length > 0) {
 					$scope.isReport = true;
+					self.nameInvoice = nameInvoice;
+					self.nameInvoice = self.reports[0].nameInvoice;
 					for (index in rs) {
 						self.totalIndex = self.totalIndex + rs[index].indexConsumed;
-						self.totalGrand = self.totalIndex + rs[index].grandTotal;
+						self.totalGrand = self.totalGrand + rs[index].grandTotal;
 					}
 				}
 				reports = rs;
@@ -64,12 +66,8 @@ app.controller('ReportController', [
 			// Trigger when click button REPORT
 			$scope.btnReport = function() {
 				fetchAllReport();
-			}
-			
-			// Trigger when changed select type invoice
-			
-			function selectIdType(nameInvoice) {
-				$scope.nameInvoice = nameInvoice;
+				self.totalIndex = 0;
+				self.totalGrand = 0;
 			}
 			
 		} ]);
