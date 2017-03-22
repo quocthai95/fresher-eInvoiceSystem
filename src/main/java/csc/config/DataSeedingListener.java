@@ -1,5 +1,8 @@
 package csc.config;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -153,10 +156,10 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		
 		// Create Service
 		// name - idType - count - unit
-		createService("G", 1, 2, 1000);
-		createService("G", 2, 2, 1000);
+		createService("G", 1, 2, 3000);
+		createService("G", 2, 2, 2500);
 		createService("G", 3, 5, 50000);
-		createService("G", 4, 5, 1000);
+		createService("G", 4, 5, 20000);
 
 		// Create Invoice record
 		// contractNumber - idCompany - idCustomer - idType - totalRecord
@@ -175,10 +178,16 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		createInvoiceRecord("UC123457", 1, 2L, 1, 10);
 
 		// Create parameter
+		String dateString = "23/04/2017 23:11";		 
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");		 
 		Date date = new Date();
-		createParameter("timeEmail",date.toString(),"Config time send email");
-		createParameter("email","einvoicesystem@gmail.com","Email to send");
-		createParameter("passwordEmail","P@ssw0rd","Password email");
+		try {
+			date = df.parse(dateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		createParameter(date, "nguyenvanantest123@gmail.com","Nguyenvanantest123!@#");		
 
 	}
 
@@ -273,7 +282,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 				// ti = new TypeInvoice();
 				invoice = new Invoice();
 				Float vat;
-				Float indexConsumed = 100F;
+				Float indexConsumed = 0F;
 				BigDecimal ptef = null;
 				BigDecimal grandTotal;
 				invoice.setContractNumber(contractNumber + index);
@@ -297,12 +306,20 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					int randomNum = ThreadLocalRandom.current().nextInt(0, s.size());
 					invoice.setNameService(s.get(randomNum).getNameService());
 
+					//set index consumed
+					if (typeInvoice.getCode().equals("IB") || typeInvoice.getCode().equals("PB")) {
+						indexConsumed = 1F;
+					}else {
+						indexConsumed = 100F + index;
+					}
+					invoice.setIndexConsumed(indexConsumed);
+					
 					BigDecimal total = s.get(randomNum).getUnit().multiply(BigDecimal.valueOf(indexConsumed));
 					invoice.setTotal(total);
 					
 					//set ptef
 					if (typeInvoice.getCode().equals("WB")) {
-						ptef = new BigDecimal(randomNum);
+						ptef = new BigDecimal(10);
 					}else {
 						ptef = new BigDecimal(0);
 					}
@@ -338,13 +355,12 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		}
 	}
 	
-	private void createParameter(String key, String value, String description) {
+	private void createParameter(Date timeEmail, String email, String pwdEmail) {
 		Parameter pa = new Parameter();
-		
-		if (parameterRepository.findByParaKey(key) == null) {
-			pa.setParaKey(key);
-			pa.setParaValue(value);
-			pa.setDescription(description);
+		if(parameterRepository.findByEmail(email) == null){
+			pa.setTimeEmail(timeEmail);
+			pa.setEmail(email);
+			pa.setPwdEmail(pwdEmail);
 			parameterRepository.save(pa);
 		}
 	}
