@@ -156,10 +156,10 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 		
 		// Create Service
 		// name - idType - count - unit
-		createService("G", 1, 2, 1000);
-		createService("G", 2, 2, 1000);
+		createService("G", 1, 2, 3000);
+		createService("G", 2, 2, 2500);
 		createService("G", 3, 5, 50000);
-		createService("G", 4, 5, 1000);
+		createService("G", 4, 5, 20000);
 
 		// Create Invoice record
 		// contractNumber - idCompany - idCustomer - idType - totalRecord
@@ -282,7 +282,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 				// ti = new TypeInvoice();
 				invoice = new Invoice();
 				Float vat;
-				Float indexConsumed = 100F;
+				Float indexConsumed = 0F;
 				BigDecimal ptef = null;
 				BigDecimal grandTotal;
 				invoice.setContractNumber(contractNumber + index);
@@ -306,12 +306,20 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 					int randomNum = ThreadLocalRandom.current().nextInt(0, s.size());
 					invoice.setNameService(s.get(randomNum).getNameService());
 
+					//set index consumed
+					if (typeInvoice.getCode().equals("IB") || typeInvoice.getCode().equals("PB")) {
+						indexConsumed = 1F;
+					}else {
+						indexConsumed = 100F + index;
+					}
+					invoice.setIndexConsumed(indexConsumed);
+					
 					BigDecimal total = s.get(randomNum).getUnit().multiply(BigDecimal.valueOf(indexConsumed));
 					invoice.setTotal(total);
 					
 					//set ptef
 					if (typeInvoice.getCode().equals("WB")) {
-						ptef = new BigDecimal(randomNum);
+						ptef = new BigDecimal(10);
 					}else {
 						ptef = new BigDecimal(0);
 					}
