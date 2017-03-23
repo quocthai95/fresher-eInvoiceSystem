@@ -1,5 +1,7 @@
 package csc.service;
 
+import java.util.List;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -20,4 +22,7 @@ public interface CustomerService {
 	
 	@CacheEvict(value="users", allEntries=true)
 	void updateCustomer(Customer currentCustomer);
+	
+	@Cacheable("users")
+	List<Customer> findAllUser();
 }
