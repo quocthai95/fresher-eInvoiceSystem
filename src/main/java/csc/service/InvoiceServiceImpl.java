@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import csc.models.Customer;
 import csc.models.Invoice;
+import csc.models.TypeInvoice;
 import csc.repository.InvoiceRepository;
 
 @Service("invoiceService")
@@ -54,6 +54,10 @@ public class InvoiceServiceImpl implements InvoiceService {
 		return invoiceRepository.findByIdCustomerAndDateBetween(idCus, dateStart, dateEnd);
 	}
 
+	@Override
+	public List<Invoice> getExpensesReport(Customer idCus, Date dateStart, Date dateEnd, TypeInvoice type) {
+		return invoiceRepository.findByIdCustomerAndDateBetweenAndIdType(idCus, dateStart, dateEnd, type);
+	}
 
 	@Override
 	public Invoice getInvoice(String contractNum) {

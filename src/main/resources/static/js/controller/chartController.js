@@ -23,6 +23,7 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 		        $scope.totalElements = 0;
 		    }
 		    defaultValue();
+			
 
 			/* Action when click button */
 			function fetchAllReport() {
@@ -39,8 +40,7 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 			var getAllTypeSuccess = function(rs) {
 				$scope.getAllType = rs;
 				// Call service get report
-				ReportService.fetchAllReport(dateStart, dateEnd,
-						$scope.currentPage, $scope.size).then(getReportSuccess,
+				ReportService.fetchAllReport(dateStart, dateEnd).then(getReportSuccess,
 						getReportError);
 			};
 			// Event get All Type Error
@@ -58,16 +58,19 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 					$scope.isReport = true;
 				}
 				reports = rs;
-				var a = new Date(reports[0].date);
+				
 
 				x = new Date(dateStart);
 				y = new Date(dateEnd);
-
+				console.log(x.getMonth());
+console.log(y.getMonth());
 				// add in bar chart
-				dt.push(a.getTime());
-
+				dt.push(x.getTime());
+				var count = 0;
 				if (x.getFullYear() == y.getFullYear()) {
-					for (i = x.getMonth(); i <= y.getMonth(); i++) {
+					
+					for (i = x.getMonth() ; i <=y.getMonth() ; i++) {
+						
 						for ( var temp in reports) {
 							day = new Date(reports[temp].date);
 							if (day.getMonth() == i) {
@@ -88,9 +91,25 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 									console.log("Nothing");
 									break;
 								}
+
+							}																				
 							}
+						if (pb[count] == null) {
+							pb.push(0);
 						}
+						if (eb[count] == null) {
+							eb.push(0);
+						}
+						if (wb[count] == null) {
+							wb.push(0);
+						}
+						if (ib[count] == null) {
+							ib.push(0);
+						}
+					count++;
 					}
+					
+				
 				} else {
 					for (i = x.getMonth(); i <= (y.getMonth() + 12); i++) {
 						for ( var temp in reports) {
@@ -116,9 +135,22 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 								}
 							}
 						}
+						if (pb[count] == null) {
+							pb.push(0);
+						}
+						if (eb[count] == null) {
+							eb.push(0);
+						}
+						if (wb[count] == null) {
+							wb.push(0);
+						}
+						if (ib[count] == null) {
+							ib.push(0);
+						}
+					count++;
 					}
 				}
-
+				
 				// add in pie chart
 				for (i = 0; i < pb.length; i++) {
 					totalpb += pb[i];
@@ -138,20 +170,43 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 				twb.push(totalwb);
 
 				// refresh chart
-				eb = [];
-				pb = [];
-				ib = [];
-				wb = [];
-				dt = [];
+				
+//				eb = [];
+//				pb = [];
+//				ib = [];
+//				wb = [];
+//				dt = [];
+//				totalpb = 0;
+//				totaleb = 0;
+//				totalib = 0;
+//				totalwb = 0;
+//				tpb = [];
+//				teb = [];
+//				tib = [];
+//				twb = [];
+//				reports = [];
+			
+			
+		
+			};
+			// request data from url
+			function requestReport() {
+				pb.splice(0,pb.length);
+				eb.splice(0,eb.length);
+				ib.splice(0,ib.length);
+				wb.splice(0,wb.length);
 				totalpb = 0;
 				totaleb = 0;
 				totalib = 0;
 				totalwb = 0;
-				tpb = [];
-				teb = [];
-				tib = [];
-				twb = [];
+				tpb.splice(0,tpb.length);
+				teb.splice(0,teb.length);
+				tib.splice(0,tib.length);
+				twb.splice(0,twb.length);
+				console.log(pb);
 			};
+		
+			
 			// Event get report Error
 			var getReportError = function(errResponse) {
 				console.error('Error while fetching Invoice');
@@ -159,6 +214,19 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 
 			$scope.barChart = {
 				"type" : "bar",
+				
+				"legend": {
+				    "header": {
+				      "text": "Legend Header"
+				    },
+				    "draggable": true,
+				    "drag-handler": "icon"
+				  },
+				  "plot": {
+				    "value-box": {
+				      "text": "%node-value"
+				    }
+				  },
 				"scale-x" : {
 					"min-value" : dt,
 					"step" : 2629743000,
@@ -170,7 +238,8 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 				"series" : [ {
 					'values' : pb,
 					backgroundColor : "#FAEE00",
-				}, {
+				},
+				{
 					'values' : eb,
 					backgroundColor : "#A0FFEE"
 				},
@@ -241,12 +310,9 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 			};
 		// Trigger when click button REPORT
 		$scope.btnReport = function() {
-		    $scope.currentPage = 0;
-		    $scope.pageSize = '10';    
-		    $scope.size = 10;
-		    $scope.totalElements = 0;
 
 			fetchAllReport();
+			requestReport();
 		}
 }]);
 
