@@ -221,7 +221,7 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 				
 				"legend": {
 				    "header": {
-				      "text": "Legend Header"
+				      "text": "Color item"
 				    },
 				    "draggable": true,
 				    "drag-handler": "icon"
@@ -240,52 +240,56 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 					}
 				},
 				"series" : [ {
+					"text": "Phone bill",
 					'values' : pb,
 					backgroundColor : "#ff66cc",
 				},
 				{
+					"text": "Electric bill",
 					'values' : eb,
 					backgroundColor : "#0066ff"
 				},
 
 				{
+					"text": "Water bill",
 					'values' : wb,
 					backgroundColor : "green"
 				},
 
 				{
+					"text": "Internet bill",
 					'values' : ib,
 					backgroundColor : "red"
 				}, ],
-				"labels" : [ {
-					"text" : "Phone Bill",
-					"x" : "350px",
-					"y" : "10px",
-					"background-color" : "#ff66cc",
-					"width" : "100px",
-					"height" : "30px"
-				}, {
-					"text" : "Electric Bill",
-					"x" : "450px",
-					"y" : "10px",
-					"background-color" : "#0066ff",
-					"width" : "100px",
-					"height" : "30px"
-				}, {
-					"text" : "Water Bill",
-					"x" : "550px",
-					"y" : "10px",
-					"background-color" : "green",
-					"width" : "100px",
-					"height" : "30px"
-				}, {
-					"text" : "Internet Bill",
-					"x" : "650px",
-					"y" : "10px",
-					"background-color" : "red",
-					"width" : "100px",
-					"height" : "30px"
-				} ]
+//				"labels" : [ {
+//					"text" : "Phone Bill",
+//					"x" : "350px",
+//					"y" : "10px",
+//					"background-color" : "#ff66cc",
+//					"width" : "100px",
+//					"height" : "30px"
+//				}, {
+//					"text" : "Electric Bill",
+//					"x" : "450px",
+//					"y" : "10px",
+//					"background-color" : "#0066ff",
+//					"width" : "100px",
+//					"height" : "30px"
+//				}, {
+//					"text" : "Water Bill",
+//					"x" : "550px",
+//					"y" : "10px",
+//					"background-color" : "green",
+//					"width" : "100px",
+//					"height" : "30px"
+//				}, {
+//					"text" : "Internet Bill",
+//					"x" : "650px",
+//					"y" : "10px",
+//					"background-color" : "red",
+//					"width" : "100px",
+//					"height" : "30px"
+//				} ]
 			};
 			$scope.pieChart = {
 				type : "pie",
