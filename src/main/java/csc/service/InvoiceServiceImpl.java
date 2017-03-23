@@ -74,4 +74,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 		return invoiceRepository.findByIdCustomerAndContractNumberContaining(idcustomer, contractnumber, pageable);
 
 	}
+
+	@Override
+	public long sumGrandTotal(String idCus, String dateStart, String dateEnd) {
+		return sumGrandTotal(idCus, dateStart, dateEnd);
+	}
 }
