@@ -112,10 +112,10 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 					
 				
 				} else {
-					for (i = x.getMonth(); i <= (y.getMonth() + 12); i++) {
+					for (i = x.getMonth() ; i <=y.getMonth() +12 ; i++) {
+						
 						for ( var temp in reports) {
 							day = new Date(reports[temp].date);
-							// console.log('day ' + day.getMonth());
 							if (day.getMonth() == i) {
 								switch (reports[temp].idType.code) {
 								case "PB":
@@ -134,8 +134,29 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 									console.log("Nothing");
 									break;
 								}
+
+							}	
+							else if (day.getMonth() + 12 == i ){
+								switch (reports[temp].idType.code) {
+								case "PB":
+									pb.push(reports[temp].grandTotal);
+									break;
+								case "EB":
+									eb.push(reports[temp].grandTotal);
+									break;
+								case "IB":
+									ib.push(reports[temp].grandTotal);
+									break;
+								case "WB":
+									wb.push(reports[temp].grandTotal);
+									break;
+								default:
+									console.log("Nothing");
+									break;
+								}
+								
 							}
-						}
+							}
 						if (pb[count] == null) {
 							pb.push(0);
 						}
@@ -150,6 +171,7 @@ app.controller('ChartController', ['$scope','$filter','ReportService' , 'TypeInv
 						}
 					count++;
 					}
+					
 				}
 				
 				// add in pie chart
