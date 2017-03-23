@@ -9,7 +9,7 @@ import csc.models.Users;
 public interface CustomerService {
 	void saveCustomer(Customer customer);
 	
-	@Cacheable("users")
+//	@Cacheable("users")
 	Customer findByUser(Users user);
 	
 	@Cacheable("users")
